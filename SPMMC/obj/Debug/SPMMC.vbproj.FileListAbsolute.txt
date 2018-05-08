@@ -12,7 +12,6 @@ D:\Programs\VB\SPMMC\SPMMC\bin\Debug\mysql.data.dll
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\Interop.BarTender.dll
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.vbproj.ResolveComReference.cache
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmMain.resources
-D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.vbprojResolveAssemblyReference.cache
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmComments.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmQAReview.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmRemarks.resources
@@ -21,3 +20,14 @@ D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmLogin.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmReprint.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.vbproj.CopyComplete
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmCheckMC.resources
+D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.vbprojAssemblyReference.cache
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\Emgu.CV.DebuggerVisualizers.VS2017.dll
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\Emgu.CV.UI.dll
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\Emgu.CV.World.NetStandard1_4.dll
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\ZedGraph.dll
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\Microsoft.VisualStudio.DebuggerVisualizers.dll
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\Emgu.CV.World.dll
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\Emgu.CV.UI.xml
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\Emgu.CV.World.xml
+D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmJBOX.resources

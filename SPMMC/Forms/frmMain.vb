@@ -35,6 +35,10 @@
         End With
     End Sub
 
+    Private Sub JBOXTransactionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles JBOXTransactionToolStripMenuItem.Click
+
+    End Sub
+
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim f As New frmLogin
         Dim dres As DialogResult = f.ShowDialog

@@ -35,6 +35,7 @@ Partial Class frmMain
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.tslStatus = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.JBOXTransactionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -45,13 +46,13 @@ Partial Class frmMain
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApplicationsToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(284, 40)
+        Me.MenuStrip1.Size = New System.Drawing.Size(579, 40)
         Me.MenuStrip1.TabIndex = 1
         Me.MenuStrip1.Text = "MenuStrip1"
         '
         'ApplicationsToolStripMenuItem
         '
-        Me.ApplicationsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProductionLabelsToolStripMenuItem, Me.ELReviewToolStripMenuItem, Me.ToolStripMenuItem1, Me.ExitToolStripMenuItem})
+        Me.ApplicationsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProductionLabelsToolStripMenuItem, Me.ELReviewToolStripMenuItem, Me.JBOXTransactionToolStripMenuItem, Me.ToolStripMenuItem1, Me.ExitToolStripMenuItem})
         Me.ApplicationsToolStripMenuItem.Image = CType(resources.GetObject("ApplicationsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ApplicationsToolStripMenuItem.Name = "ApplicationsToolStripMenuItem"
         Me.ApplicationsToolStripMenuItem.Size = New System.Drawing.Size(117, 36)
@@ -62,7 +63,7 @@ Partial Class frmMain
         Me.ProductionLabelsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GenerateLabelsToolStripMenuItem, Me.ReprintLabelsToolStripMenuItem})
         Me.ProductionLabelsToolStripMenuItem.Image = CType(resources.GetObject("ProductionLabelsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ProductionLabelsToolStripMenuItem.Name = "ProductionLabelsToolStripMenuItem"
-        Me.ProductionLabelsToolStripMenuItem.Size = New System.Drawing.Size(185, 38)
+        Me.ProductionLabelsToolStripMenuItem.Size = New System.Drawing.Size(196, 38)
         Me.ProductionLabelsToolStripMenuItem.Tag = "PRODLABEL"
         Me.ProductionLabelsToolStripMenuItem.Text = "Production Labels"
         '
@@ -70,14 +71,14 @@ Partial Class frmMain
         '
         Me.GenerateLabelsToolStripMenuItem.Image = CType(resources.GetObject("GenerateLabelsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.GenerateLabelsToolStripMenuItem.Name = "GenerateLabelsToolStripMenuItem"
-        Me.GenerateLabelsToolStripMenuItem.Size = New System.Drawing.Size(168, 38)
+        Me.GenerateLabelsToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.GenerateLabelsToolStripMenuItem.Text = "Print Labels"
         '
         'ReprintLabelsToolStripMenuItem
         '
         Me.ReprintLabelsToolStripMenuItem.Image = CType(resources.GetObject("ReprintLabelsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ReprintLabelsToolStripMenuItem.Name = "ReprintLabelsToolStripMenuItem"
-        Me.ReprintLabelsToolStripMenuItem.Size = New System.Drawing.Size(168, 38)
+        Me.ReprintLabelsToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.ReprintLabelsToolStripMenuItem.Text = "Reprint Labels"
         '
         'ELReviewToolStripMenuItem
@@ -85,7 +86,7 @@ Partial Class frmMain
         Me.ELReviewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ELImageReviewToolStripMenuItem, Me.CustomerOEMOBAToolStripMenuItem})
         Me.ELReviewToolStripMenuItem.Image = CType(resources.GetObject("ELReviewToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ELReviewToolStripMenuItem.Name = "ELReviewToolStripMenuItem"
-        Me.ELReviewToolStripMenuItem.Size = New System.Drawing.Size(185, 38)
+        Me.ELReviewToolStripMenuItem.Size = New System.Drawing.Size(196, 38)
         Me.ELReviewToolStripMenuItem.Tag = "ELREVIEW"
         Me.ELReviewToolStripMenuItem.Text = "EL Review"
         '
@@ -104,13 +105,13 @@ Partial Class frmMain
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(182, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(193, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Image = CType(resources.GetObject("ExitToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(185, 38)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(196, 38)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'StatusStrip1
@@ -118,7 +119,7 @@ Partial Class frmMain
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tslStatus})
         Me.StatusStrip1.Location = New System.Drawing.Point(0, 239)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(284, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(579, 22)
         Me.StatusStrip1.TabIndex = 2
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -128,11 +129,19 @@ Partial Class frmMain
         Me.tslStatus.Size = New System.Drawing.Size(39, 17)
         Me.tslStatus.Text = "Ready"
         '
+        'JBOXTransactionToolStripMenuItem
+        '
+        Me.JBOXTransactionToolStripMenuItem.Image = CType(resources.GetObject("JBOXTransactionToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.JBOXTransactionToolStripMenuItem.Name = "JBOXTransactionToolStripMenuItem"
+        Me.JBOXTransactionToolStripMenuItem.Size = New System.Drawing.Size(196, 38)
+        Me.JBOXTransactionToolStripMenuItem.Tag = "MES"
+        Me.JBOXTransactionToolStripMenuItem.Text = "JBOX Transaction"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(284, 261)
+        Me.ClientSize = New System.Drawing.Size(579, 261)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.MenuStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -163,4 +172,5 @@ Partial Class frmMain
     Friend WithEvents tslStatus As ToolStripStatusLabel
     Friend WithEvents ToolStripMenuItem1 As ToolStripSeparator
     Friend WithEvents ExitToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents JBOXTransactionToolStripMenuItem As ToolStripMenuItem
 End Class
