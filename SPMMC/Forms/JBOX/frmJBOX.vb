@@ -210,4 +210,14 @@ Public Class frmJBOX
                 Return -1
         End Select
     End Function
+
+    Private Sub RecaptureImageToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RecaptureImageToolStripMenuItem.Click
+        If Not PictureBox1.Image Is Nothing Then
+            img.Dispose()
+            PictureBox1.Image = Nothing
+            Timer1.Enabled = True
+
+            My.Computer.FileSystem.DeleteFile(img_path)
+        End If
+    End Sub
 End Class

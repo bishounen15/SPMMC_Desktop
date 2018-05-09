@@ -40,8 +40,11 @@ Partial Class frmJBOX
         Me.txtCustomer = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lblSuccess = New System.Windows.Forms.Label()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.RecaptureImageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'PictureBox1
@@ -50,6 +53,7 @@ Partial Class frmJBOX
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.PictureBox1.BackColor = System.Drawing.Color.Black
+        Me.PictureBox1.ContextMenuStrip = Me.ContextMenuStrip1
         Me.PictureBox1.Location = New System.Drawing.Point(13, 209)
         Me.PictureBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.PictureBox1.Name = "PictureBox1"
@@ -225,6 +229,18 @@ Partial Class frmJBOX
         Me.lblSuccess.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.lblSuccess.Visible = False
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RecaptureImageToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 48)
+        '
+        'RecaptureImageToolStripMenuItem
+        '
+        Me.RecaptureImageToolStripMenuItem.Name = "RecaptureImageToolStripMenuItem"
+        Me.RecaptureImageToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RecaptureImageToolStripMenuItem.Text = "Re-capture Image"
+        '
         'frmJBOX
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
@@ -242,6 +258,7 @@ Partial Class frmJBOX
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -263,4 +280,6 @@ Partial Class frmJBOX
     Friend WithEvents txtModClass As TextBox
     Friend WithEvents txtStatus As TextBox
     Friend WithEvents lblSuccess As Label
+    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
+    Friend WithEvents RecaptureImageToolStripMenuItem As ToolStripMenuItem
 End Class
