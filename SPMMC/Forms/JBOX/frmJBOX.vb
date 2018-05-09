@@ -42,7 +42,7 @@ Public Class frmJBOX
                   GetStatusID(txtStatus.Text) & "," &
                   ENQ(txtRemarks.Text) & "," &
                   "now()," &
-                  "'')"
+                  ENQ(ACTIVEUSER) & ")"
 
             Dim msg As String = ExecuteNonQuery("MYSQL", sql)
 
