@@ -36,7 +36,12 @@
     End Sub
 
     Private Sub JBOXTransactionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles JBOXTransactionToolStripMenuItem.Click
-
+        Dim f As New frmJBOX
+        With f
+            .MdiParent = Me
+            .WindowState = FormWindowState.Maximized
+            .Show()
+        End With
     End Sub
 
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load

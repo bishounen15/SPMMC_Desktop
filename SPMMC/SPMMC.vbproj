@@ -50,15 +50,6 @@
     <ApplicationIcon>favicon %281%29.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Emgu.CV.DebuggerVisualizers.VS2017">
-      <HintPath>C:\Emgu\emgucv-windesktop 3.4.1.2976\bin\Emgu.CV.DebuggerVisualizers.VS2017.dll</HintPath>
-    </Reference>
-    <Reference Include="Emgu.CV.UI">
-      <HintPath>C:\Emgu\emgucv-windesktop 3.4.1.2976\bin\Emgu.CV.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Emgu.CV.World.NetStandard1_4">
-      <HintPath>C:\Emgu\emgucv-windesktop 3.4.1.2976\bin\Emgu.CV.World.NetStandard1_4.dll</HintPath>
-    </Reference>
     <Reference Include="mysql.data">
       <HintPath>..\..\..\..\From OLD Laptop\Desktop\netmysql\mysql.data.dll</HintPath>
     </Reference>
@@ -72,9 +63,6 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="ZedGraph">
-      <HintPath>C:\Emgu\emgucv-windesktop 3.4.1.2976\bin\ZedGraph.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
