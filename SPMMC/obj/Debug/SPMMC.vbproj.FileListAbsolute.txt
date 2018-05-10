@@ -22,3 +22,4 @@ D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.vbproj.CopyComplete
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmCheckMC.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.vbprojAssemblyReference.cache
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmJBOX.resources
+D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmSelectImage.resources

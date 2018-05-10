@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.ComponentModel
+Imports System.IO
 
 Public Class frmJBOX
     Dim img_path As String
@@ -65,7 +66,7 @@ Public Class frmJBOX
                 File.Copy(Dir & "\" & txtSerial.Text.Trim & file_sfx & ".jpg",
                           NetDir & "\" & dirname & "\" & txtSerial.Text.Trim & file_sfx & ".jpg", True)
 
-                lblSuccess.Text = "JBOX TRNSACTION COMPLETED FOR SERIAL NUMBER " & txtSerial.Text.Trim
+                lblSuccess.Text = "JBOX TRANSACTION COMPLETED FOR SERIAL NUMBER " & txtSerial.Text.Trim
                 lblSuccess.Visible = True
 
                 ClearForm(True)
@@ -83,19 +84,47 @@ Public Class frmJBOX
             Dim fi As FileInfo() = FileLocation.GetFiles("WIN*.jpg")
             img_path = String.Empty
 
-            For Each f As FileInfo In fi
-                img_path = Dir & "\" & f.ToString
+            If fi.Count > 1 Then
+                Dim frm As New frmSelectImage
 
-                If Not Directory.Exists(temp_path) Then
-                    Directory.CreateDirectory(temp_path)
-                End If
+                With frm
+                    .Dir = Dir
 
-                File.Copy(img_path, temp_path & "\temp.jpg", True)
+                    For Each f As FileInfo In fi
 
-                Exit For
-            Next
+                        .lstImage.Items.Add(f.ToString)
+
+                    Next
+
+                    .lblCount.Text = .lstImage.Items.Count
+
+                    Timer1.Enabled = False
+                    .ShowDialog()
+                    Timer1.Enabled = True
+
+                    If frm.DialogResult = DialogResult.OK Then
+                        Dim sel_img As String = .lstImage.SelectedItem.ToString
+                        img_path = Dir & "\" & sel_img
+
+                        For Each li As String In .lstImage.Items
+                            If li <> sel_img Then
+                                My.Computer.FileSystem.DeleteFile(Dir & "\" & li)
+                            End If
+                        Next
+                    Else
+                        Exit Sub
+                    End If
+                End With
+            ElseIf fi.Count = 1 Then
+                img_path = Dir & "\" & fi(0).ToString
+            End If
+
+            If Not Directory.Exists(temp_path) Then
+                Directory.CreateDirectory(temp_path)
+            End If
 
             If img_path <> String.Empty Then
+                File.Copy(img_path, temp_path & "\temp.jpg", True)
                 img = Image.FromFile(temp_path & "\temp.jpg")
                 PictureBox1.Image = img
                 Timer1.Enabled = False
@@ -113,7 +142,7 @@ Public Class frmJBOX
 
     Private Sub frmJBOX_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim sql As String = "SELECT B.SRCLOC FROM lts02 A INNER JOIN rou01 B ON A.STNID = B.STNID WHERE A.STNCODE = 'JBOX'"
-        Dim sl As DataTable = ExecQuery("MYSQL", Sql)
+        Dim sl As DataTable = ExecQuery("MYSQL", sql)
 
         If sl.Rows.Count > 0 Then
             srcloc = sl.Rows(0)(0).ToString.Trim
@@ -219,5 +248,9 @@ Public Class frmJBOX
 
             My.Computer.FileSystem.DeleteFile(img_path)
         End If
+    End Sub
+
+    Private Sub frmJBOX_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        If Not img Is Nothing Then img.Dispose()
     End Sub
 End Class
