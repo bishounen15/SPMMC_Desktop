@@ -1,7 +1,11 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
+Imports AForge.Video.DirectShow
 
 Public Class frmJBOX
+    Dim CAMERA As VideoCaptureDevice
+    Dim bmp As Bitmap
+
     Dim img_path As String
     Dim Dir As String = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) & "\Pictures\Camera Roll"
     Dim NetDir As String = "\\192.168.128.8\ops-meeting\JBOX Automation"
@@ -10,16 +14,8 @@ Public Class frmJBOX
 
     Dim srcloc As String
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs)
-        'Timer1.Enabled = True
-    End Sub
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
     Private Sub ProcessImage()
-        If img_path <> String.Empty Then
+        If Not PictureBox1.Image Is Nothing Then
             Dim CurrDate As Date = Now
 
             Dim sql As String = "SELECT MESCNO FROM mes01 WHERE MESCNO LIKE '" & Format(CurrDate, "yyyyMM") & "%' ORDER BY MESCNO DESC LIMIT 1"
@@ -48,14 +44,14 @@ Public Class frmJBOX
             Dim msg As String = ExecuteNonQuery("MYSQL", sql)
 
             If msg = "Success" Then
-                img.Dispose()
-                PictureBox1.Image = Nothing
-                Timer1.Enabled = True
-
                 Dim file_sfx As String = "_" & Format(CurrDate, "yyyyMMdd") & "_" & Format(CurrDate, "HHmmss") & "_JBOX"
 
-                My.Computer.FileSystem.RenameFile(img_path, txtSerial.Text.Trim & file_sfx & ".jpg")
-                My.Computer.FileSystem.DeleteFile(temp_path & "\temp.jpg")
+                PictureBox2.Image = PictureBox1.Image
+                If PictureBox2.Image Is Nothing Then
+                    MsgBox("The camera is not running. Please start the camera first.")
+                Else
+                    PictureBox2.Image.Save(Dir & "\" & txtSerial.Text.Trim & file_sfx & ".jpg", Imaging.ImageFormat.Jpeg)
+                End If
 
                 Dim dirname As String = Format(CurrDate, "yyyyMMdd")
 
@@ -76,70 +72,6 @@ Public Class frmJBOX
         End If
     End Sub
 
-    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        Dim Dir As String = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) & "\Pictures\Camera Roll"
-
-        If Directory.Exists(Dir) Then
-            Dim FileLocation As DirectoryInfo = New DirectoryInfo(Dir)
-            Dim fi As FileInfo() = FileLocation.GetFiles("WIN*.jpg")
-            img_path = String.Empty
-
-            If fi.Count > 1 Then
-                Dim frm As New frmSelectImage
-
-                With frm
-                    .Dir = Dir
-
-                    For Each f As FileInfo In fi
-
-                        .lstImage.Items.Add(f.ToString)
-
-                    Next
-
-                    .lblCount.Text = .lstImage.Items.Count
-
-                    Timer1.Enabled = False
-                    .ShowDialog()
-                    Timer1.Enabled = True
-
-                    If frm.DialogResult = DialogResult.OK Then
-                        Dim sel_img As String = .lstImage.SelectedItem.ToString
-                        img_path = Dir & "\" & sel_img
-
-                        For Each li As String In .lstImage.Items
-                            If li <> sel_img Then
-                                My.Computer.FileSystem.DeleteFile(Dir & "\" & li)
-                            End If
-                        Next
-                    Else
-                        Exit Sub
-                    End If
-                End With
-            ElseIf fi.Count = 1 Then
-                img_path = Dir & "\" & fi(0).ToString
-            End If
-
-            If Not Directory.Exists(temp_path) Then
-                Directory.CreateDirectory(temp_path)
-            End If
-
-            If img_path <> String.Empty Then
-                File.Copy(img_path, temp_path & "\temp.jpg", True)
-                img = Image.FromFile(temp_path & "\temp.jpg")
-                PictureBox1.Image = img
-                Timer1.Enabled = False
-
-                If Me.MdiParent.WindowState <> 0 Then
-                    Me.MdiParent.WindowState = FormWindowState.Maximized
-                ElseIf Not Me.Focused Then
-                    'Me.Activate()
-                End If
-
-                Me.MdiParent.Activate()
-            End If
-        End If
-    End Sub
-
     Private Sub frmJBOX_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim sql As String = "SELECT B.SRCLOC FROM lts02 A INNER JOIN rou01 B ON A.STNID = B.STNID WHERE A.STNCODE = 'JBOX'"
         Dim sl As DataTable = ExecQuery("MYSQL", sql)
@@ -148,8 +80,14 @@ Public Class frmJBOX
             srcloc = sl.Rows(0)(0).ToString.Trim
         End If
 
-        Timer1.Enabled = True
         txtSerial.Focus()
+
+        Dim cameras As VideoCaptureDeviceForm = New VideoCaptureDeviceForm
+        If cameras.ShowDialog = DialogResult.OK Then
+            CAMERA = cameras.VideoDevice
+            AddHandler CAMERA.NewFrame, New AForge.Video.NewFrameEventHandler(AddressOf iCapture)
+            CAMERA.Start()
+        End If
     End Sub
 
     Private Sub txtSerial_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtSerial.KeyPress
@@ -252,5 +190,12 @@ Public Class frmJBOX
 
     Private Sub frmJBOX_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         If Not img Is Nothing Then img.Dispose()
+        CAMERA.Stop()
+        CAMERA = Nothing
+    End Sub
+
+    Private Sub iCapture(sender As Object, eventArgs As AForge.Video.NewFrameEventArgs)
+        bmp = DirectCast(eventArgs.Frame.Clone, Bitmap)
+        PictureBox1.Image = DirectCast(eventArgs.Frame.Clone, Bitmap)
     End Sub
 End Class

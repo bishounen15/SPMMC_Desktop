@@ -24,6 +24,8 @@ Partial Class frmJBOX
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.RecaptureImageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtSerial = New System.Windows.Forms.TextBox()
@@ -40,11 +42,13 @@ Partial Class frmJBOX
         Me.txtCustomer = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lblSuccess = New System.Windows.Forms.Label()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.RecaptureImageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StartCameraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CaptureImageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'PictureBox1
@@ -61,6 +65,18 @@ Partial Class frmJBOX
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PictureBox1.TabIndex = 0
         Me.PictureBox1.TabStop = False
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RecaptureImageToolStripMenuItem, Me.StartCameraToolStripMenuItem, Me.CaptureImageToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(169, 70)
+        '
+        'RecaptureImageToolStripMenuItem
+        '
+        Me.RecaptureImageToolStripMenuItem.Name = "RecaptureImageToolStripMenuItem"
+        Me.RecaptureImageToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RecaptureImageToolStripMenuItem.Text = "Re-capture Image"
         '
         'Timer1
         '
@@ -229,17 +245,32 @@ Partial Class frmJBOX
         Me.lblSuccess.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.lblSuccess.Visible = False
         '
-        'ContextMenuStrip1
+        'StartCameraToolStripMenuItem
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RecaptureImageToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 48)
+        Me.StartCameraToolStripMenuItem.Name = "StartCameraToolStripMenuItem"
+        Me.StartCameraToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.StartCameraToolStripMenuItem.Text = "Start Camera"
         '
-        'RecaptureImageToolStripMenuItem
+        'CaptureImageToolStripMenuItem
         '
-        Me.RecaptureImageToolStripMenuItem.Name = "RecaptureImageToolStripMenuItem"
-        Me.RecaptureImageToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.RecaptureImageToolStripMenuItem.Text = "Re-capture Image"
+        Me.CaptureImageToolStripMenuItem.Name = "CaptureImageToolStripMenuItem"
+        Me.CaptureImageToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CaptureImageToolStripMenuItem.Text = "Capture Image"
+        '
+        'PictureBox2
+        '
+        Me.PictureBox2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PictureBox2.BackColor = System.Drawing.Color.Black
+        Me.PictureBox2.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.PictureBox2.Location = New System.Drawing.Point(13, 209)
+        Me.PictureBox2.Margin = New System.Windows.Forms.Padding(4)
+        Me.PictureBox2.Name = "PictureBox2"
+        Me.PictureBox2.Size = New System.Drawing.Size(862, 147)
+        Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox2.TabIndex = 7
+        Me.PictureBox2.TabStop = False
         '
         'frmJBOX
         '
@@ -250,15 +281,17 @@ Partial Class frmJBOX
         Me.Controls.Add(Me.lblSuccess)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.PictureBox1)
+        Me.Controls.Add(Me.PictureBox2)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "frmJBOX"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "JBOX Transactions"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
-        Me.ContextMenuStrip1.ResumeLayout(False)
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -282,4 +315,7 @@ Partial Class frmJBOX
     Friend WithEvents lblSuccess As Label
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents RecaptureImageToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents StartCameraToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CaptureImageToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PictureBox2 As PictureBox
 End Class

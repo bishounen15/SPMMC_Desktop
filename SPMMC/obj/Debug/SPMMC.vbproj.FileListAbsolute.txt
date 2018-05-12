@@ -23,3 +23,9 @@ D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmCheckMC.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.vbprojAssemblyReference.cache
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmJBOX.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmSelectImage.resources
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\AForge.dll
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\AForge.Video.DirectShow.dll
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\AForge.Video.dll
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\AForge.xml
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\AForge.Video.xml
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\AForge.Video.DirectShow.xml
