@@ -65,6 +65,10 @@ Public Class frmJBOX
                 lblSuccess.Text = "JBOX TRANSACTION COMPLETED FOR SERIAL NUMBER " & txtSerial.Text.Trim
                 lblSuccess.Visible = True
 
+                Dim f As New frmPreview
+                f.PictureBox1.Image = PictureBox2.Image
+                f.ShowDialog()
+
                 ClearForm(True)
             Else
                 MsgBox(msg, MsgBoxStyle.Critical)
@@ -87,6 +91,8 @@ Public Class frmJBOX
             CAMERA = cameras.VideoDevice
             AddHandler CAMERA.NewFrame, New AForge.Video.NewFrameEventHandler(AddressOf iCapture)
             CAMERA.Start()
+        Else
+            ' Me.Close()
         End If
     End Sub
 
@@ -190,8 +196,10 @@ Public Class frmJBOX
 
     Private Sub frmJBOX_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         If Not img Is Nothing Then img.Dispose()
-        CAMERA.Stop()
-        CAMERA = Nothing
+        If Not CAMERA Is Nothing Then
+            CAMERA.Stop()
+            CAMERA = Nothing
+        End If
     End Sub
 
     Private Sub iCapture(sender As Object, eventArgs As AForge.Video.NewFrameEventArgs)

@@ -29,3 +29,4 @@ D:\Programs\VB\SPMMC\SPMMC\bin\Debug\AForge.Video.dll
 D:\Programs\VB\SPMMC\SPMMC\bin\Debug\AForge.xml
 D:\Programs\VB\SPMMC\SPMMC\bin\Debug\AForge.Video.xml
 D:\Programs\VB\SPMMC\SPMMC\bin\Debug\AForge.Video.DirectShow.xml
+D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmPreview.resources

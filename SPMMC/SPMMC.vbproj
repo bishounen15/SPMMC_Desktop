@@ -123,6 +123,12 @@
     <Compile Include="Forms\JBOX\frmJBOX.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\JBOX\frmPreview.Designer.vb">
+      <DependentUpon>frmPreview.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\JBOX\frmPreview.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\JBOX\frmSelectImage.Designer.vb">
       <DependentUpon>frmSelectImage.vb</DependentUpon>
     </Compile>
@@ -188,6 +194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\JBOX\frmJBOX.resx">
       <DependentUpon>frmJBOX.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\JBOX\frmPreview.resx">
+      <DependentUpon>frmPreview.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\JBOX\frmSelectImage.resx">
       <DependentUpon>frmSelectImage.vb</DependentUpon>
