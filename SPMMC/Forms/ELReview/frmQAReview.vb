@@ -305,13 +305,15 @@ CheckPallet:
         'For Each Dir As String In Directory.GetDirectories(RootDir)
         Dim Dir As String = RootDir
 
-        Dim FileLocation As DirectoryInfo = New DirectoryInfo(Dir)
-        Dim fi As FileInfo() = FileLocation.GetFiles(SerialNo & "*.jpg")
+        If Directory.Exists(Dir) Then
+            Dim FileLocation As DirectoryInfo = New DirectoryInfo(Dir)
+            Dim fi As FileInfo() = FileLocation.GetFiles(SerialNo & "*.jpg")
 
-        For Each f As FileInfo In fi
-            'File.Copy(Dir & "\" & f.ToString, MyPath & "\" & dr(0).ToString.Trim & ".jpg", True)
-            retval = Dir & "\" & f.ToString
-        Next
+            For Each f As FileInfo In fi
+                'File.Copy(Dir & "\" & f.ToString, MyPath & "\" & dr(0).ToString.Trim & ".jpg", True)
+                retval = Dir & "\" & f.ToString
+            Next
+        End If
 
         StatMsg = "Checking " & Dir & " for " & SerialNo & " EL Images.."
 
