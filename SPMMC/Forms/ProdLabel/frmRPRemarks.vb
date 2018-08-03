@@ -5,7 +5,11 @@
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Me.DialogResult = DialogResult.OK
-        Me.Close()
+        If txtRemarks.Text.Trim <> "" Then
+            Me.DialogResult = DialogResult.OK
+            Me.Close()
+        Else
+            MsgBox("Remarks is required when reprinting labels.", vbInformation)
+        End If
     End Sub
 End Class
