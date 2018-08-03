@@ -53,6 +53,7 @@ Partial Class frmPrintLabels
         Me.Label8 = New System.Windows.Forms.Label()
         Me.txtSerialStart = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
+        Me.RadioButton5 = New System.Windows.Forms.RadioButton()
         Me.GroupBox1.SuspendLayout()
         Me.pnlCellType.SuspendLayout()
         Me.pnlCellCount.SuspendLayout()
@@ -79,7 +80,7 @@ Partial Class frmPrintLabels
         Me.GroupBox1.Controls.Add(Me.cboType)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 42)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(389, 254)
+        Me.GroupBox1.Size = New System.Drawing.Size(448, 254)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Parameter Input"
@@ -131,11 +132,12 @@ Partial Class frmPrintLabels
         '
         'pnlCellType
         '
+        Me.pnlCellType.Controls.Add(Me.RadioButton5)
         Me.pnlCellType.Controls.Add(Me.RadioButton4)
         Me.pnlCellType.Controls.Add(Me.RadioButton3)
         Me.pnlCellType.Location = New System.Drawing.Point(148, 166)
         Me.pnlCellType.Name = "pnlCellType"
-        Me.pnlCellType.Size = New System.Drawing.Size(159, 30)
+        Me.pnlCellType.Size = New System.Drawing.Size(284, 30)
         Me.pnlCellType.TabIndex = 10
         '
         'RadioButton4
@@ -146,7 +148,7 @@ Partial Class frmPrintLabels
         Me.RadioButton4.Name = "RadioButton4"
         Me.RadioButton4.Size = New System.Drawing.Size(62, 22)
         Me.RadioButton4.TabIndex = 5
-        Me.RadioButton4.TabStop = True
+        Me.RadioButton4.Tag = "M"
         Me.RadioButton4.Text = "Mono"
         Me.RadioButton4.UseVisualStyleBackColor = True
         '
@@ -157,6 +159,7 @@ Partial Class frmPrintLabels
         Me.RadioButton3.Name = "RadioButton3"
         Me.RadioButton3.Size = New System.Drawing.Size(53, 22)
         Me.RadioButton3.TabIndex = 6
+        Me.RadioButton3.Tag = "P"
         Me.RadioButton3.Text = "Poly"
         Me.RadioButton3.UseVisualStyleBackColor = True
         '
@@ -222,7 +225,7 @@ Partial Class frmPrintLabels
         '
         Me.cboCust.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboCust.FormattingEnabled = True
-        Me.cboCust.Items.AddRange(New Object() {"Runergy"})
+        Me.cboCust.Items.AddRange(New Object() {"Runergy", "Own-Tongwei"})
         Me.cboCust.Location = New System.Drawing.Point(148, 70)
         Me.cboCust.Name = "cboCust"
         Me.cboCust.Size = New System.Drawing.Size(216, 26)
@@ -243,7 +246,7 @@ Partial Class frmPrintLabels
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton1, Me.tscboPrinters, Me.ToolStripLabel1})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(825, 39)
+        Me.ToolStrip1.Size = New System.Drawing.Size(884, 39)
         Me.ToolStrip1.TabIndex = 1
         Me.ToolStrip1.Text = "ToolStrip1"
         '
@@ -274,7 +277,7 @@ Partial Class frmPrintLabels
         '
         Me.GroupBox2.Controls.Add(Me.pnlProdType)
         Me.GroupBox2.Controls.Add(Me.pnlSerial)
-        Me.GroupBox2.Location = New System.Drawing.Point(407, 42)
+        Me.GroupBox2.Location = New System.Drawing.Point(466, 42)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(406, 344)
         Me.GroupBox2.TabIndex = 2
@@ -352,12 +355,23 @@ Partial Class frmPrintLabels
         Me.Label7.TabIndex = 16
         Me.Label7.Text = "Start Serial"
         '
+        'RadioButton5
+        '
+        Me.RadioButton5.AutoSize = True
+        Me.RadioButton5.Location = New System.Drawing.Point(154, 4)
+        Me.RadioButton5.Name = "RadioButton5"
+        Me.RadioButton5.Size = New System.Drawing.Size(96, 22)
+        Me.RadioButton5.TabIndex = 7
+        Me.RadioButton5.Tag = "E"
+        Me.RadioButton5.Text = "Mono PERC"
+        Me.RadioButton5.UseVisualStyleBackColor = True
+        '
         'frmPrintLabels
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(825, 399)
+        Me.ClientSize = New System.Drawing.Size(884, 399)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.GroupBox1)
@@ -415,4 +429,5 @@ Partial Class frmPrintLabels
     Friend WithEvents pnlSerial As Panel
     Friend WithEvents tscboPrinters As ToolStripComboBox
     Friend WithEvents ToolStripLabel1 As ToolStripLabel
+    Friend WithEvents RadioButton5 As RadioButton
 End Class

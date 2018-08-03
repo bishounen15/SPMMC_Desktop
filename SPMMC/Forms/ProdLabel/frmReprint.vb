@@ -26,6 +26,17 @@
                     lbl = "-"
             End Select
 
+            Dim f As New frmRPRemarks
+            Dim remarks As String = String.Empty
+
+            With f
+                If f.ShowDialog = DialogResult.OK Then
+                    remarks = f.txtRemarks.Text
+                Else
+                    Exit Sub
+                End If
+            End With
+
             Dim sql As String = "SELECT LBLCNO FROM rlb01 WHERE LBLTYPE = " & cboType.SelectedIndex + 1 & " ORDER BY LBLCNO DESC LIMIT 1"
             Dim dt As DataTable = ExecQuery("MYSQL", sql)
             Dim LBLCNO As String = String.Empty
@@ -39,7 +50,7 @@
             Dim myCNO As Integer = Val(Mid(LBLCNO, 5, 5)) + 1
             Dim CNO As String = pfx & "-" & Space(5 - CStr(myCNO).Length).Replace(" ", "0") & myCNO
 
-            sql = "INSERT INTO rlb01 (LBLCNO,TRXDATE,PRODDATE,UIDTRANS,LBLTYPE) VALUES (" & ENQ(CNO) & ",now(),curdate()," & ENQ(ACTIVEUSER) & "," & cboType.SelectedIndex + 1 & ")"
+            sql = "INSERT INTO rlb01 (LBLCNO,TRXDATE,PRODDATE,UIDTRANS,LBLTYPE,REMARKS) VALUES (" & ENQ(CNO) & ",now(),curdate()," & ENQ(ACTIVEUSER) & "," & cboType.SelectedIndex + 1 & "," & ENQ(remarks) & ")"
             Dim msg As String = ExecuteNonQuery("MYSQL", sql)
 
             If msg = "Success" Then
@@ -114,7 +125,7 @@
             MsgBox("Label Type / Customer is a required field.", MsgBoxStyle.Information)
         Else
             If txtSerial.Text.Trim <> "" Then
-                Dim sql As String = "SELECT SERIALNO, CONCAT(CELLCOUNT,'C-',CASE CELLCOLOR WHEN 'P' THEN 'POLY' ELSE 'MONO' END) AS MODFORMAT FROM lbl02 WHERE LBLTYPE = " & (cboType.SelectedIndex + 1) & " AND CUSTOMER = " & ENQ(cboCust.Text.ToUpper.Trim) & " AND SERIALNO = " & ENQ(txtSerial.Text)
+                Dim sql As String = "SELECT SERIALNO, CONCAT(CELLCOUNT,'C-',CASE CELLCOLOR WHEN 'P' THEN 'POLY' WHEN 'E' THEN 'MONO PERC' ELSE 'MONO' END) AS MODFORMAT FROM lbl02 WHERE LBLTYPE = " & (cboType.SelectedIndex + 1) & " AND CUSTOMER = " & ENQ(cboCust.Text.ToUpper.Trim) & " AND SERIALNO = " & ENQ(txtSerial.Text)
                 Dim dt As DataTable = ExecQuery("MYSQL", sql)
 
                 If dt.Rows.Count > 0 Then
@@ -165,7 +176,7 @@
     End Sub
 
     Private Sub cboTrans_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTrans.SelectedIndexChanged
-        Dim sql As String = "SELECT SERIALNO, CONCAT(CELLCOUNT,'C-',CASE CELLCOLOR WHEN 'P' THEN 'POLY' ELSE 'MONO' END) AS MODFORMAT FROM lbl02 WHERE LBLCNO = " & ENQ(cboTrans.Text) & " ORDER BY ROWID"
+        Dim sql As String = "SELECT SERIALNO, CONCAT(CELLCOUNT,'C-',CASE CELLCOLOR WHEN 'P' THEN 'POLY' WHEN 'E' THEN 'MONO PERC' ELSE 'MONO' END) AS MODFORMAT FROM lbl02 WHERE LBLCNO LIKE '" & cboTrans.Text.Trim & "%' ORDER BY ROWID"
         Dim dt As DataTable = ExecQuery("MYSQL", sql)
 
         lvSerials.Items.Clear()

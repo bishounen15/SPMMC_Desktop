@@ -185,7 +185,7 @@
         For Each c As Object In pnlCellType.Controls
             If TypeOf c Is RadioButton Then
                 If c.checked Then
-                    retval = Mid(c.Text, 1, 1)
+                    retval = c.Tag.ToString
                     Exit For
                 End If
             End If
