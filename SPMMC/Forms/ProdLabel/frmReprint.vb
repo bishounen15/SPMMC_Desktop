@@ -64,8 +64,8 @@
                     End If
                 Next
 
-                PreviewLabel(cboCust.Text.ToUpper, lbl, CNO)
-                'PrintLabels(cboCust.Text.ToUpper, lbl, CNO)
+                'PreviewLabel(cboCust.Text.ToUpper, lbl, CNO)
+                PrintLabels(cboCust.Text.ToUpper, lbl, CNO)
 
             End If
         Else
