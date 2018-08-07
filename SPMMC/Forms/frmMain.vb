@@ -44,6 +44,14 @@
         End With
     End Sub
 
+    Private Sub OnLineProductLabelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OnLineProductLabelToolStripMenuItem.Click
+        Dim f As New frmOnlineLabel
+        With f
+            .MdiParent = Me
+            .Show()
+        End With
+    End Sub
+
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim f As New frmLogin
         Dim dres As DialogResult = f.ShowDialog
