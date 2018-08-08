@@ -206,7 +206,7 @@ Partial Class frmReprint
         '
         Me.cboCust.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboCust.FormattingEnabled = True
-        Me.cboCust.Items.AddRange(New Object() {"Runergy", "Own-Tongwei"})
+        Me.cboCust.Items.AddRange(New Object() {"Gen1", "Runergy", "Own-Tongwei"})
         Me.cboCust.Location = New System.Drawing.Point(160, 101)
         Me.cboCust.Name = "cboCust"
         Me.cboCust.Size = New System.Drawing.Size(168, 26)
