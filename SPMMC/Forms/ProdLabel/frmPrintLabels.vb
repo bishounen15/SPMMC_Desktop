@@ -1,4 +1,6 @@
-﻿Public Class frmPrintLabels
+﻿Imports System.IO
+
+Public Class frmPrintLabels
     Private Declare Function WriteProfileString Lib "kernel32" Alias "WriteProfileStringA" _
         (ByVal lpszSection As String, ByVal lpszKeyName As String,
         ByVal lpszString As String) As Long
@@ -54,6 +56,13 @@
         Next printer
 
         tscboPrinters.Text = DefaultPrinterName()
+
+        Dim d() As String = Directory.GetDirectories(Application.StartupPath & "\Label Templates")
+        cboCust.Items.Clear()
+
+        For Each folder In d
+            cboCust.Items.Add(Mid(folder.ToString, folder.ToString.LastIndexOf("\") + 2, folder.ToString.Length))
+        Next
     End Sub
 
     Private Sub cboType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboType.SelectedIndexChanged

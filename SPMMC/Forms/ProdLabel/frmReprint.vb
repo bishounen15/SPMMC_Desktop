@@ -1,10 +1,19 @@
-﻿Public Class frmReprint
+﻿Imports System.IO
+
+Public Class frmReprint
     Private Sub frmReprint_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         For Each printer As String In System.Drawing.Printing.PrinterSettings.InstalledPrinters
             tscboPrinters.Items.Add(printer)
         Next printer
 
         tscboPrinters.Text = frmPrintLabels.DefaultPrinterName
+
+        Dim d() As String = Directory.GetDirectories(Application.StartupPath & "\Label Templates")
+        cboCust.Items.Clear()
+
+        For Each folder In d
+            cboCust.Items.Add(Mid(folder.ToString, folder.ToString.LastIndexOf("\") + 2, folder.ToString.Length))
+        Next
     End Sub
 
     Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click

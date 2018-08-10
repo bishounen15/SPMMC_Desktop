@@ -142,8 +142,8 @@
                     Exit Sub
                 End If
 
-                PreviewLabel(txtCustomer.Tag.ToString, lbl, CNO)
-                'PrintLabels(txtCustomer.Tag.ToString, lbl, CNO)
+                'PreviewLabel(txtCustomer.Tag.ToString, lbl, CNO)
+                PrintLabels(txtCustomer.Tag.ToString, lbl, CNO)
             End If
         Else
             ReprintLabel()
@@ -242,8 +242,8 @@
                     Exit Sub
                 End If
 
-            PreviewLabel(txtCustomer.Tag.ToString, lbl, CNO, True)
-            'PrintLabels(txtCustomer.Tag.ToString, lbl, CNO, True)
+            'PreviewLabel(txtCustomer.Tag.ToString, lbl, CNO, True)
+            PrintLabels(txtCustomer.Tag.ToString, lbl, CNO, True)
         End If
     End Sub
 End Class
