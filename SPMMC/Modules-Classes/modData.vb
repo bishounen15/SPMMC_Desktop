@@ -848,6 +848,35 @@ CheckAgain:
 
         Return eFileName
     End Function
+
+    Public Sub SaveMargin(ByVal Customer As String, ByVal LabelType As Integer, ByVal TopMargin As Single, ByVal LeftMargin As Single)
+        Dim sql As String = "SELECT TOPMARGIN, LEFTMARGIN FROM lbl00 WHERE CUSTOMER = " & ENQ(Customer) & " AND LBLTYPE = " & LabelType
+        Dim dt As DataTable = ExecQuery("MYSQL", sql)
+
+        If dt.Rows.Count > 0 Then
+            sql = "UPDATE lbl00 SET TOPMARGIN = " & TopMargin & ", LEFTMARGIN = " & LeftMargin & " WHERE CUSTOMER = " & ENQ(Customer) & " AND LBLTYPE = " & LabelType
+        Else
+            sql = "INSERT INTO lbl00 (CUSTOMER,LBLTYPE,TOPMARGIN,LEFTMARGIN) VALUES (" & ENQ(Customer) & "," & LabelType & "," & TopMargin & "," & LeftMargin & ")"
+        End If
+
+        Dim msg As String = ExecuteNonQuery("MYSQL", sql)
+        If msg <> "Success" Then
+            MsgBox("Failed to save margins", MsgBoxStyle.Information)
+        End If
+    End Sub
+
+    Public Sub GetMargin(ByVal Customer As String, ByVal LabelType As Integer, ByRef TopMargin As TextBox, ByRef LeftMargin As TextBox)
+        Dim sql As String = "SELECT TOPMARGIN, LEFTMARGIN FROM lbl00 WHERE CUSTOMER = " & ENQ(Customer) & " AND LBLTYPE = " & LabelType
+        Dim dt As DataTable = ExecQuery("MYSQL", sql)
+
+        If dt.Rows.Count > 0 Then
+            TopMargin.Text = FormatNumber(dt.Rows(0)("TOPMARGIN"), TopMargin.Tag)
+            LeftMargin.Text = FormatNumber(dt.Rows(0)("LEFTMARGIN"), LeftMargin.Tag)
+        Else
+            TopMargin.Text = "0.00"
+            LeftMargin.Text = "0.00"
+        End If
+    End Sub
 #End Region
 
 #Region "   Input Box"

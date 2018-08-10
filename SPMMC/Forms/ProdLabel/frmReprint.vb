@@ -2,6 +2,9 @@
 
 Public Class frmReprint
     Private Sub frmReprint_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        InitNumText(txtTop)
+        InitNumText(txtLeft)
+
         For Each printer As String In System.Drawing.Printing.PrinterSettings.InstalledPrinters
             tscboPrinters.Items.Add(printer)
         Next printer
@@ -75,7 +78,7 @@ Public Class frmReprint
 
                 'PreviewLabel(cboCust.Text.ToUpper, lbl, CNO)
                 PrintLabels(cboCust.Text.ToUpper, lbl, CNO)
-
+                SaveMargin(cboCust.Text.ToUpper, cboType.SelectedIndex + 1, NSV(txtTop.Text, True), NSV(txtLeft.Text, True))
             End If
         Else
             MsgBox("Serial List is empty.", MsgBoxStyle.Information)
@@ -90,6 +93,8 @@ Public Class frmReprint
         btFormat = New BarTender.Format
         btFormat = btApp.Formats.Open(Application.StartupPath & "\Label Templates\" & Customer & "\Re" & LabelType & ".btw", False, "")
         btFormat.PrintSetup.Printer = tscboPrinters.Text
+        btFormat.PageSetup.MarginTop = txtTop.Text
+        btFormat.PageSetup.MarginLeft = txtLeft.Text
         btFormat.Databases.QueryPrompts.GetQueryPrompt("ControlNo").Value = ControlNo
         Dim bd As DialogResult = btFormat.PrintPreview.ShowDialog()
 
@@ -108,6 +113,8 @@ Public Class frmReprint
         btFormat = btapp.Formats.Open(Application.StartupPath & "\Label Templates\" & Customer & "\Re" & LabelType & ".btw", False, "")
         btFormat.Databases.QueryPrompts.GetQueryPrompt("ControlNo").Value = ControlNo
         btFormat.PrintSetup.Printer = tscboPrinters.Text
+        btFormat.PageSetup.MarginTop = txtTop.Text
+        btFormat.PageSetup.MarginLeft = txtLeft.Text
 
         btFormat.PrintOut()
         btapp.Quit(BarTender.BtSaveOptions.btDoNotSaveChanges)
@@ -209,11 +216,13 @@ Public Class frmReprint
         If TabControl1.SelectedIndex = 1 Then
             LoadTrans()
         End If
+        GetMargin(cboCust.Text.ToUpper.Trim, cboType.SelectedIndex + 1, txtTop, txtLeft)
     End Sub
 
     Private Sub cboCust_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboCust.SelectedIndexChanged
         If TabControl1.SelectedIndex = 1 Then
             LoadTrans()
         End If
+        GetMargin(cboCust.Text.ToUpper.Trim, cboType.SelectedIndex + 1, txtTop, txtLeft)
     End Sub
 End Class

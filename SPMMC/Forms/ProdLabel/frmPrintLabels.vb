@@ -51,6 +51,9 @@ Public Class frmPrintLabels
         pnlProdType.Top = pnlSerial.Top
         pnlProdType.Visible = False
 
+        InitNumText(txtTop)
+        InitNumText(txtLeft)
+
         For Each printer As String In System.Drawing.Printing.PrinterSettings.InstalledPrinters
             tscboPrinters.Items.Add(printer)
         Next printer
@@ -73,6 +76,8 @@ Public Class frmPrintLabels
         If cboCust.SelectedIndex >= 0 Then
             GenerateSerial(mySerial)
         End If
+
+        GetMargin(cboCust.Text.ToUpper.Trim, cboType.SelectedIndex + 1, txtTop, txtLeft)
     End Sub
 
     Private Sub cboCust_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboCust.SelectedIndexChanged
@@ -89,6 +94,7 @@ Public Class frmPrintLabels
 
             GenerateSerial(mySerial)
         End If
+        GetMargin(cboCust.Text.ToUpper.Trim, cboType.SelectedIndex + 1, txtTop, txtLeft)
     End Sub
 
     Private Sub GenerateSerial(ByVal SerialFormat As String)
@@ -307,6 +313,7 @@ Public Class frmPrintLabels
 
                 'PreviewLabel(cboCust.Text.ToUpper, lbl, CNO)
                 PrintLabels(cboCust.Text.ToUpper, lbl, CNO)
+                SaveMargin(cboCust.Text.ToUpper, cboType.SelectedIndex + 1, NSV(txtTop.Text, True), NSV(txtLeft.Text, True))
 
                 numQty.Value = 1
                 GenerateSerial(mySerial)
@@ -322,6 +329,8 @@ Public Class frmPrintLabels
         btFormat = New BarTender.Format
         btFormat = btApp.Formats.Open(Application.StartupPath & "\Label Templates\" & Customer & "\" & LabelType & ".btw", False, "")
         btFormat.PrintSetup.Printer = tscboPrinters.Text
+        btFormat.PageSetup.MarginTop = txtTop.Text
+        btFormat.PageSetup.MarginLeft = txtLeft.Text
         btFormat.Databases.QueryPrompts.GetQueryPrompt("ControlNo").Value = ControlNo
         Dim bd As DialogResult = btFormat.PrintPreview.ShowDialog()
 
@@ -340,6 +349,8 @@ Public Class frmPrintLabels
         btFormat = btapp.Formats.Open(Application.StartupPath & "\Label Templates\" & Customer & "\" & LabelType & ".btw", False, "")
         btFormat.Databases.QueryPrompts.GetQueryPrompt("ControlNo").Value = ControlNo
         btFormat.PrintSetup.Printer = tscboPrinters.Text
+        btFormat.PageSetup.MarginTop = txtTop.Text
+        btFormat.PageSetup.MarginLeft = txtLeft.Text
 
         btFormat.PrintOut()
         btapp.Quit(BarTender.BtSaveOptions.btDoNotSaveChanges)

@@ -30,6 +30,7 @@ Partial Class frmPrintLabels
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.pnlCellType = New System.Windows.Forms.Panel()
+        Me.RadioButton5 = New System.Windows.Forms.RadioButton()
         Me.RadioButton4 = New System.Windows.Forms.RadioButton()
         Me.RadioButton3 = New System.Windows.Forms.RadioButton()
         Me.pnlCellCount = New System.Windows.Forms.Panel()
@@ -53,7 +54,11 @@ Partial Class frmPrintLabels
         Me.Label8 = New System.Windows.Forms.Label()
         Me.txtSerialStart = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.RadioButton5 = New System.Windows.Forms.RadioButton()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.txtTop = New System.Windows.Forms.TextBox()
+        Me.txtLeft = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.pnlCellType.SuspendLayout()
         Me.pnlCellCount.SuspendLayout()
@@ -62,6 +67,7 @@ Partial Class frmPrintLabels
         Me.GroupBox2.SuspendLayout()
         Me.pnlProdType.SuspendLayout()
         Me.pnlSerial.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -140,6 +146,17 @@ Partial Class frmPrintLabels
         Me.pnlCellType.Size = New System.Drawing.Size(284, 30)
         Me.pnlCellType.TabIndex = 10
         '
+        'RadioButton5
+        '
+        Me.RadioButton5.AutoSize = True
+        Me.RadioButton5.Location = New System.Drawing.Point(154, 4)
+        Me.RadioButton5.Name = "RadioButton5"
+        Me.RadioButton5.Size = New System.Drawing.Size(96, 22)
+        Me.RadioButton5.TabIndex = 7
+        Me.RadioButton5.Tag = "E"
+        Me.RadioButton5.Text = "Mono PERC"
+        Me.RadioButton5.UseVisualStyleBackColor = True
+        '
         'RadioButton4
         '
         Me.RadioButton4.AutoSize = True
@@ -148,6 +165,7 @@ Partial Class frmPrintLabels
         Me.RadioButton4.Name = "RadioButton4"
         Me.RadioButton4.Size = New System.Drawing.Size(62, 22)
         Me.RadioButton4.TabIndex = 5
+        Me.RadioButton4.TabStop = True
         Me.RadioButton4.Tag = "M"
         Me.RadioButton4.Text = "Mono"
         Me.RadioButton4.UseVisualStyleBackColor = True
@@ -279,7 +297,7 @@ Partial Class frmPrintLabels
         Me.GroupBox2.Controls.Add(Me.pnlSerial)
         Me.GroupBox2.Location = New System.Drawing.Point(466, 42)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(406, 344)
+        Me.GroupBox2.Size = New System.Drawing.Size(406, 355)
         Me.GroupBox2.TabIndex = 2
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Module Information"
@@ -355,23 +373,62 @@ Partial Class frmPrintLabels
         Me.Label7.TabIndex = 16
         Me.Label7.Text = "Start Serial"
         '
-        'RadioButton5
+        'GroupBox3
         '
-        Me.RadioButton5.AutoSize = True
-        Me.RadioButton5.Location = New System.Drawing.Point(154, 4)
-        Me.RadioButton5.Name = "RadioButton5"
-        Me.RadioButton5.Size = New System.Drawing.Size(96, 22)
-        Me.RadioButton5.TabIndex = 7
-        Me.RadioButton5.Tag = "E"
-        Me.RadioButton5.Text = "Mono PERC"
-        Me.RadioButton5.UseVisualStyleBackColor = True
+        Me.GroupBox3.Controls.Add(Me.txtLeft)
+        Me.GroupBox3.Controls.Add(Me.txtTop)
+        Me.GroupBox3.Controls.Add(Me.Label11)
+        Me.GroupBox3.Controls.Add(Me.Label9)
+        Me.GroupBox3.Location = New System.Drawing.Point(12, 302)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(448, 95)
+        Me.GroupBox3.TabIndex = 3
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Adjust Margins"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(20, 28)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(30, 18)
+        Me.Label9.TabIndex = 16
+        Me.Label9.Text = "Top"
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(20, 60)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(31, 18)
+        Me.Label11.TabIndex = 17
+        Me.Label11.Text = "Left"
+        '
+        'txtTop
+        '
+        Me.txtTop.Location = New System.Drawing.Point(147, 25)
+        Me.txtTop.Name = "txtTop"
+        Me.txtTop.Size = New System.Drawing.Size(100, 26)
+        Me.txtTop.TabIndex = 18
+        Me.txtTop.Tag = "2"
+        Me.txtTop.Text = "0.00"
+        '
+        'txtLeft
+        '
+        Me.txtLeft.Location = New System.Drawing.Point(147, 57)
+        Me.txtLeft.Name = "txtLeft"
+        Me.txtLeft.Size = New System.Drawing.Size(100, 26)
+        Me.txtLeft.TabIndex = 19
+        Me.txtLeft.Tag = "2"
+        Me.txtLeft.Text = "0.00"
         '
         'frmPrintLabels
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(884, 399)
+        Me.ClientSize = New System.Drawing.Size(884, 409)
+        Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.GroupBox1)
@@ -394,6 +451,8 @@ Partial Class frmPrintLabels
         Me.pnlProdType.PerformLayout()
         Me.pnlSerial.ResumeLayout(False)
         Me.pnlSerial.PerformLayout()
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -430,4 +489,9 @@ Partial Class frmPrintLabels
     Friend WithEvents tscboPrinters As ToolStripComboBox
     Friend WithEvents ToolStripLabel1 As ToolStripLabel
     Friend WithEvents RadioButton5 As RadioButton
+    Friend WithEvents GroupBox3 As GroupBox
+    Friend WithEvents txtLeft As TextBox
+    Friend WithEvents txtTop As TextBox
+    Friend WithEvents Label11 As Label
+    Friend WithEvents Label9 As Label
 End Class

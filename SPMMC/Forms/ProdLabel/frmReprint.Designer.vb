@@ -44,6 +44,10 @@ Partial Class frmReprint
         Me.cboType = New System.Windows.Forms.ComboBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.lblCount = New System.Windows.Forms.Label()
+        Me.txtLeft = New System.Windows.Forms.TextBox()
+        Me.txtTop = New System.Windows.Forms.TextBox()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.ToolStrip1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -86,7 +90,7 @@ Partial Class frmReprint
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Location = New System.Drawing.Point(12, 151)
+        Me.TabControl1.Location = New System.Drawing.Point(12, 202)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(326, 198)
@@ -169,7 +173,7 @@ Partial Class frmReprint
         Me.lvSerials.Location = New System.Drawing.Point(356, 69)
         Me.lvSerials.MultiSelect = False
         Me.lvSerials.Name = "lvSerials"
-        Me.lvSerials.Size = New System.Drawing.Size(334, 252)
+        Me.lvSerials.Size = New System.Drawing.Size(334, 331)
         Me.lvSerials.TabIndex = 4
         Me.lvSerials.UseCompatibleStateImageBehavior = False
         Me.lvSerials.View = System.Windows.Forms.View.Details
@@ -225,7 +229,7 @@ Partial Class frmReprint
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(498, 327)
+        Me.Label5.Location = New System.Drawing.Point(498, 410)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(84, 18)
         Me.Label5.TabIndex = 16
@@ -233,19 +237,59 @@ Partial Class frmReprint
         '
         'lblCount
         '
-        Me.lblCount.Location = New System.Drawing.Point(588, 324)
+        Me.lblCount.Location = New System.Drawing.Point(588, 407)
         Me.lblCount.Name = "lblCount"
         Me.lblCount.Size = New System.Drawing.Size(102, 25)
         Me.lblCount.TabIndex = 17
         Me.lblCount.Text = "-"
         Me.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
+        'txtLeft
+        '
+        Me.txtLeft.Location = New System.Drawing.Point(160, 165)
+        Me.txtLeft.Name = "txtLeft"
+        Me.txtLeft.Size = New System.Drawing.Size(100, 26)
+        Me.txtLeft.TabIndex = 27
+        Me.txtLeft.Tag = "2"
+        Me.txtLeft.Text = "0.00"
+        '
+        'txtTop
+        '
+        Me.txtTop.Location = New System.Drawing.Point(160, 133)
+        Me.txtTop.Name = "txtTop"
+        Me.txtTop.Size = New System.Drawing.Size(100, 26)
+        Me.txtTop.TabIndex = 26
+        Me.txtTop.Tag = "2"
+        Me.txtTop.Text = "0.00"
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(13, 168)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(77, 18)
+        Me.Label11.TabIndex = 25
+        Me.Label11.Text = "Left Margin"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(13, 136)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(76, 18)
+        Me.Label9.TabIndex = 24
+        Me.Label9.Text = "Top Margin"
+        '
         'frmReprint
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(702, 361)
+        Me.ClientSize = New System.Drawing.Size(702, 441)
+        Me.Controls.Add(Me.txtLeft)
+        Me.Controls.Add(Me.txtTop)
+        Me.Controls.Add(Me.Label11)
+        Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.lblCount)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label2)
@@ -293,4 +337,8 @@ Partial Class frmReprint
     Friend WithEvents colFormat As ColumnHeader
     Friend WithEvents Label5 As Label
     Friend WithEvents lblCount As Label
+    Friend WithEvents txtLeft As TextBox
+    Friend WithEvents txtTop As TextBox
+    Friend WithEvents Label11 As Label
+    Friend WithEvents Label9 As Label
 End Class
