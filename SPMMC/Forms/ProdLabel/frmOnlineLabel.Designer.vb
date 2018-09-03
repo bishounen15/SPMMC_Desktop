@@ -31,6 +31,10 @@ Partial Class frmOnlineLabel
         Me.txtSerial = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.txtDimension = New System.Windows.Forms.TextBox()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.txtCustomer = New System.Windows.Forms.TextBox()
+        Me.Label11 = New System.Windows.Forms.Label()
         Me.txtIsc = New System.Windows.Forms.TextBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.txtVoc = New System.Windows.Forms.TextBox()
@@ -49,10 +53,7 @@ Partial Class frmOnlineLabel
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtSerialNo = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.txtCustomer = New System.Windows.Forms.TextBox()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.txtDimension = New System.Windows.Forms.TextBox()
-        Me.Label12 = New System.Windows.Forms.Label()
+        Me.chkPreview = New System.Windows.Forms.CheckBox()
         Me.ToolStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -92,11 +93,12 @@ Partial Class frmOnlineLabel
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.chkPreview)
         Me.GroupBox1.Controls.Add(Me.txtSerial)
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 42)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(448, 64)
+        Me.GroupBox1.Size = New System.Drawing.Size(448, 90)
         Me.GroupBox1.TabIndex = 3
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Parameter Input"
@@ -147,6 +149,40 @@ Partial Class frmOnlineLabel
         Me.GroupBox2.TabIndex = 4
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Last Label Printed"
+        '
+        'txtDimension
+        '
+        Me.txtDimension.Location = New System.Drawing.Point(127, 309)
+        Me.txtDimension.Name = "txtDimension"
+        Me.txtDimension.ReadOnly = True
+        Me.txtDimension.Size = New System.Drawing.Size(273, 26)
+        Me.txtDimension.TabIndex = 31
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(6, 312)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(75, 18)
+        Me.Label12.TabIndex = 30
+        Me.Label12.Text = "Dimension"
+        '
+        'txtCustomer
+        '
+        Me.txtCustomer.Location = New System.Drawing.Point(127, 85)
+        Me.txtCustomer.Name = "txtCustomer"
+        Me.txtCustomer.ReadOnly = True
+        Me.txtCustomer.Size = New System.Drawing.Size(273, 26)
+        Me.txtCustomer.TabIndex = 29
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(6, 88)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(68, 18)
+        Me.Label11.TabIndex = 28
+        Me.Label11.Text = "Customer"
         '
         'txtIsc
         '
@@ -301,39 +337,15 @@ Partial Class frmOnlineLabel
         Me.Label2.TabIndex = 10
         Me.Label2.Text = "Serial Number"
         '
-        'txtCustomer
+        'chkPreview
         '
-        Me.txtCustomer.Location = New System.Drawing.Point(127, 85)
-        Me.txtCustomer.Name = "txtCustomer"
-        Me.txtCustomer.ReadOnly = True
-        Me.txtCustomer.Size = New System.Drawing.Size(273, 26)
-        Me.txtCustomer.TabIndex = 29
-        '
-        'Label11
-        '
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(6, 88)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(68, 18)
-        Me.Label11.TabIndex = 28
-        Me.Label11.Text = "Customer"
-        '
-        'txtDimension
-        '
-        Me.txtDimension.Location = New System.Drawing.Point(127, 309)
-        Me.txtDimension.Name = "txtDimension"
-        Me.txtDimension.ReadOnly = True
-        Me.txtDimension.Size = New System.Drawing.Size(273, 26)
-        Me.txtDimension.TabIndex = 31
-        '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(6, 312)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(75, 18)
-        Me.Label12.TabIndex = 30
-        Me.Label12.Text = "Dimension"
+        Me.chkPreview.AutoSize = True
+        Me.chkPreview.Location = New System.Drawing.Point(145, 56)
+        Me.chkPreview.Name = "chkPreview"
+        Me.chkPreview.Size = New System.Drawing.Size(114, 22)
+        Me.chkPreview.TabIndex = 10
+        Me.chkPreview.Text = "Preview Label"
+        Me.chkPreview.UseVisualStyleBackColor = True
         '
         'frmOnlineLabel
         '
@@ -390,4 +402,5 @@ Partial Class frmOnlineLabel
     Friend WithEvents Label11 As Label
     Friend WithEvents txtDimension As TextBox
     Friend WithEvents Label12 As Label
+    Friend WithEvents chkPreview As CheckBox
 End Class

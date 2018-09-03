@@ -50,7 +50,14 @@
     End Sub
 
     Sub GetInfo(ByVal SerialNo As String)
-        Dim sql As String = "SELECT A.SERIALNO, A.CELLCOUNT, A.CELLCOLOR, A.CUSTOMER, B.CUSDESC, REPLACE(REPLACE(REPLACE(B.PRODCODE,'[C]',A.CELLCOUNT),'[R]',A.CELLCOLOR),'[P]',C.Bin) AS PRODCODE, C.Bin, D.VOC, D.VMPP, D.ISC, D.IMPP, D.DIMENSION FROM lbl02 A INNER JOIN cus01 B ON A.CUSTOMER = B.CUSCODE INNER JOIN ftd_upd C ON A.SERIALNO = C.ModuleID INNER JOIN fdd01 D ON A.CELLCOUNT = D.CCOUNT AND A.CELLCOLOR = D.CTYPE AND C.Bin = D.POWRATE WHERE A.SERIALNO = " & ENQ(SerialNo) & " AND A.LBLTYPE = 1"
+        Dim sql As String = "SELECT A.SERIALNO, A.CELLCOUNT, A.CELLCOLOR, A.CUSTOMER, B.CUSDESC, " &
+                            "REPLACE(REPLACE(REPLACE(B.PRODCODE,'[C]',A.CELLCOUNT),'[R]',CASE WHEN A.CELLCOLOR = 'E' AND A.CUSTOMER = 'GEN1' THEN 'M' ELSE A.CELLCOLOR END),'[P]',C.Bin) AS PRODCODE, " &
+                            "C.Bin, D.VOC, D.VMPP, D.ISC, D.IMPP, D.DIMENSION " &
+                            "FROM lbl02 A INNER JOIN cus01 B ON A.CUSTOMER = B.CUSCODE " &
+                            "INNER JOIN ftd_upd C ON A.SERIALNO = C.ModuleID " &
+                            "INNER JOIN fdd01 D ON A.CELLCOUNT = D.CCOUNT AND CASE A.CUSTOMER WHEN 'GEN1' THEN CASE A.CELLCOLOR WHEN 'E' THEN 'M' ELSE A.CELLCOLOR END ELSE A.CELLCOLOR END = D.CTYPE AND C.Bin = D.POWRATE " &
+                            "WHERE A.SERIALNO = " & ENQ(SerialNo) & " AND A.LBLTYPE = 1"
+
         Dim dt As DataTable = ExecQuery("MYSQL", sql)
 
         If dt.Rows.Count > 0 Then
@@ -86,6 +93,8 @@
     End Sub
 
     Private Sub frmOnlineLabel_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        chkPreview.Visible = (ACTIVEUSER.ToUpper.Trim = "SYSADMIN")
+
         For Each printer As String In System.Drawing.Printing.PrinterSettings.InstalledPrinters
             tscboPrinters.Items.Add(printer)
         Next printer
@@ -142,8 +151,11 @@
                     Exit Sub
                 End If
 
-                'PreviewLabel(txtCustomer.Tag.ToString, lbl, CNO)
-                PrintLabels(txtCustomer.Tag.ToString, lbl, CNO)
+                If chkPreview.Checked Then
+                    PreviewLabel(txtCustomer.Tag.ToString, lbl, CNO)
+                Else
+                    PrintLabels(txtCustomer.Tag.ToString, lbl, CNO)
+                End If
             End If
         Else
             ReprintLabel()
@@ -242,8 +254,11 @@
                     Exit Sub
                 End If
 
-            'PreviewLabel(txtCustomer.Tag.ToString, lbl, CNO, True)
-            PrintLabels(txtCustomer.Tag.ToString, lbl, CNO, True)
+            If chkPreview.Checked Then
+                PreviewLabel(txtCustomer.Tag.ToString, lbl, CNO, True)
+            Else
+                PrintLabels(txtCustomer.Tag.ToString, lbl, CNO, True)
+            End If
         End If
     End Sub
 End Class
