@@ -28,6 +28,7 @@ Partial Class frmOnlineLabel
         Me.tscboPrinters = New System.Windows.Forms.ToolStripComboBox()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.chkPreview = New System.Windows.Forms.CheckBox()
         Me.txtSerial = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
@@ -53,7 +54,7 @@ Partial Class frmOnlineLabel
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtSerialNo = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.chkPreview = New System.Windows.Forms.CheckBox()
+        Me.lnkChoose = New System.Windows.Forms.LinkLabel()
         Me.ToolStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -93,15 +94,26 @@ Partial Class frmOnlineLabel
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.lnkChoose)
         Me.GroupBox1.Controls.Add(Me.chkPreview)
         Me.GroupBox1.Controls.Add(Me.txtSerial)
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 42)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(448, 90)
+        Me.GroupBox1.Size = New System.Drawing.Size(448, 107)
         Me.GroupBox1.TabIndex = 3
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Parameter Input"
+        '
+        'chkPreview
+        '
+        Me.chkPreview.AutoSize = True
+        Me.chkPreview.Location = New System.Drawing.Point(145, 56)
+        Me.chkPreview.Name = "chkPreview"
+        Me.chkPreview.Size = New System.Drawing.Size(114, 22)
+        Me.chkPreview.TabIndex = 10
+        Me.chkPreview.Text = "Preview Label"
+        Me.chkPreview.UseVisualStyleBackColor = True
         '
         'txtSerial
         '
@@ -337,15 +349,16 @@ Partial Class frmOnlineLabel
         Me.Label2.TabIndex = 10
         Me.Label2.Text = "Serial Number"
         '
-        'chkPreview
+        'lnkChoose
         '
-        Me.chkPreview.AutoSize = True
-        Me.chkPreview.Location = New System.Drawing.Point(145, 56)
-        Me.chkPreview.Name = "chkPreview"
-        Me.chkPreview.Size = New System.Drawing.Size(114, 22)
-        Me.chkPreview.TabIndex = 10
-        Me.chkPreview.Text = "Preview Label"
-        Me.chkPreview.UseVisualStyleBackColor = True
+        Me.lnkChoose.Location = New System.Drawing.Point(265, 51)
+        Me.lnkChoose.Name = "lnkChoose"
+        Me.lnkChoose.Size = New System.Drawing.Size(153, 51)
+        Me.lnkChoose.TabIndex = 11
+        Me.lnkChoose.TabStop = True
+        Me.lnkChoose.Text = "Choose a diffent template on next print"
+        Me.lnkChoose.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.lnkChoose.Visible = False
         '
         'frmOnlineLabel
         '
@@ -403,4 +416,5 @@ Partial Class frmOnlineLabel
     Friend WithEvents txtDimension As TextBox
     Friend WithEvents Label12 As Label
     Friend WithEvents chkPreview As CheckBox
+    Friend WithEvents lnkChoose As LinkLabel
 End Class

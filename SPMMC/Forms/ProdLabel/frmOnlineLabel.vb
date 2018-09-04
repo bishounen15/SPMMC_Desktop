@@ -11,6 +11,8 @@
     Dim defprint As String = String.Empty
 
     Dim init As Boolean = True
+    Dim template As String = String.Empty
+    Dim remember As Boolean = False
 
     Public Shared Function DefaultPrinterName() As String
         Dim oPS As New System.Drawing.Printing.PrinterSettings
@@ -43,13 +45,23 @@
 
     Private Sub txtSerial_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtSerial.KeyPress
         If Asc(e.KeyChar) = 13 Then
-            GetInfo(sender.Text)
-            ToolStripButton1.PerformClick()
+            If GetInfo(sender.Text) Then
+                ToolStripButton1.PerformClick()
+            End If
             sender.Clear()
         End If
     End Sub
 
-    Sub GetInfo(ByVal SerialNo As String)
+    Function GetModelName(ByVal TemplateCode As String, ByVal Customer As String) As String
+        Dim dt As DataTable = ExecQuery("MYSQL", "SELECT MODELNAME FROM lbt00 WHERE CUSTOMER = " & ENQ(Customer) & " AND TMPCODE = " & ENQ(TemplateCode))
+        If dt.Rows.Count > 0 Then
+            Return dt.Rows(0)(0).ToString.Trim
+        Else
+            Return String.Empty
+        End If
+    End Function
+
+    Function GetInfo(ByVal SerialNo As String) As Boolean
         Dim sql As String = "SELECT A.SERIALNO, A.CELLCOUNT, A.CELLCOLOR, A.CUSTOMER, B.CUSDESC, " &
                             "REPLACE(REPLACE(REPLACE(B.PRODCODE,'[C]',A.CELLCOUNT),'[R]',CASE WHEN A.CELLCOLOR = 'E' AND A.CUSTOMER = 'GEN1' THEN 'M' ELSE A.CELLCOLOR END),'[P]',C.Bin) AS PRODCODE, " &
                             "C.Bin, D.VOC, D.VMPP, D.ISC, D.IMPP, D.DIMENSION " &
@@ -61,12 +73,44 @@
         Dim dt As DataTable = ExecQuery("MYSQL", sql)
 
         If dt.Rows.Count > 0 Then
+            Dim existing As Boolean = DataCheck("SELECT TMPCODE FROM lbt00 WHERE CUSTOMER = " & ENQ(dt.Rows(0)("CUSTOMER").ToString))
+            Dim ModelName As String = String.Empty
+
+            If existing And remember = False Then
+                Dim f As New frmSelectTemplate
+
+                With f
+                    .customer = dt.Rows(0)("CUSTOMER").ToString
+                    If .ShowDialog() = DialogResult.OK Then
+                        remember = .chkRemember.Checked
+                        lnkChoose.Visible = remember
+                        template = .cboTemplate.Text
+                        ModelName = GetModelName(template, dt.Rows(0)("CUSTOMER").ToString)
+
+                        Dim cell_type As String = String.Empty
+                        If dt.Rows(0)("CUSTOMER").ToString = "GEN1" And dt.Rows(0)("CELLCOLOR").ToString = "E" Then
+                            cell_type = "M"
+                        Else
+                            cell_type = dt.Rows(0)("CELLCOLOR").ToString
+                        End If
+
+                        ModelName = ModelName.Replace("[R]", cell_type.Trim).Replace("[C]", dt.Rows(0)("CELLCOUNT")).Replace("[P]", dt.Rows(0)("Bin"))
+                    Else
+                        template = String.Empty
+                        Return False
+                        Exit Function
+                    End If
+                End With
+            Else
+                ModelName = dt.Rows(0)("PRODCODE").ToString
+            End If
+
             txtSerialNo.Text = SerialNo
             txtCount.Text = dt.Rows(0)("CELLCOUNT").ToString
             txtType.Text = dt.Rows(0)("CELLCOLOR").ToString
             txtCustomer.Tag = dt.Rows(0)("CUSTOMER").ToString
             txtCustomer.Text = dt.Rows(0)("CUSDESC").ToString
-            txtModel.Text = dt.Rows(0)("PRODCODE").ToString
+            txtModel.Text = ModelName
             txtPower.Text = FormatNumber(dt.Rows(0)("Bin"), 0)
             txtVmpp.Text = FormatNumber(dt.Rows(0)("VMPP"), 1)
             txtImpp.Text = FormatNumber(dt.Rows(0)("IMPP"), 1)
@@ -76,7 +120,9 @@
         Else
             ClearDetails()
         End If
-    End Sub
+
+        Return True
+    End Function
 
     Sub ClearDetails()
         txtSerialNo.Clear()
@@ -168,7 +214,7 @@
 
         btApp.VisibleWindows = BarTender.BtVisibleWindows.btInteractiveDialogs
         btFormat = New BarTender.Format
-        btFormat = btApp.Formats.Open(Application.StartupPath & "\Label Templates\" & Customer & "\" & If(Reprint, "Re", "") & LabelType & ".btw", False, "")
+        btFormat = btApp.Formats.Open(Application.StartupPath & "\Label Templates\" & Customer & "\" & If(Reprint, "Re", "") & LabelType & If(template = String.Empty, "", "-" & template.Trim) & ".btw", False, "")
         btFormat.PrintSetup.Printer = tscboPrinters.Text
         btFormat.Databases.QueryPrompts.GetQueryPrompt("ControlNo").Value = ControlNo
         Dim bd As DialogResult = btFormat.PrintPreview.ShowDialog()
@@ -260,5 +306,10 @@
                 PrintLabels(txtCustomer.Tag.ToString, lbl, CNO, True)
             End If
         End If
+    End Sub
+
+    Private Sub lnkChoose_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles lnkChoose.LinkClicked
+        remember = False
+        sender.visible = False
     End Sub
 End Class
