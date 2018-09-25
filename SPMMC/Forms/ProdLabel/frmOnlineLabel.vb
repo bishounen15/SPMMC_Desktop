@@ -189,7 +189,7 @@
                 Dim currentSerial As String = String.Empty
 
                 currentSerial = txtSerialNo.Text
-                sql = "INSERT INTO lbl02 (LBLCNO,SERIALNO,LBLTYPE,CELLCOUNT,CELLCOLOR,CUSTOMER,PRODLINE,ORDERNO,COLOR) VALUES (" & ENQ(CNO) & "," & ENQ(currentSerial) & "," & label_type & "," & ENQ(txtCount.Text) & "," & ENQ(txtType.Text) & "," & ENQ(txtCustomer.Tag.ToString) & "," & ENQ(prod_line) & ",'','')"
+                sql = "INSERT INTO lbl02 (LBLCNO,SERIALNO,LBLTYPE,CELLCOUNT,CELLCOLOR,CUSTOMER,PRODLINE,ORDERNO,COLOR,TEMPLATE) VALUES (" & ENQ(CNO) & "," & ENQ(currentSerial) & "," & label_type & "," & ENQ(txtCount.Text) & "," & ENQ(txtType.Text) & "," & ENQ(txtCustomer.Tag.ToString) & "," & ENQ(prod_line) & ",'',''," & ENQ(template) & ")"
                 msg = ExecuteNonQuery("MYSQL", sql)
 
                 If msg <> "Success" Then
@@ -231,7 +231,7 @@
         Dim btFormat As BarTender.Format
 
         btapp = New BarTender.Application
-        btFormat = btapp.Formats.Open(Application.StartupPath & "\Label Templates\" & Customer & "\" & If(Reprint, "Re", "") & LabelType & ".btw", False, "")
+        btFormat = btapp.Formats.Open(Application.StartupPath & "\Label Templates\" & Customer & "\" & If(Reprint, "Re", "") & LabelType & If(template = String.Empty, "", "-" & template.Trim) & ".btw", False, "")
         btFormat.Databases.QueryPrompts.GetQueryPrompt("ControlNo").Value = ControlNo
         btFormat.PrintSetup.Printer = tscboPrinters.Text
 
