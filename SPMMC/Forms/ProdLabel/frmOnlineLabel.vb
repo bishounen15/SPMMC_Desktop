@@ -67,7 +67,7 @@
                             "C.Bin, D.VOC, D.VMPP, D.ISC, D.IMPP, D.DIMENSION " &
                             "FROM lbl02 A INNER JOIN cus01 B ON A.CUSTOMER = B.CUSCODE " &
                             "INNER JOIN ftd_upd C ON A.SERIALNO = C.ModuleID " &
-                            "INNER JOIN fdd01 D ON A.CELLCOUNT = D.CCOUNT AND CASE A.CUSTOMER WHEN 'GEN1' THEN CASE A.CELLCOLOR WHEN 'E' THEN 'M' ELSE A.CELLCOLOR END ELSE A.CELLCOLOR END = D.CTYPE AND C.Bin = D.POWRATE " &
+                            "INNER JOIN fdd01 D ON A.CUSTOMER = D.CUSTOMER AND A.CELLCOUNT = D.CCOUNT AND A.CELLCOLOR = D.CTYPE AND C.Bin = D.POWRATE " &
                             "WHERE A.SERIALNO = " & ENQ(SerialNo) & " AND A.LBLTYPE = 1"
 
         Dim dt As DataTable = ExecQuery("MYSQL", sql)
@@ -157,7 +157,10 @@
 
     Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
         If txtSerialNo.Text = "" Then
-            MsgBox("You have not yet scanned a serial.", vbInformation)
+            MsgBox("Serial Number data was incomplete. Possible reason are as follows:" & Environment.NewLine & Environment.NewLine &
+                   vbTab & "- No Electrical Data in System" & Environment.NewLine &
+                   vbTab & "- Incomplete Serial Information" & Environment.NewLine &
+                   vbTab & "- Serial not yet tested", vbInformation)
             Exit Sub
         End If
 

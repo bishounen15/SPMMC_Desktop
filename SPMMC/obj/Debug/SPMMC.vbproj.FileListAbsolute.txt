@@ -33,3 +33,4 @@ D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmPreview.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmRPRemarks.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmOnlineLabel.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmSelectTemplate.resources
+D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmBusbarExtras.resources

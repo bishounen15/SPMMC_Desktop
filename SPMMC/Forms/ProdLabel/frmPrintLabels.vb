@@ -115,6 +115,18 @@ Public Class frmPrintLabels
             myFormat = myFormat.Replace(myCode, myMonth)
         End If
 
+        myCode = GetCode(myFormat, "D")
+        If myCode <> String.Empty Then
+            Dim myDay As String = Format(Now.Date, "dd")
+            myFormat = myFormat.Replace(myCode, myDay)
+        End If
+
+        myCode = GetCode(myFormat, "C")
+        If myCode <> String.Empty Then
+            Dim cellCount As String = GetCellCount()
+            myFormat = myFormat.Replace(myCode, cellCount)
+        End If
+
         myCode = GetCode(myFormat, "W")
         If myCode <> String.Empty Then
             Dim myWeek As Integer = DatePart(DateInterval.WeekOfYear, Now.Date, FirstDayOfWeek.Monday)
@@ -150,7 +162,7 @@ Public Class frmPrintLabels
         GetEndSerial(numQty)
     End Sub
 
-    Private Function GetLastSerial(ByVal Customer As String, ByVal LabelType As String, ByVal Prefix As Integer, ByVal serialDigit As Integer) As String
+    Private Function GetLastSerial(ByVal Customer As String, ByVal LabelType As String, ByVal Prefix As String, ByVal serialDigit As Integer) As String
         Dim sql As String = "SELECT SUBSTRING(SERIALNO,LENGTH(SERIALNO)-" & serialDigit - 1 & ",LENGTH(SERIALNO)) AS SERIALNO FROM lbl02 WHERE LBLTYPE = " & LabelType & " AND CUSTOMER = " & ENQ(Customer) & " AND SERIALNO LIKE '" & Prefix & "%' ORDER BY SERIALNO DESC LIMIT 1"
         Dim retval As String = String.Empty
 
@@ -275,6 +287,18 @@ Public Class frmPrintLabels
                 pfx = "-"
                 lbl = "-"
         End Select
+
+        'Dim f As New frmBusbarExtras
+        'If pfx = "BUS" Then
+        '    With f
+        '        .cust = cboCust.Text
+        '        If .ShowDialog <> DialogResult.Cancel Then
+
+        '        Else
+        '            Exit Sub
+        '        End If
+        '    End With
+        'End If
 
         Dim sql As String = "SELECT LBLCNO FROM lbl01 WHERE LBLTYPE = " & cboType.SelectedIndex + 1 & " ORDER BY LBLCNO DESC LIMIT 1"
         Dim dt As DataTable = ExecQuery("MYSQL", sql)
