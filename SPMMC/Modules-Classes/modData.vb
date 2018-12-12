@@ -6,7 +6,7 @@ Imports System.Math
 Imports System.Runtime.InteropServices                 ' required imports
 
 Module modData
-    'Dim CnStr As String = GenConn("192.168.128.9", "spmmcadmin", "P@ssw0rd@SQL", "spmmc00")
+    'Dim CnStr As String = GenConn("127.0.0.1", "spmmcadmin", "P@ssw0rd@SQL", "spmmc00")
     Dim CnStr As String = GenConn("192.168.128.7", "spmmc01", "password@01", "spmmc00")
     Public FILE_NAME As String = Application.StartupPath & "\" & Application.ProductName & ".ini"
     Dim fs As FileStream

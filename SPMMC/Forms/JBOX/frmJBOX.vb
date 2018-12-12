@@ -14,8 +14,8 @@ Public Class frmJBOX
 
     Dim srcloc As String
 
-    Private Sub ProcessImage()
-        If Not PictureBox1.Image Is Nothing Then
+    Private Sub ProcessImage(pic As PictureBox)
+        If Not pic.Image Is Nothing Then
             Dim CurrDate As Date = Now
 
             Dim sql As String = "SELECT MESCNO FROM mes01 WHERE MESCNO LIKE '" & Format(CurrDate, "yyyyMM") & "%' ORDER BY MESCNO DESC LIMIT 1"
@@ -46,7 +46,7 @@ Public Class frmJBOX
             If msg = "Success" Then
                 Dim file_sfx As String = "_" & Format(CurrDate, "yyyyMMdd") & "_" & Format(CurrDate, "HHmmss") & "_JBOX"
 
-                PictureBox2.Image = PictureBox1.Image
+                PictureBox2.Image = pic.Image
                 If PictureBox2.Image Is Nothing Then
                     MsgBox("The camera is not running. Please start the camera first.")
                 Else
@@ -65,9 +65,9 @@ Public Class frmJBOX
                 lblSuccess.Text = "JBOX TRANSACTION COMPLETED FOR SERIAL NUMBER " & txtSerial.Text.Trim
                 lblSuccess.Visible = True
 
-                Dim f As New frmPreview
-                f.PictureBox1.Image = PictureBox2.Image
-                f.ShowDialog()
+                'Dim f As New frmPreview
+                'f.PictureBox1.Image = PictureBox2.Image
+                'f.ShowDialog()
 
                 ClearForm(True)
             Else
@@ -133,7 +133,16 @@ Public Class frmJBOX
                         ClearForm(True)
                     Else
                         'btnCapture.PerformClick()
-                        ProcessImage()
+                        Dim f As New frmPreview
+                        With f
+                            .serial = serialno
+                            .PictureBox1.Image = PictureBox1.Image
+                            If .ShowDialog = DialogResult.OK Then
+                                ProcessImage(.PictureBox1)
+                            Else
+                                ClearForm(True)
+                            End If
+                        End With
                     End If
                 End If
             Else
