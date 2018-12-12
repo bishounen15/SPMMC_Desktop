@@ -5,6 +5,7 @@
     Private Sub frmPreview_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'sec = 0
         'Timer1.Enabled = True
+        lblMsg.Text = "RESCAN THE SERIAL NUMBER [" & serial & "] TO CONFIRM IMAGE. PRESS ESC KEY TO CANCEL"
         txtSerial.Focus()
     End Sub
 
@@ -19,7 +20,7 @@
                 Me.Close()
                 Me.DialogResult = DialogResult.OK
             Else
-                lblMsg.Text = "INCORRECT SERIAL NUMBER. PLEASE TRY AGAIN. PRESS ESC KEY TO CANCEL"
+                lblMsg.Text = "SERIAL NUMBER MUST BE [" & serial & "]. PLEASE TRY AGAIN. PRESS ESC KEY TO CANCEL"
                 lblMsg.ForeColor = Color.Red
                 sender.Clear
             End If

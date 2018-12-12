@@ -69,7 +69,7 @@ Partial Class frmPreview
         Me.lblMsg.Name = "lblMsg"
         Me.lblMsg.Size = New System.Drawing.Size(650, 23)
         Me.lblMsg.TabIndex = 7
-        Me.lblMsg.Text = "RESCAN THE SERIAL NUMBER TO CONFIRM IMAGE. PRESS ESC KEY TO CANCEL"
+        Me.lblMsg.Text = "RESCAN THE SERIAL NUMBER [] TO CONFIRM IMAGE. PRESS ESC KEY TO CANCEL"
         Me.lblMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'frmPreview
