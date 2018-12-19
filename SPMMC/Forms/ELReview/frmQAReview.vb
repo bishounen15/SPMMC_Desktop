@@ -5,7 +5,7 @@ Public Class frmQAReview
     Dim EL1_Path As String = "\\192.168.128.8\Engineering\EL_Images\EL1"
     Dim EL2_Path As String = "\\192.168.128.8\Engineering\EL_Images\EL2"
     Dim JBX_Path As String = "\\192.168.128.8\ops-meeting\JBOX Automation"
-    Dim MC_Path As String = "\\192.168.128.42\Results_WholeImages"
+    Dim MC_Path As String = "\\192.168.128.203\Results_WholeImages"
 
     Dim check_init, check_mc As Boolean
 
