@@ -66,6 +66,12 @@ Public Class frmPrintLabels
         For Each folder In d
             cboCust.Items.Add(Mid(folder.ToString, folder.ToString.LastIndexOf("\") + 2, folder.ToString.Length))
         Next
+
+        LoadLists()
+    End Sub
+
+    Private Sub LoadLists()
+        FillComboBox(cboProdLine, "SELECT LINDESC FROM lin01 ORDER BY LINCODE",, "MYSQL")
     End Sub
 
     Private Sub cboType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboType.SelectedIndexChanged
