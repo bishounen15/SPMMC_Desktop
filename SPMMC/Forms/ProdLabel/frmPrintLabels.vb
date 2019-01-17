@@ -68,6 +68,7 @@ Public Class frmPrintLabels
         Next
 
         LoadLists()
+        cboCell.Items.Clear()
     End Sub
 
     Private Sub LoadLists()
@@ -99,6 +100,9 @@ Public Class frmPrintLabels
             serialReset = dt.Rows(0)("SERIALRESET").ToString.Trim
 
             GenerateSerial(mySerial)
+
+            FillComboBox(cboCell, "SELECT CELLTYPE FROM cel00 WHERE CUSTOMER = " & ENQ(sender.Text.ToString) & " ORDER BY CELLTYPE",, "MYSQL")
+            cboCell.Visible = (cboCell.Items.Count > 0)
         End If
         GetMargin(cboCust.Text.ToUpper.Trim, cboType.SelectedIndex + 1, txtTop, txtLeft)
     End Sub
@@ -157,6 +161,13 @@ Public Class frmPrintLabels
             myFormat = myFormat.Replace(myCode, GetCellType)
         End If
 
+        If cboCell.Text <> "" Then
+            myCode = GetCode(myFormat, "T")
+            If myCode <> String.Empty Then
+                myFormat = myFormat.Replace(myCode, cboCell.Text.Trim)
+            End If
+        End If
+
         myCode = GetCode(myFormat, "S")
         If myCode <> String.Empty Then
             Dim Prefix As String = Mid(myFormat, 1, serialReset)
@@ -169,7 +180,7 @@ Public Class frmPrintLabels
     End Sub
 
     Private Function GetLastSerial(ByVal Customer As String, ByVal LabelType As String, ByVal Prefix As String, ByVal serialDigit As Integer) As String
-        Dim sql As String = "SELECT SUBSTRING(SERIALNO,LENGTH(SERIALNO)-" & serialDigit - 1 & ",LENGTH(SERIALNO)) AS SERIALNO FROM lbl02 WHERE LBLTYPE = " & LabelType & " AND CUSTOMER = " & ENQ(Customer) & " AND SERIALNO LIKE '" & Prefix & "%' ORDER BY SERIALNO DESC LIMIT 1"
+        Dim sql As String = "SELECT SUBSTRING(SERIALNO,LENGTH(SERIALNO)-" & serialDigit - 1 & ",LENGTH(SERIALNO)) AS SERIALNO FROM lbl02 WHERE LBLTYPE = " & LabelType & " AND CUSTOMER = " & ENQ(Customer) & " AND SERIALNO LIKE '" & Prefix & "%' " & If(cboCell.Visible, " AND SERIALNO LIKE '%" & cboCell.Text.Trim & "%' ", "") & " ORDER BY SERIALNO DESC LIMIT 1"
         Dim retval As String = String.Empty
 
         Dim dt As DataTable = ExecQuery("MYSQL", sql)
@@ -236,7 +247,7 @@ Public Class frmPrintLabels
     End Sub
 
     Private Sub RadioButton4_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton4.CheckedChanged
-        GenerateSerial(mySerial)
+        If sender.checked Then GenerateSerial(mySerial)
     End Sub
 
     Private Sub numQty_ValueChanged(sender As Object, e As EventArgs) Handles numQty.ValueChanged
@@ -273,6 +284,13 @@ Public Class frmPrintLabels
         If cboProdLine.SelectedIndex < 0 Then
             MsgBox("Please select a Production Line.", MsgBoxStyle.Information)
             Exit Sub
+        End If
+
+        If cboCell.Visible Then
+            If cboCell.SelectedIndex < 0 Then
+                MsgBox("Fill-up all the required fields.", MsgBoxStyle.Information)
+                Exit Sub
+            End If
         End If
 
         GetEndSerial(numQty)
@@ -332,7 +350,7 @@ Public Class frmPrintLabels
 
                 For i As Integer = Val(startSerial) To Val(endSerial)
                     currentSerial = serialprefix & Space((myCode.Length - 2) - CStr(i).Trim.Length).Replace(" ", "0") & i
-                    sql = "INSERT INTO lbl02 (LBLCNO,SERIALNO,LBLTYPE,CELLCOUNT,CELLCOLOR,CUSTOMER,PRODLINE,ORDERNO,COLOR) VALUES (" & ENQ(CNO) & "," & ENQ(currentSerial) & "," & cboType.SelectedIndex + 1 & "," & ENQ(GetCellCount) & "," & ENQ(GetCellType) & "," & ENQ(cboCust.Text.ToUpper) & "," & ENQ(cboProdLine.SelectedIndex + 1) & ",'','')"
+                    sql = "INSERT INTO lbl02 (LBLCNO,SERIALNO,LBLTYPE,CELLCOUNT,CELLCOLOR,CUSTOMER,PRODLINE,ORDERNO,COLOR" & If(cboCell.Visible, ",CTYPE", "") & ") VALUES (" & ENQ(CNO) & "," & ENQ(currentSerial) & "," & cboType.SelectedIndex + 1 & "," & ENQ(GetCellCount) & "," & ENQ(GetCellType) & "," & ENQ(cboCust.Text.ToUpper) & "," & ENQ(cboProdLine.SelectedIndex + 1) & ",'',''" & If(cboCell.Visible, "," & ENQ(cboCell.Text), "") & ")"
                     msg = ExecuteNonQuery("MYSQL", sql)
 
                     If msg <> "Success" Then
@@ -410,5 +428,17 @@ Public Class frmPrintLabels
         If Not defprint = String.Empty Then
             SetDefaultPrinter(defprint.Trim, "", "")
         End If
+    End Sub
+
+    Private Sub cboCell_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboCell.SelectedIndexChanged
+        GenerateSerial(mySerial)
+    End Sub
+
+    Private Sub RadioButton3_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton3.CheckedChanged
+        If sender.checked Then GenerateSerial(mySerial)
+    End Sub
+
+    Private Sub RadioButton5_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton5.CheckedChanged
+        If sender.checked Then GenerateSerial(mySerial)
     End Sub
 End Class

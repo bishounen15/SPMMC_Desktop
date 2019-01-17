@@ -55,10 +55,11 @@ Partial Class frmPrintLabels
         Me.txtSerialStart = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.txtTop = New System.Windows.Forms.TextBox()
         Me.txtLeft = New System.Windows.Forms.TextBox()
+        Me.txtTop = New System.Windows.Forms.TextBox()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.cboCell = New System.Windows.Forms.ComboBox()
         Me.GroupBox1.SuspendLayout()
         Me.pnlCellType.SuspendLayout()
         Me.pnlCellCount.SuspendLayout()
@@ -72,6 +73,7 @@ Partial Class frmPrintLabels
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.cboCell)
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Label4)
@@ -386,23 +388,14 @@ Partial Class frmPrintLabels
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Adjust Margins"
         '
-        'Label9
+        'txtLeft
         '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(20, 28)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(30, 18)
-        Me.Label9.TabIndex = 16
-        Me.Label9.Text = "Top"
-        '
-        'Label11
-        '
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(20, 60)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(31, 18)
-        Me.Label11.TabIndex = 17
-        Me.Label11.Text = "Left"
+        Me.txtLeft.Location = New System.Drawing.Point(147, 57)
+        Me.txtLeft.Name = "txtLeft"
+        Me.txtLeft.Size = New System.Drawing.Size(100, 26)
+        Me.txtLeft.TabIndex = 19
+        Me.txtLeft.Tag = "2"
+        Me.txtLeft.Text = "0.00"
         '
         'txtTop
         '
@@ -413,14 +406,33 @@ Partial Class frmPrintLabels
         Me.txtTop.Tag = "2"
         Me.txtTop.Text = "0.00"
         '
-        'txtLeft
+        'Label11
         '
-        Me.txtLeft.Location = New System.Drawing.Point(147, 57)
-        Me.txtLeft.Name = "txtLeft"
-        Me.txtLeft.Size = New System.Drawing.Size(100, 26)
-        Me.txtLeft.TabIndex = 19
-        Me.txtLeft.Tag = "2"
-        Me.txtLeft.Text = "0.00"
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(20, 60)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(31, 18)
+        Me.Label11.TabIndex = 17
+        Me.Label11.Text = "Left"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(20, 28)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(30, 18)
+        Me.Label9.TabIndex = 16
+        Me.Label9.Text = "Top"
+        '
+        'cboCell
+        '
+        Me.cboCell.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboCell.FormattingEnabled = True
+        Me.cboCell.Location = New System.Drawing.Point(370, 70)
+        Me.cboCell.Name = "cboCell"
+        Me.cboCell.Size = New System.Drawing.Size(62, 26)
+        Me.cboCell.TabIndex = 16
+        Me.cboCell.Visible = False
         '
         'frmPrintLabels
         '
@@ -494,4 +506,5 @@ Partial Class frmPrintLabels
     Friend WithEvents txtTop As TextBox
     Friend WithEvents Label11 As Label
     Friend WithEvents Label9 As Label
+    Friend WithEvents cboCell As ComboBox
 End Class
