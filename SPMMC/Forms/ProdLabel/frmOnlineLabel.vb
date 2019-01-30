@@ -63,7 +63,7 @@
 
     Function GetInfo(ByVal SerialNo As String) As Boolean
         Dim sql As String = "SELECT A.SERIALNO, A.CELLCOUNT, A.CELLCOLOR, A.CUSTOMER, B.CUSDESC, " &
-                            "REPLACE(REPLACE(REPLACE(B.PRODCODE,'[C]',A.CELLCOUNT),'[R]',CASE WHEN A.CELLCOLOR = 'E' AND A.CUSTOMER = 'GEN1' THEN 'M' ELSE A.CELLCOLOR END),'[P]',C.Bin) AS PRODCODE, " &
+                            "REPLACE(REPLACE(REPLACE(REPLACE(B.PRODCODE,'[C]',A.CELLCOUNT),'[R]',CASE WHEN A.CELLCOLOR = 'E' AND A.CUSTOMER = 'GEN1' THEN 'M' ELSE A.CELLCOLOR END),'[P]',C.Bin),'[T]',IFNULL(A.CTYPE,'??')) AS PRODCODE, " &
                             "C.Bin, D.VOC, D.VMPP, D.ISC, D.IMPP, D.DIMENSION " &
                             "FROM lbl02 A INNER JOIN cus01 B ON A.CUSTOMER = B.CUSCODE " &
                             "INNER JOIN ftd_upd C ON A.SERIALNO = C.ModuleID " &

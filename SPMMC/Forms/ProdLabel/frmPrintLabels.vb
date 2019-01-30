@@ -164,7 +164,16 @@ Public Class frmPrintLabels
         If cboCell.Text <> "" Then
             myCode = GetCode(myFormat, "T")
             If myCode <> String.Empty Then
-                myFormat = myFormat.Replace(myCode, cboCell.Text.Trim)
+                Dim sText As String = String.Empty
+
+                If cboCell.Text Like "*-*" Then
+                    Dim s() As String = cboCell.Text.Trim.Split("-")
+                    sText = s(0)
+                Else
+                    sText = cboCell.Text.Trim
+                End If
+
+                myFormat = myFormat.Replace(myCode, sText)
             End If
         End If
 
@@ -180,7 +189,20 @@ Public Class frmPrintLabels
     End Sub
 
     Private Function GetLastSerial(ByVal Customer As String, ByVal LabelType As String, ByVal Prefix As String, ByVal serialDigit As Integer) As String
-        Dim sql As String = "SELECT SUBSTRING(SERIALNO,LENGTH(SERIALNO)-" & serialDigit - 1 & ",LENGTH(SERIALNO)) AS SERIALNO FROM lbl02 WHERE LBLTYPE = " & LabelType & " AND CUSTOMER = " & ENQ(Customer) & " AND SERIALNO LIKE '" & Prefix & "%' " & If(cboCell.Visible, " AND SERIALNO LIKE '%" & cboCell.Text.Trim & "%' ", "") & " ORDER BY SERIALNO DESC LIMIT 1"
+        Dim sText As String = String.Empty
+
+        If cboCell.Text Like "*-*" Then
+            Dim s() As String = cboCell.Text.Trim.Split("-")
+            sText = s(0)
+        Else
+            sText = cboCell.Text.Trim
+        End If
+
+        Dim sql As String = "SELECT SUBSTRING(SERIALNO,LENGTH(SERIALNO)-" & serialDigit - 1 & ",LENGTH(SERIALNO)) AS SERIALNO " &
+                            "FROM lbl02 WHERE LBLTYPE = " & LabelType & " AND CUSTOMER = " & ENQ(Customer) & " AND " &
+                            "SERIALNO LIKE '" & Prefix & "%' " & If(cboCell.Visible, " AND SERIALNO LIKE '%" & sText & "%' AND PRODLINE = " & ENQ(cboProdLine.SelectedIndex + 1) & " AND CELLCOLOR = " & ENQ(GetCellType()) & " ", "") &
+                            " ORDER BY SERIALNO DESC LIMIT 1"
+
         Dim retval As String = String.Empty
 
         Dim dt As DataTable = ExecQuery("MYSQL", sql)
