@@ -18,6 +18,8 @@ Public Class frmPrintLabels
     Dim serialReset As Integer
     Dim myProduct As String
 
+    Dim btapp As BarTender.Application
+
     Public Shared Function DefaultPrinterName() As String
         Dim oPS As New System.Drawing.Printing.PrinterSettings
 
@@ -48,6 +50,8 @@ Public Class frmPrintLabels
     End Sub
 
     Private Sub frmPrintLabels_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        btapp = New BarTender.Application
+
         pnlProdType.Top = pnlSerial.Top
         pnlProdType.Visible = False
 
@@ -69,10 +73,17 @@ Public Class frmPrintLabels
 
         LoadLists()
         cboCell.Items.Clear()
+        ProductionDate()
+    End Sub
+
+    Private Sub ProductionDate()
+        txtProdDate.Text = Format(DateAdd(DateInterval.Day, If(Format(Now, "HH:mm") < "06:00", -1, 0), Now.Date), "yyyy-MM-dd")
     End Sub
 
     Private Sub LoadLists()
         FillComboBox(cboProdLine, "SELECT LINDESC FROM lin01 ORDER BY LINCODE",, "MYSQL")
+        FillComboBox(cboModel, "SELECT PRODTYPE FROM typ00 WHERE ACTIVE = 1 ORDER BY PRODTYPE",, "MYSQL")
+        If cboModel.Items.Count = 1 Then cboModel.SelectedIndex = 0
     End Sub
 
     Private Sub cboType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboType.SelectedIndexChanged
@@ -94,7 +105,7 @@ Public Class frmPrintLabels
         numQty.Value = 1
 
         If dt.Rows.Count > 0 Then
-            mySerial = dt.Rows(0)("SERIALFORMAT").ToString.Trim
+            'mySerial = dt.Rows(0)("SERIALFORMAT").ToString.Trim
             myProduct = dt.Rows(0)("PRODCODE").ToString.Trim
             serialStart = dt.Rows(0)("SERIALSTART").ToString.Trim
             serialReset = dt.Rows(0)("SERIALRESET").ToString.Trim
@@ -112,22 +123,23 @@ Public Class frmPrintLabels
         Dim retval As String = String.Empty
 
         Dim myFormat As String = SerialFormat
+        Dim ProdDate As Date = Date.ParseExact(txtProdDate.Text.Trim, "yyyy-MM-dd", System.Globalization.DateTimeFormatInfo.InvariantInfo)
 
         Dim myCode As String = GetCode(myFormat, "Y")
         If myCode <> String.Empty Then
-            Dim myYear As String = Format(Now.Date, Mid(myCode, 2, myCode.Length - 2).ToLower)
+            Dim myYear As String = Format(ProdDate, Mid(myCode, 2, myCode.Length - 2).ToLower)
             myFormat = myFormat.Replace(myCode, myYear)
         End If
 
         myCode = GetCode(myFormat, "M")
         If myCode <> String.Empty Then
-            Dim myMonth As String = Format(Now.Date, Mid(myCode, 2, myCode.Length - 2))
+            Dim myMonth As String = Format(ProdDate, Mid(myCode, 2, myCode.Length - 2))
             myFormat = myFormat.Replace(myCode, myMonth)
         End If
 
         myCode = GetCode(myFormat, "D")
         If myCode <> String.Empty Then
-            Dim myDay As String = Format(Now.Date, "dd")
+            Dim myDay As String = Format(ProdDate, "dd")
             myFormat = myFormat.Replace(myCode, myDay)
         End If
 
@@ -139,7 +151,7 @@ Public Class frmPrintLabels
 
         myCode = GetCode(myFormat, "W")
         If myCode <> String.Empty Then
-            Dim myWeek As Integer = DatePart(DateInterval.WeekOfYear, Now.Date, FirstDayOfWeek.Monday)
+            Dim myWeek As Integer = DatePart(DateInterval.WeekOfYear, ProdDate, FirstDayOfWeek.Monday)
             Dim myWk As String = String.Empty
 
             If myWeek < 10 Then
@@ -245,6 +257,17 @@ Public Class frmPrintLabels
         Return retval
     End Function
 
+    Private Sub SetCellCount(ByVal CellCount As String)
+        For Each c As Object In pnlCellCount.Controls
+            If TypeOf c Is RadioButton Then
+                If Mid(c.Text, 1, 2) = CellCount Then
+                    c.checked = True
+                    Exit For
+                End If
+            End If
+        Next
+    End Sub
+
     Private Function GetCellType() As String
         Dim retval As String = String.Empty
 
@@ -260,8 +283,19 @@ Public Class frmPrintLabels
         Return retval
     End Function
 
+    Private Sub SetCellType(ByVal CellType As String)
+        For Each c As Object In pnlCellType.Controls
+            If TypeOf c Is RadioButton Then
+                If CellType = c.Tag.ToString Then
+                    c.checked = True
+                    Exit For
+                End If
+            End If
+        Next
+    End Sub
+
     Private Sub cboProdLine_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboProdLine.SelectedIndexChanged
-        GenerateSerial(mySerial)
+        If Not mySerial Is Nothing Then GenerateSerial(mySerial)
     End Sub
 
     Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
@@ -295,6 +329,11 @@ Public Class frmPrintLabels
     Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
         If cboType.SelectedIndex < 0 Then
             MsgBox("Please select a Label Type.", MsgBoxStyle.Information)
+            Exit Sub
+        End If
+
+        If cboModel.SelectedIndex < 0 Then
+            MsgBox("Please select a Model.", MsgBoxStyle.Information)
             Exit Sub
         End If
 
@@ -372,7 +411,10 @@ Public Class frmPrintLabels
 
                 For i As Integer = Val(startSerial) To Val(endSerial)
                     currentSerial = serialprefix & Space((myCode.Length - 2) - CStr(i).Trim.Length).Replace(" ", "0") & i
-                    sql = "INSERT INTO lbl02 (LBLCNO,SERIALNO,LBLTYPE,CELLCOUNT,CELLCOLOR,CUSTOMER,PRODLINE,ORDERNO,COLOR" & If(cboCell.Visible, ",CTYPE", "") & ") VALUES (" & ENQ(CNO) & "," & ENQ(currentSerial) & "," & cboType.SelectedIndex + 1 & "," & ENQ(GetCellCount) & "," & ENQ(GetCellType) & "," & ENQ(cboCust.Text.ToUpper) & "," & ENQ(cboProdLine.SelectedIndex + 1) & ",'',''" & If(cboCell.Visible, "," & ENQ(cboCell.Text), "") & ")"
+                    sql = "INSERT INTO lbl02 (LBLCNO,SERIALNO,LBLTYPE,CELLCOUNT,CELLCOLOR,CUSTOMER,PRODLINE,ORDERNO,COLOR,PRODTYPE" & If(cboCell.Visible, ",CTYPE", "") & ") VALUES " &
+                          "(" & ENQ(CNO) & "," & ENQ(currentSerial) & "," & cboType.SelectedIndex + 1 & "," & ENQ(GetCellCount) & "," & ENQ(GetCellType) & "," & ENQ(cboCust.Text.ToUpper) &
+                          "," & ENQ(cboProdLine.SelectedIndex + 1) & ",'',''," & ENQ(cboModel.Text) & If(cboCell.Visible, "," & ENQ(cboCell.Text), "") & ")"
+
                     msg = ExecuteNonQuery("MYSQL", sql)
 
                     If msg <> "Success" Then
@@ -392,10 +434,9 @@ Public Class frmPrintLabels
     End Sub
 
     Private Sub PreviewLabel(ByVal Customer As String, ByVal LabelType As String, ByVal ControlNo As String)
-        Dim btApp As New BarTender.Application
         Dim btFormat As BarTender.Format
 
-        btApp.VisibleWindows = BarTender.BtVisibleWindows.btInteractiveDialogs
+        btapp.VisibleWindows = BarTender.BtVisibleWindows.btInteractiveDialogs
         btFormat = New BarTender.Format
         btFormat = btApp.Formats.Open(Application.StartupPath & "\Label Templates\" & Customer & "\" & LabelType & ".btw", False, "")
         btFormat.PrintSetup.Printer = tscboPrinters.Text
@@ -408,14 +449,12 @@ Public Class frmPrintLabels
             CancelPrint(ControlNo)
         End If
 
-        btApp.Quit(BarTender.BtSaveOptions.btDoNotSaveChanges)
+        btFormat.Close(BarTender.BtSaveOptions.btDoNotSaveChanges)
     End Sub
 
     Private Sub PrintLabels(ByVal Customer As String, ByVal LabelType As String, ByVal ControlNo As String)
-        Dim btapp As BarTender.Application
         Dim btFormat As BarTender.Format
 
-        btapp = New BarTender.Application
         btFormat = btapp.Formats.Open(Application.StartupPath & "\Label Templates\" & Customer & "\" & LabelType & ".btw", False, "")
         btFormat.Databases.QueryPrompts.GetQueryPrompt("ControlNo").Value = ControlNo
         btFormat.PrintSetup.Printer = tscboPrinters.Text
@@ -423,7 +462,8 @@ Public Class frmPrintLabels
         btFormat.PageSetup.MarginLeft = txtLeft.Text
 
         btFormat.PrintOut()
-        btapp.Quit(BarTender.BtSaveOptions.btDoNotSaveChanges)
+
+        btFormat.Close(BarTender.BtSaveOptions.btDoNotSaveChanges)
     End Sub
 
     Private Sub CancelPrint(ByVal ControlNo As String)
@@ -462,5 +502,23 @@ Public Class frmPrintLabels
 
     Private Sub RadioButton5_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton5.CheckedChanged
         If sender.checked Then GenerateSerial(mySerial)
+    End Sub
+
+    Private Sub cboModel_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboModel.SelectedIndexChanged
+        Dim sql As String = "SELECT * FROM typ00 WHERE PRODTYPE = " & ENQ(sender.Text.Trim)
+        Dim dt As DataTable = ExecQuery("MYSQL", sql)
+
+        If dt.Rows.Count > 0 Then
+            Dim model As DataRow = dt.Rows(0)
+            mySerial = model("SERIALFORMAT").ToString.Trim
+            cboCust.Text = model("CUSTOMER")
+            If cboCell.Visible Then cboCell.Text = model("CTYPE")
+            SetCellCount(model("CELLCOUNT"))
+            SetCellType(model("CELLCOLOR"))
+        End If
+    End Sub
+
+    Private Sub frmPrintLabels_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        btapp.Quit(BarTender.BtSaveOptions.btDoNotSaveChanges)
     End Sub
 End Class

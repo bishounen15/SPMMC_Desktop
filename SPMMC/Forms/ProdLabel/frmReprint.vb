@@ -1,7 +1,11 @@
 ﻿Imports System.IO
 
 Public Class frmReprint
+    Dim btapp As BarTender.Application
+
     Private Sub frmReprint_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        btapp = New BarTender.Application
+
         InitNumText(txtTop)
         InitNumText(txtLeft)
 
@@ -86,10 +90,9 @@ Public Class frmReprint
     End Sub
 
     Private Sub PreviewLabel(ByVal Customer As String, ByVal LabelType As String, ByVal ControlNo As String)
-        Dim btApp As New BarTender.Application
         Dim btFormat As BarTender.Format
 
-        btApp.VisibleWindows = BarTender.BtVisibleWindows.btInteractiveDialogs
+        btapp.VisibleWindows = BarTender.BtVisibleWindows.btInteractiveDialogs
         btFormat = New BarTender.Format
         btFormat = btApp.Formats.Open(Application.StartupPath & "\Label Templates\" & Customer & "\Re" & LabelType & ".btw", False, "")
         btFormat.PrintSetup.Printer = tscboPrinters.Text
@@ -102,14 +105,12 @@ Public Class frmReprint
             CancelPrint(ControlNo)
         End If
 
-        btApp.Quit(BarTender.BtSaveOptions.btDoNotSaveChanges)
+        btFormat.Close(BarTender.BtSaveOptions.btDoNotSaveChanges)
     End Sub
 
     Private Sub PrintLabels(ByVal Customer As String, ByVal LabelType As String, ByVal ControlNo As String)
-        Dim btapp As BarTender.Application
         Dim btFormat As BarTender.Format
 
-        btapp = New BarTender.Application
         btFormat = btapp.Formats.Open(Application.StartupPath & "\Label Templates\" & Customer & "\Re" & LabelType & ".btw", False, "")
         btFormat.Databases.QueryPrompts.GetQueryPrompt("ControlNo").Value = ControlNo
         btFormat.PrintSetup.Printer = tscboPrinters.Text
@@ -117,7 +118,7 @@ Public Class frmReprint
         btFormat.PageSetup.MarginLeft = txtLeft.Text
 
         btFormat.PrintOut()
-        btapp.Quit(BarTender.BtSaveOptions.btDoNotSaveChanges)
+        btFormat.Close(BarTender.BtSaveOptions.btDoNotSaveChanges)
     End Sub
 
     Private Sub CancelPrint(ByVal ControlNo As String)
@@ -224,5 +225,9 @@ Public Class frmReprint
             LoadTrans()
         End If
         GetMargin(cboCust.Text.ToUpper.Trim, cboType.SelectedIndex + 1, txtTop, txtLeft)
+    End Sub
+
+    Private Sub frmReprint_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        btapp.Quit(BarTender.BtSaveOptions.btDoNotSaveChanges)
     End Sub
 End Class

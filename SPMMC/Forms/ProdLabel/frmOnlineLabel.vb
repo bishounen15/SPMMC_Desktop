@@ -14,6 +14,8 @@
     Dim template As String = String.Empty
     Dim remember As Boolean = False
 
+    Dim btapp As BarTender.Application
+
     Public Shared Function DefaultPrinterName() As String
         Dim oPS As New System.Drawing.Printing.PrinterSettings
 
@@ -139,6 +141,7 @@
     End Sub
 
     Private Sub frmOnlineLabel_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        btapp = New BarTender.Application
         chkPreview.Visible = (ACTIVEUSER.ToUpper.Trim = "SYSADMIN")
 
         For Each printer As String In System.Drawing.Printing.PrinterSettings.InstalledPrinters
@@ -212,34 +215,31 @@
     End Sub
 
     Private Sub PreviewLabel(ByVal Customer As String, ByVal LabelType As String, ByVal ControlNo As String, Optional Reprint As Boolean = False)
-        Dim btApp As New BarTender.Application
         Dim btFormat As BarTender.Format
 
-        btApp.VisibleWindows = BarTender.BtVisibleWindows.btInteractiveDialogs
         btFormat = New BarTender.Format
         btFormat = btApp.Formats.Open(Application.StartupPath & "\Label Templates\" & Customer & "\" & If(Reprint, "Re", "") & LabelType & If(template = String.Empty, "", "-" & template.Trim) & ".btw", False, "")
         btFormat.PrintSetup.Printer = tscboPrinters.Text
         btFormat.Databases.QueryPrompts.GetQueryPrompt("ControlNo").Value = ControlNo
+        btapp.VisibleWindows = BarTender.BtVisibleWindows.btInteractiveDialogs
         Dim bd As DialogResult = btFormat.PrintPreview.ShowDialog()
 
         If bd = 2 Then
             CancelPrint(ControlNo, Reprint)
         End If
 
-        btApp.Quit(BarTender.BtSaveOptions.btDoNotSaveChanges)
+        btFormat.Close(BarTender.BtSaveOptions.btDoNotSaveChanges)
     End Sub
 
     Private Sub PrintLabels(ByVal Customer As String, ByVal LabelType As String, ByVal ControlNo As String, Optional Reprint As Boolean = False)
-        Dim btapp As BarTender.Application
         Dim btFormat As BarTender.Format
 
-        btapp = New BarTender.Application
         btFormat = btapp.Formats.Open(Application.StartupPath & "\Label Templates\" & Customer & "\" & If(Reprint, "Re", "") & LabelType & If(template = String.Empty, "", "-" & template.Trim) & ".btw", False, "")
         btFormat.Databases.QueryPrompts.GetQueryPrompt("ControlNo").Value = ControlNo
         btFormat.PrintSetup.Printer = tscboPrinters.Text
 
         btFormat.PrintOut()
-        btapp.Quit(BarTender.BtSaveOptions.btDoNotSaveChanges)
+        btFormat.Close(BarTender.BtSaveOptions.btDoNotSaveChanges)
     End Sub
 
     Private Sub CancelPrint(ByVal ControlNo As String, ByVal Reprint As Boolean)
@@ -314,5 +314,9 @@
     Private Sub lnkChoose_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles lnkChoose.LinkClicked
         remember = False
         sender.visible = False
+    End Sub
+
+    Private Sub frmOnlineLabel_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        btapp.Quit(BarTender.BtSaveOptions.btDoNotSaveChanges)
     End Sub
 End Class
