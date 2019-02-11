@@ -135,6 +135,12 @@
     <Compile Include="Forms\JBOX\frmSelectImage.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\ProdLabel\frmApproval.Designer.vb">
+      <DependentUpon>frmApproval.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProdLabel\frmApproval.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\ProdLabel\frmBusbarExtras.Designer.vb">
       <DependentUpon>frmBusbarExtras.vb</DependentUpon>
     </Compile>
@@ -224,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\JBOX\frmSelectImage.resx">
       <DependentUpon>frmSelectImage.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProdLabel\frmApproval.resx">
+      <DependentUpon>frmApproval.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ProdLabel\frmBusbarExtras.resx">
       <DependentUpon>frmBusbarExtras.vb</DependentUpon>

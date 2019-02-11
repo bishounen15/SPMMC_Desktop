@@ -53,6 +53,18 @@ Public Class frmReprint
                 End If
             End With
 
+            Dim a As New frmApproval
+            Dim approver As String = String.Empty
+
+            With a
+                a.lblRemarks.Text = remarks
+                If a.ShowDialog = DialogResult.OK Then
+                    approver = a.txtUserID.Text
+                Else
+                    Exit Sub
+                End If
+            End With
+
             Dim sql As String = "SELECT LBLCNO FROM rlb01 WHERE LBLTYPE = " & cboType.SelectedIndex + 1 & " ORDER BY LBLCNO DESC LIMIT 1"
             Dim dt As DataTable = ExecQuery("MYSQL", sql)
             Dim LBLCNO As String = String.Empty
@@ -66,7 +78,7 @@ Public Class frmReprint
             Dim myCNO As Integer = Val(Mid(LBLCNO, 5, 5)) + 1
             Dim CNO As String = pfx & "-" & Space(5 - CStr(myCNO).Length).Replace(" ", "0") & myCNO
 
-            sql = "INSERT INTO rlb01 (LBLCNO,TRXDATE,PRODDATE,UIDTRANS,LBLTYPE,REMARKS) VALUES (" & ENQ(CNO) & ",now(),curdate()," & ENQ(ACTIVEUSER) & "," & cboType.SelectedIndex + 1 & "," & ENQ(remarks) & ")"
+            sql = "INSERT INTO rlb01 (LBLCNO,TRXDATE,PRODDATE,UIDTRANS,LBLTYPE,REMARKS,UIDAPPROVE) VALUES (" & ENQ(CNO) & ",now(),curdate()," & ENQ(ACTIVEUSER) & "," & cboType.SelectedIndex + 1 & "," & ENQ(remarks) & "," & ENQ(approver) & ")"
             Dim msg As String = ExecuteNonQuery("MYSQL", sql)
 
             If msg = "Success" Then
