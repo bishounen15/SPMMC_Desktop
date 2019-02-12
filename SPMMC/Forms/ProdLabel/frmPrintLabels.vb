@@ -71,9 +71,9 @@ Public Class frmPrintLabels
             cboCust.Items.Add(Mid(folder.ToString, folder.ToString.LastIndexOf("\") + 2, folder.ToString.Length))
         Next
 
+        ProductionDate()
         LoadLists()
         cboCell.Items.Clear()
-        ProductionDate()
     End Sub
 
     Private Sub ProductionDate()
@@ -81,8 +81,18 @@ Public Class frmPrintLabels
     End Sub
 
     Private Sub LoadLists()
-        FillComboBox(cboProdLine, "SELECT LINDESC FROM lin01 ORDER BY LINCODE",, "MYSQL")
-        FillComboBox(cboModel, "SELECT PRODTYPE FROM typ00 WHERE ACTIVE = 1 ORDER BY PRODTYPE",, "MYSQL")
+        'FillComboBox(cboProdLine, "SELECT LINDESC FROM lin01 ORDER BY LINCODE",, "MYSQL")
+        'FillComboBox(cboModel, "SELECT PRODTYPE FROM typ00 WHERE ACTIVE = 1 ORDER BY PRODTYPE",, "MYSQL")
+        Dim webClient As New System.Net.WebClient
+        Dim result As String = webClient.DownloadString(apiURL & "prodtypes/" & txtProdDate.Text)
+
+        FillComboBoxFromAPI(cboModel, result, "|")
+
+        result = webClient.DownloadString(apiURL & "prodlines/" & txtProdDate.Text)
+
+        FillComboBoxFromAPI(cboProdLine, result, "|")
+
+        If cboProdLine.Items.Count = 1 Then cboProdLine.SelectedIndex = 0
         If cboModel.Items.Count = 1 Then cboModel.SelectedIndex = 0
     End Sub
 

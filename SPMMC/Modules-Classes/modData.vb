@@ -20,6 +20,8 @@ Module modData
     Public Const dbs As String = "spmmc00"
     Public Const eng As String = "MYSQL"
 
+    Public Const apiURL As String = "http://127.0.0.1:8000/api/"
+
     Public gvServer, gvUserid, gvPassword, gvInitCatalog As String
     Public gvServer2, gvUserid2, gvPassword2, gvInitCatalog2 As String
     Public gvServergp, gvUseridgp, gvPasswordgp, gvInitCataloggp As String
@@ -607,6 +609,21 @@ CheckAgain:
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Public Sub FillComboBoxFromAPI(ByRef oCbo As ComboBox, ByVal myValue As String, ByVal Delimiter As String)
+        Dim models() As String = {""}
+
+        If myValue Like "*" & Delimiter & "*" Then
+            models = myValue.Split(Delimiter)
+        Else
+            models(0) = myValue
+        End If
+
+        oCbo.Items.Clear()
+        For Each model As String In models
+            oCbo.Items.Add(model)
+        Next
     End Sub
 
     Public Sub FillListBox(ByRef oList As ListBox, ByVal SQL As String, Optional ByVal StrConn As String = "")
