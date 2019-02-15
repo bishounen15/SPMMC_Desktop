@@ -20,7 +20,7 @@ Module modData
     Public Const dbs As String = "spmmc00"
     Public Const eng As String = "MYSQL"
 
-    Public Const apiURL As String = "http://127.0.0.1:8000/api/"
+    Public Const apiURL As String = "http://192.168.128.9:9000/api/"
 
     Public gvServer, gvUserid, gvPassword, gvInitCatalog As String
     Public gvServer2, gvUserid2, gvPassword2, gvInitCatalog2 As String
