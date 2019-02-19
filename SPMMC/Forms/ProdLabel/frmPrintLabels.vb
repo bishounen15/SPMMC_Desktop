@@ -84,16 +84,11 @@ Public Class frmPrintLabels
         'FillComboBox(cboProdLine, "SELECT LINDESC FROM lin01 ORDER BY LINCODE",, "MYSQL")
         'FillComboBox(cboModel, "SELECT PRODTYPE FROM typ00 WHERE ACTIVE = 1 ORDER BY PRODTYPE",, "MYSQL")
         Dim webClient As New System.Net.WebClient
-        Dim result As String = webClient.DownloadString(apiURL & "prodtypes/" & txtProdDate.Text)
-
-        FillComboBoxFromAPI(cboModel, result, "|")
-
-        result = webClient.DownloadString(apiURL & "prodlines/" & txtProdDate.Text)
+        Dim result As String = webClient.DownloadString(apiURL & "prodlines/" & txtProdDate.Text)
 
         FillComboBoxFromAPI(cboProdLine, result, "|")
 
         If cboProdLine.Items.Count = 1 Then cboProdLine.SelectedIndex = 0
-        If cboModel.Items.Count = 1 Then cboModel.SelectedIndex = 0
     End Sub
 
     Private Sub cboType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboType.SelectedIndexChanged
@@ -304,7 +299,16 @@ Public Class frmPrintLabels
         Next
     End Sub
 
+    Private Sub LoadProducts(ByVal ProdLine As Integer)
+        Dim webClient As New System.Net.WebClient
+        Dim result As String = webClient.DownloadString(apiURL & "prodtypes/" & txtProdDate.Text & "/" & ProdLine)
+
+        FillComboBoxFromAPI(cboModel, result, "|")
+        If cboModel.Items.Count = 1 Then cboModel.SelectedIndex = 0
+    End Sub
+
     Private Sub cboProdLine_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboProdLine.SelectedIndexChanged
+        LoadProducts(sender.SelectedIndex + 1)
         If Not mySerial Is Nothing Then GenerateSerial(mySerial)
     End Sub
 
