@@ -52,6 +52,8 @@ Public Class frmPrintLabels
     Private Sub frmPrintLabels_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         btapp = New BarTender.Application
 
+        dtProdDate.Visible = (ACTIVEUSER.ToLower = "sysadmin")
+
         pnlProdType.Top = pnlSerial.Top
         pnlProdType.Visible = False
 
@@ -78,6 +80,7 @@ Public Class frmPrintLabels
 
     Private Sub ProductionDate()
         txtProdDate.Text = Format(DateAdd(DateInterval.Day, If(Format(Now, "HH:mm") < "06:00", -1, 0), Now.Date), "yyyy-MM-dd")
+        dtProdDate.Value = txtProdDate.Text
     End Sub
 
     Private Sub LoadLists()
@@ -87,6 +90,7 @@ Public Class frmPrintLabels
         Dim result As String = webClient.DownloadString(apiURL & "prodlines/" & txtProdDate.Text)
 
         FillComboBoxFromAPI(cboProdLine, result, "|")
+        cboModel.Items.Clear()
 
         If cboProdLine.Items.Count = 1 Then cboProdLine.SelectedIndex = 0
     End Sub
@@ -308,7 +312,7 @@ Public Class frmPrintLabels
     End Sub
 
     Private Sub cboProdLine_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboProdLine.SelectedIndexChanged
-        LoadProducts(sender.SelectedIndex + 1)
+        LoadProducts(sender.Text.ToString.Replace("Line ", ""))
         If Not mySerial Is Nothing Then GenerateSerial(mySerial)
     End Sub
 
@@ -534,5 +538,10 @@ Public Class frmPrintLabels
 
     Private Sub frmPrintLabels_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         btapp.Quit(BarTender.BtSaveOptions.btDoNotSaveChanges)
+    End Sub
+
+    Private Sub dtProdDate_ValueChanged(sender As Object, e As EventArgs) Handles dtProdDate.ValueChanged
+        txtProdDate.Text = Format(sender.Value, "yyyy-MM-dd")
+        LoadLists()
     End Sub
 End Class

@@ -24,6 +24,10 @@ Partial Class frmPrintLabels
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrintLabels))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txtProdDate = New System.Windows.Forms.TextBox()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.cboModel = New System.Windows.Forms.ComboBox()
         Me.cboCell = New System.Windows.Forms.ComboBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -60,10 +64,7 @@ Partial Class frmPrintLabels
         Me.txtTop = New System.Windows.Forms.TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
-        Me.Label12 = New System.Windows.Forms.Label()
-        Me.cboModel = New System.Windows.Forms.ComboBox()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.txtProdDate = New System.Windows.Forms.TextBox()
+        Me.dtProdDate = New System.Windows.Forms.DateTimePicker()
         Me.GroupBox1.SuspendLayout()
         Me.pnlCellType.SuspendLayout()
         Me.pnlCellCount.SuspendLayout()
@@ -77,6 +78,7 @@ Partial Class frmPrintLabels
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.dtProdDate)
         Me.GroupBox1.Controls.Add(Me.txtProdDate)
         Me.GroupBox1.Controls.Add(Me.Label13)
         Me.GroupBox1.Controls.Add(Me.Label12)
@@ -100,6 +102,42 @@ Partial Class frmPrintLabels
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Parameter Input"
+        '
+        'txtProdDate
+        '
+        Me.txtProdDate.Location = New System.Drawing.Point(148, 18)
+        Me.txtProdDate.Name = "txtProdDate"
+        Me.txtProdDate.ReadOnly = True
+        Me.txtProdDate.Size = New System.Drawing.Size(216, 26)
+        Me.txtProdDate.TabIndex = 20
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(20, 21)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(107, 18)
+        Me.Label13.TabIndex = 19
+        Me.Label13.Text = "Production Date"
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(20, 117)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(48, 18)
+        Me.Label12.TabIndex = 18
+        Me.Label12.Text = "Model"
+        '
+        'cboModel
+        '
+        Me.cboModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboModel.FormattingEnabled = True
+        Me.cboModel.Items.AddRange(New Object() {"Runergy", "Own-Tongwei"})
+        Me.cboModel.Location = New System.Drawing.Point(148, 114)
+        Me.cboModel.Name = "cboModel"
+        Me.cboModel.Size = New System.Drawing.Size(216, 26)
+        Me.cboModel.TabIndex = 2
         '
         'cboCell
         '
@@ -446,41 +484,12 @@ Partial Class frmPrintLabels
         Me.Label9.TabIndex = 16
         Me.Label9.Text = "Top"
         '
-        'Label12
+        'dtProdDate
         '
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(20, 117)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(48, 18)
-        Me.Label12.TabIndex = 18
-        Me.Label12.Text = "Model"
-        '
-        'cboModel
-        '
-        Me.cboModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboModel.FormattingEnabled = True
-        Me.cboModel.Items.AddRange(New Object() {"Runergy", "Own-Tongwei"})
-        Me.cboModel.Location = New System.Drawing.Point(148, 114)
-        Me.cboModel.Name = "cboModel"
-        Me.cboModel.Size = New System.Drawing.Size(216, 26)
-        Me.cboModel.TabIndex = 2
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(20, 21)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(107, 18)
-        Me.Label13.TabIndex = 19
-        Me.Label13.Text = "Production Date"
-        '
-        'txtProdDate
-        '
-        Me.txtProdDate.Location = New System.Drawing.Point(148, 18)
-        Me.txtProdDate.Name = "txtProdDate"
-        Me.txtProdDate.ReadOnly = True
-        Me.txtProdDate.Size = New System.Drawing.Size(216, 26)
-        Me.txtProdDate.TabIndex = 20
+        Me.dtProdDate.Location = New System.Drawing.Point(148, 18)
+        Me.dtProdDate.Name = "dtProdDate"
+        Me.dtProdDate.Size = New System.Drawing.Size(284, 26)
+        Me.dtProdDate.TabIndex = 21
         '
         'frmPrintLabels
         '
@@ -559,4 +568,5 @@ Partial Class frmPrintLabels
     Friend WithEvents cboModel As ComboBox
     Friend WithEvents Label13 As Label
     Friend WithEvents txtProdDate As TextBox
+    Friend WithEvents dtProdDate As DateTimePicker
 End Class
