@@ -74,6 +74,7 @@ Partial Class frmQAReview
         Me.ToolStripDropDownButton1 = New System.Windows.Forms.ToolStripDropDownButton()
         Me.PassedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FailedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.tcData.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.dgvFTD, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -608,12 +609,26 @@ Partial Class frmQAReview
         Me.FailedToolStripMenuItem.Size = New System.Drawing.Size(126, 38)
         Me.FailedToolStripMenuItem.Text = "Failed"
         '
+        'Button1
+        '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button1.Image = CType(resources.GetObject("Button1.Image"), System.Drawing.Image)
+        Me.Button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Button1.Location = New System.Drawing.Point(687, 72)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(136, 40)
+        Me.Button1.TabIndex = 7
+        Me.Button1.Text = "Setup EL Path"
+        Me.Button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'frmQAReview
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(839, 383)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.lblStatus)
         Me.Controls.Add(Me.ProgressBar1)
@@ -693,4 +708,5 @@ Partial Class frmQAReview
     Friend WithEvents ColumnHeader2 As ColumnHeader
     Friend WithEvents RadioButton1 As RadioButton
     Friend WithEvents rbEL2 As RadioButton
+    Friend WithEvents Button1 As Button
 End Class

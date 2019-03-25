@@ -1,7 +1,21 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" UseMySettingsClassName="true">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="el1_path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\192.168.128.8\Engineering\EL_Images\EL1</Value>
+    </Setting>
+    <Setting Name="el2_path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\192.168.128.8\Engineering\EL_Images\EL2</Value>
+    </Setting>
+    <Setting Name="jbox_path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\192.168.128.8\ops-meeting\JBOX Automation</Value>
+    </Setting>
+    <Setting Name="el2_mc" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\192.168.128.203\Results_WholeImages</Value>
+    </Setting>
+    <Setting Name="dest_path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\192.168.128.8\Shares\Engineering\EL_Images\Line 1\ELREview\EL_review_32319\03232019</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

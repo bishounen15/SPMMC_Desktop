@@ -2,10 +2,10 @@
 Imports System.IO
 
 Public Class frmQAReview
-    Dim EL1_Path As String = "\\192.168.128.8\Engineering\EL_Images\EL1"
-    Dim EL2_Path As String = "\\192.168.128.8\Engineering\EL_Images\EL2"
-    Dim JBX_Path As String = "\\192.168.128.8\ops-meeting\JBOX Automation"
-    Dim MC_Path As String = "\\192.168.128.203\Results_WholeImages"
+    Dim EL1_Path As String = My.Settings.el1_path
+    Dim EL2_Path As String = My.Settings.el2_path
+    Dim JBX_Path As String = My.Settings.jbox_path
+    Dim MC_Path As String = My.Settings.el2_mc
 
     Dim check_init, check_mc As Boolean
 
@@ -144,7 +144,7 @@ CheckPallet:
                 If strEL1(1).Trim <> String.Empty Then EL1_Count += 1
 
                 strEL2(0) = dr("SERIALNO").ToString
-                strEL2(1) = ScanDirectoriesEL2(EL2_Path & QDir & "\" & Format(dr("InspectionTime"), "yyMMdd"), dr("SERIALNO").ToString)
+                strEL2(1) = ScanDirectoriesEL2(EL2_Path & QDir, dr("SERIALNO").ToString, dr("InspectionTime"))
 
                 If strEL2(1).Trim = String.Empty Then
                     If Not check_init Then
@@ -297,7 +297,7 @@ CheckPallet:
         Return retval
     End Function
 
-    Private Function ScanDirectoriesEL2(ByVal RootDir As String, ByVal SerialNo As String) As String
+    Private Function ScanDirectoriesEL2(ByVal RootDir As String, ByVal SerialNo As String, ByVal TestDate As Date) As String
         StatMsg = "Checking " & RootDir & " for " & SerialNo & " EL Images.."
         UpdateStatus()
 
@@ -305,15 +305,27 @@ CheckPallet:
         'For Each Dir As String In Directory.GetDirectories(RootDir)
         Dim Dir As String = RootDir
 
-        If Directory.Exists(Dir) Then
-            Dim FileLocation As DirectoryInfo = New DirectoryInfo(Dir)
-            Dim fi As FileInfo() = FileLocation.GetFiles(SerialNo & "*.jpg")
+        Dim sdate As Date = DateAdd(DateInterval.Day, -10, TestDate)
+        Dim edate As Date = DateAdd(DateInterval.Day, 3, TestDate)
+        Dim mydir As String = String.Empty
 
-            For Each f As FileInfo In fi
-                'File.Copy(Dir & "\" & f.ToString, MyPath & "\" & dr(0).ToString.Trim & ".jpg", True)
-                retval = Dir & "\" & f.ToString
-            Next
-        End If
+        While sdate <= edate
+            mydir = Dir & "\" & Format(edate, "yyMMdd")
+            If Directory.Exists(mydir) Then
+                Dim FileLocation As DirectoryInfo = New DirectoryInfo(mydir)
+                Dim fi As FileInfo() = FileLocation.GetFiles(SerialNo & "*.jpg")
+
+                For Each f As FileInfo In fi
+                    'File.Copy(Dir & "\" & f.ToString, MyPath & "\" & dr(0).ToString.Trim & ".jpg", True)
+                    retval = mydir & "\" & f.ToString
+                    Exit For
+                Next
+
+                If retval <> String.Empty Then Exit While
+            End If
+
+            edate = DateAdd(DateInterval.Day, -1, edate)
+        End While
 
         StatMsg = "Checking " & Dir & " for " & SerialNo & " EL Images.."
 
@@ -379,7 +391,7 @@ CheckPallet:
                 txtPalletNo.Clear()
             Else
                 ToolStrip1.Enabled = True
-                txtPalletNo.Enabled = false
+                txtPalletNo.Enabled = False
             End If
 
             tcData.SelectedIndex = 0
@@ -500,7 +512,7 @@ CheckPallet:
     End Sub
 
     Private Sub CopyImages()
-        Dim DestFolder As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\ELREview"
+        Dim DestFolder As String = My.Settings.dest_path & "\ELREview_" & Format(Now, "yyyyMMdd")
         If Not Directory.Exists(DestFolder) Then Directory.CreateDirectory(DestFolder)
         DestFolder &= "\" & txtPalletNo.Text
         If Not Directory.Exists(DestFolder) Then Directory.CreateDirectory(DestFolder)
@@ -601,7 +613,7 @@ CheckPallet:
                 Else
                     If OverrideStatus Then
                         If Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\ELREview\" & txtPalletNo.Text.Trim) Then
-                            Directory.Delete(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\ELREview\" & txtPalletNo.Text.Trim,true)
+                            Directory.Delete(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\ELREview\" & txtPalletNo.Text.Trim, True)
                         End If
                     End If
                     ClearList()
@@ -620,6 +632,19 @@ CheckPallet:
 
     Private Sub txtPalletNo_LostFocus(sender As Object, e As EventArgs) Handles txtPalletNo.LostFocus
         sender.Focus()
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim f As New frmELPath
+
+        With f
+            If f.ShowDialog = DialogResult.OK Then
+                EL1_Path = My.Settings.el1_path
+                EL2_Path = My.Settings.el2_path
+                JBX_Path = My.Settings.jbox_path
+                MC_Path = My.Settings.el2_mc
+            End If
+        End With
     End Sub
 
     Private Sub btnRemarks1_Click(sender As Object, e As EventArgs) Handles btnRemarks1.Click

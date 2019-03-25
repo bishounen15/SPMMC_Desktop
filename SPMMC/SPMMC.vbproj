@@ -102,6 +102,12 @@
     <Compile Include="Forms\ELReview\frmComments.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\ELReview\frmELPath.Designer.vb">
+      <DependentUpon>frmELPath.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ELReview\frmELPath.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\ELReview\frmQAReview.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -209,6 +215,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ELReview\frmComments.resx">
       <DependentUpon>frmComments.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ELReview\frmELPath.resx">
+      <DependentUpon>frmELPath.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ELReview\frmQAReview.resx">
       <DependentUpon>frmQAReview.vb</DependentUpon>
