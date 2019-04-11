@@ -169,13 +169,13 @@
 
         If Not SerialPrinted(txtSerialNo.Text) Then
             Dim pfx, lbl As String
-            pfx = "PRD"
+            pfx = "PRD" & Format(Now, "yyMM")
             lbl = "Product"
 
             Dim label_type As Integer = 3
             Dim prod_line As Integer = 1
 
-            Dim sql As String = "SELECT LBLCNO FROM lbl01 WHERE LBLTYPE = " & label_type & " ORDER BY LBLCNO DESC LIMIT 1"
+            Dim sql As String = "SELECT LBLCNO FROM lbl01 WHERE LBLTYPE = " & label_type & " AND LBLCNO LIKE '" & pfx & "%' ORDER BY LBLCNO DESC LIMIT 1"
             Dim dt As DataTable = ExecQuery("MYSQL", sql)
             Dim LBLCNO As String = String.Empty
 
@@ -185,7 +185,7 @@
                 LBLCNO = pfx & "-00000"
             End If
 
-            Dim myCNO As Integer = Val(Mid(LBLCNO, 5, 5)) + 1
+            Dim myCNO As Integer = Val(Mid(LBLCNO, 9, 5)) + 1
             Dim CNO As String = pfx & "-" & Space(5 - CStr(myCNO).Length).Replace(" ", "0") & myCNO
 
             sql = "INSERT INTO lbl01 (LBLCNO,TRXDATE,PRODDATE,UIDTRANS,LBLTYPE) VALUES (" & ENQ(CNO) & ",now(),curdate()," & ENQ(ACTIVEUSER) & "," & label_type & ")"
