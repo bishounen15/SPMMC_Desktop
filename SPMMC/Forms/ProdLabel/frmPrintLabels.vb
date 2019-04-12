@@ -73,9 +73,9 @@ Public Class frmPrintLabels
             cboCust.Items.Add(Mid(folder.ToString, folder.ToString.LastIndexOf("\") + 2, folder.ToString.Length))
         Next
 
-        ProductionDate()
-        LoadLists()
         cboCell.Items.Clear()
+        ProductionDate()
+        'LoadLists()
     End Sub
 
     Private Sub ProductionDate()
@@ -530,9 +530,10 @@ Public Class frmPrintLabels
             Dim model As DataRow = dt.Rows(0)
             mySerial = model("SERIALFORMAT").ToString.Trim
             cboCust.Text = model("CUSTOMER")
-            If cboCell.Visible Then cboCell.Text = model("CTYPE")
+            My.Application.DoEvents()
             SetCellCount(model("CELLCOUNT"))
             SetCellType(model("CELLCOLOR"))
+            If cboCell.Visible Then cboCell.Text = model("CTYPE")
         End If
     End Sub
 

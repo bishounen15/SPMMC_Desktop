@@ -24,6 +24,7 @@ Partial Class frmPrintLabels
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrintLabels))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.dtProdDate = New System.Windows.Forms.DateTimePicker()
         Me.txtProdDate = New System.Windows.Forms.TextBox()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
@@ -64,7 +65,6 @@ Partial Class frmPrintLabels
         Me.txtTop = New System.Windows.Forms.TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
-        Me.dtProdDate = New System.Windows.Forms.DateTimePicker()
         Me.GroupBox1.SuspendLayout()
         Me.pnlCellType.SuspendLayout()
         Me.pnlCellCount.SuspendLayout()
@@ -102,6 +102,13 @@ Partial Class frmPrintLabels
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Parameter Input"
+        '
+        'dtProdDate
+        '
+        Me.dtProdDate.Location = New System.Drawing.Point(148, 18)
+        Me.dtProdDate.Name = "dtProdDate"
+        Me.dtProdDate.Size = New System.Drawing.Size(284, 26)
+        Me.dtProdDate.TabIndex = 21
         '
         'txtProdDate
         '
@@ -483,13 +490,6 @@ Partial Class frmPrintLabels
         Me.Label9.Size = New System.Drawing.Size(30, 18)
         Me.Label9.TabIndex = 16
         Me.Label9.Text = "Top"
-        '
-        'dtProdDate
-        '
-        Me.dtProdDate.Location = New System.Drawing.Point(148, 18)
-        Me.dtProdDate.Name = "dtProdDate"
-        Me.dtProdDate.Size = New System.Drawing.Size(284, 26)
-        Me.dtProdDate.TabIndex = 21
         '
         'frmPrintLabels
         '
