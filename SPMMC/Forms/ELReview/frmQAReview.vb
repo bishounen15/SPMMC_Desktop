@@ -119,10 +119,10 @@ CheckPallet:
         ClearLists()
 
         Dim sql As String = "SELECT A.SERIALNO, B.InspectionTime, B.Isc, B.Uoc, B.Impp, B.Umpp, B.Pmpp, B.ShuntResistance, B.FF, B.Bin, " &
-                            "REPLACE(REPLACE(REPLACE(D.PRODCODE,'[P]',B.Bin),'[R]',E.CELLCOLOR),'[C]',E.CELLCOUNT) AS MODELNAME, F.ITMCODE AS PARTNO " &
+                            "REPLACE(REPLACE(REPLACE(REPLACE(D.PRODCODE,'[P]',B.Bin),'[R]',E.CELLCOLOR),'[C]',E.CELLCOUNT),'[T]',E.CTYPE) AS MODELNAME, F.ITMCODE AS PARTNO " &
                             "FROM epl02 A INNER JOIN ftd_upd B ON A.SERIALNO = B.ModuleID INNER JOIN epl01 C ON A.PALLETNO = C.PALLETNO AND A.CARTONNO = C.CARTONNO " &
                             "INNER JOIN cus01 D ON C.CUSTOMER = D.CUSCODE INNER JOIN lbl02 E ON A.SERIALNO = E.SERIALNO AND D.CUSCODE = E.CUSTOMER AND E.LBLTYPE = 1 " &
-                            "INNER JOIN itm01 F ON REPLACE(REPLACE(REPLACE(D.PRODCODE,'[P]',B.Bin),'[R]',E.CELLCOLOR),'[C]',E.CELLCOUNT) = F.ITMDESC " &
+                            "INNER JOIN itm01 F ON REPLACE(REPLACE(REPLACE(REPLACE(D.PRODCODE,'[P]',B.Bin),'[R]',E.CELLCOLOR),'[C]',E.CELLCOUNT),'[T]',E.CTYPE) = F.ITMDESC " &
                             "WHERE A.PALLETNO = " & ENQ(txtPalletNo.Text) & " ORDER BY A.ROWID"
 
         dt = ExecQuery("MYSQL", sql)
