@@ -174,7 +174,7 @@ Public Class frmPrintLabels
 
         myCode = GetCode(myFormat, "L")
         If myCode <> String.Empty Then
-            myFormat = myFormat.Replace(myCode, cboProdLine.SelectedIndex + 1)
+            myFormat = myFormat.Replace(myCode, Replace(cboProdLine.Text, "Line ", ""))
         End If
 
         myCode = GetCode(myFormat, "R")
@@ -221,7 +221,7 @@ Public Class frmPrintLabels
 
         Dim sql As String = "SELECT SUBSTRING(SERIALNO,LENGTH(SERIALNO)-" & serialDigit - 1 & ",LENGTH(SERIALNO)) AS SERIALNO " &
                             "FROM lbl02 WHERE LBLTYPE = " & LabelType & " AND CUSTOMER = " & ENQ(Customer) & " AND " &
-                            "SERIALNO LIKE '" & Prefix & "%' " & If(cboCell.Visible, " AND SERIALNO LIKE '%" & sText & "%' AND PRODLINE = " & ENQ(cboProdLine.SelectedIndex + 1) & " AND CELLCOLOR = " & ENQ(GetCellType()) & " ", "") &
+                            "SERIALNO LIKE '" & Prefix & "%' " & If(cboCell.Visible, " AND SERIALNO LIKE '%" & sText & "%' AND PRODLINE = " & ENQ(Replace(cboProdLine.Text, "Line ", "")) & " AND CELLCOLOR = " & ENQ(GetCellType()) & " ", "") &
                             " ORDER BY SERIALNO DESC LIMIT 1"
 
         Dim retval As String = String.Empty
@@ -431,7 +431,7 @@ Public Class frmPrintLabels
                     currentSerial = serialprefix & Space((myCode.Length - 2) - CStr(i).Trim.Length).Replace(" ", "0") & i
                     sql = "INSERT INTO lbl02 (LBLCNO,SERIALNO,LBLTYPE,CELLCOUNT,CELLCOLOR,CUSTOMER,PRODLINE,ORDERNO,COLOR,PRODTYPE" & If(cboCell.Visible, ",CTYPE", "") & ") VALUES " &
                           "(" & ENQ(CNO) & "," & ENQ(currentSerial) & "," & cboType.SelectedIndex + 1 & "," & ENQ(GetCellCount) & "," & ENQ(GetCellType) & "," & ENQ(cboCust.Text.ToUpper) &
-                          "," & ENQ(cboProdLine.SelectedIndex + 1) & ",'',''," & ENQ(cboModel.Text) & If(cboCell.Visible, "," & ENQ(cboCell.Text), "") & ")"
+                          "," & ENQ(Replace(cboProdLine.Text, "Line ", "")) & ",'',''," & ENQ(cboModel.Text) & If(cboCell.Visible, "," & ENQ(cboCell.Text), "") & ")"
 
                     msg = ExecuteNonQuery("MYSQL", sql)
 

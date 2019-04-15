@@ -6,6 +6,7 @@
             txtJBOXDump.Text = .jbox_path
             txtEL2MC.Text = .el2_mc
             txtDest.Text = .dest_path
+            txtContainerNo.Text = .cont_no
         End With
     End Sub
 
@@ -27,6 +28,7 @@
             .jbox_path = txtJBOXDump.Text
             .el2_mc = txtEL2MC.Text
             .dest_path = txtDest.Text
+            .cont_no = txtContainerNo.Text
 
             .Save()
         End With
@@ -56,7 +58,7 @@
         End If
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnDest.Click
         If FolderBrowserDialog1.ShowDialog = DialogResult.OK Then
             txtDest.Text = FolderBrowserDialog1.SelectedPath
         End If

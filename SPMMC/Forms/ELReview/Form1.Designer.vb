@@ -75,6 +75,7 @@ Partial Class frmQAReview
         Me.PassedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FailedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.lblContainer = New System.Windows.Forms.Label()
         Me.tcData.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.dgvFTD, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -599,14 +600,14 @@ Partial Class frmQAReview
         '
         Me.PassedToolStripMenuItem.Image = CType(resources.GetObject("PassedToolStripMenuItem.Image"), System.Drawing.Image)
         Me.PassedToolStripMenuItem.Name = "PassedToolStripMenuItem"
-        Me.PassedToolStripMenuItem.Size = New System.Drawing.Size(126, 38)
+        Me.PassedToolStripMenuItem.Size = New System.Drawing.Size(196, 38)
         Me.PassedToolStripMenuItem.Text = "Passed"
         '
         'FailedToolStripMenuItem
         '
         Me.FailedToolStripMenuItem.Image = CType(resources.GetObject("FailedToolStripMenuItem.Image"), System.Drawing.Image)
         Me.FailedToolStripMenuItem.Name = "FailedToolStripMenuItem"
-        Me.FailedToolStripMenuItem.Size = New System.Drawing.Size(126, 38)
+        Me.FailedToolStripMenuItem.Size = New System.Drawing.Size(196, 38)
         Me.FailedToolStripMenuItem.Text = "Failed"
         '
         'Button1
@@ -622,12 +623,25 @@ Partial Class frmQAReview
         Me.Button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.Button1.UseVisualStyleBackColor = True
         '
+        'lblContainer
+        '
+        Me.lblContainer.AutoSize = True
+        Me.lblContainer.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblContainer.ForeColor = System.Drawing.Color.Red
+        Me.lblContainer.Location = New System.Drawing.Point(12, 66)
+        Me.lblContainer.Name = "lblContainer"
+        Me.lblContainer.Size = New System.Drawing.Size(80, 19)
+        Me.lblContainer.TabIndex = 8
+        Me.lblContainer.Text = "Container:"
+        Me.lblContainer.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
         'frmQAReview
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(839, 383)
+        Me.Controls.Add(Me.lblContainer)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.lblStatus)
@@ -709,4 +723,5 @@ Partial Class frmQAReview
     Friend WithEvents RadioButton1 As RadioButton
     Friend WithEvents rbEL2 As RadioButton
     Friend WithEvents Button1 As Button
+    Friend WithEvents lblContainer As Label
 End Class

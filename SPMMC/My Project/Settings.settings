@@ -17,5 +17,8 @@
     <Setting Name="dest_path" Type="System.String" Scope="User">
       <Value Profile="(Default)">\\192.168.128.8\Shares\Engineering\EL_Images\Line 1\ELREview\EL_review_32319\03232019</Value>
     </Setting>
+    <Setting Name="cont_no" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

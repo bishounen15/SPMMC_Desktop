@@ -166,7 +166,7 @@ CheckPallet:
                 If strEL2(1).Trim <> String.Empty Then EL2_Count += 1
 
                 strJBX(0) = dr("SERIALNO").ToString
-                strJBX(1) = ScanDirectoriesJBOX(JBX_Path, dr("SERIALNO").ToString)
+                strJBX(1) = ScanDirectoriesJBOX(JBX_Path, dr("SERIALNO").ToString, dr("InspectionTime"))
                 If strJBX(1).Trim <> String.Empty Then JBOX_Count += 1
 
                 EL1 = New ListViewItem(strEL1)
@@ -270,13 +270,20 @@ CheckPallet:
         Return retval
     End Function
 
-    Private Function ScanDirectoriesJBOX(ByVal RootDir As String, ByVal SerialNo As String) As String
+    Private Function ScanDirectoriesJBOX(ByVal RootDir As String, ByVal SerialNo As String, ByVal FirstTest As Date) As String
         StatMsg = "Checking " & RootDir & " for " & SerialNo & " JBOX Images.."
         UpdateStatus()
 
         Dim retval As String = String.Empty
 
-        For Each Dir As String In Directory.GetDirectories(RootDir)
+        Dim edate As Date = FirstTest
+        Dim sdate As Date = DateAdd(DateInterval.Day, -10, edate)
+        Dim Dir As String = String.Empty
+
+        'For Each Dir As String In Directory.GetDirectories(RootDir)
+        While sdate <= edate
+            Dir = RootDir & "\" & Format(sdate, "yyMMdd")
+
             If Directory.Exists(Dir) Then
                 Dim FileLocation As DirectoryInfo = New DirectoryInfo(Dir)
                 Dim fi As FileInfo() = FileLocation.GetFiles(SerialNo & "*.jpg")
@@ -287,12 +294,17 @@ CheckPallet:
                 Next
 
                 StatMsg = "Checking " & Dir & " for " & SerialNo & " JBOX Images.."
+
                 UpdateStatus()
-                Dim newPath As String = ScanDirectoriesJBOX(Dir, SerialNo)
+                Dim newPath As String = ScanDirectoriesJBOX(Dir, SerialNo, FirstTest)
 
                 If newPath <> String.Empty Then retval = newPath
             End If
-        Next
+
+            sdate = DateAdd(DateInterval.Day, 1, sdate)
+        End While
+
+        'Next
 
         Return retval
     End Function
@@ -514,6 +526,12 @@ CheckPallet:
     Private Sub CopyImages()
         Dim DestFolder As String = My.Settings.dest_path & "\ELREview_" & Format(Now, "yyyyMMdd")
         If Not Directory.Exists(DestFolder) Then Directory.CreateDirectory(DestFolder)
+
+        If My.Settings.cont_no.Trim <> "" Then
+            DestFolder &= "\" & My.Settings.cont_no
+            If Not Directory.Exists(DestFolder) Then Directory.CreateDirectory(DestFolder)
+        End If
+
         DestFolder &= "\" & txtPalletNo.Text
         If Not Directory.Exists(DestFolder) Then Directory.CreateDirectory(DestFolder)
         If Not Directory.Exists(DestFolder & "\EL1") Then Directory.CreateDirectory(DestFolder & "\EL1")
@@ -521,10 +539,10 @@ CheckPallet:
         If Not Directory.Exists(DestFolder & "\JBOX") Then Directory.CreateDirectory(DestFolder & "\JBOX")
 
         Dim sql As String = "SELECT A.SERIALNO, B.InspectionTime, B.Pmpp, B.Uoc, B.Isc, B.Umpp, B.Impp, B.ShuntResistance, B.FF, B.Bin, " &
-                            "REPLACE(REPLACE(REPLACE(D.PRODCODE,'[P]',B.Bin),'[R]',E.CELLCOLOR),'[C]',E.CELLCOUNT) AS MODELNAME, F.ITMCODE AS PARTNO " &
+                            "REPLACE(REPLACE(REPLACE(REPLACE(D.PRODCODE,'[P]',B.Bin),'[R]',E.CELLCOLOR),'[C]',E.CELLCOUNT),'[T]',E.CTYPE) AS MODELNAME, F.ITMCODE AS PARTNO " &
                             "FROM epl02 A INNER JOIN ftd_upd B ON A.SERIALNO = B.ModuleID INNER JOIN epl01 C ON A.PALLETNO = C.PALLETNO AND A.CARTONNO = C.CARTONNO " &
                             "INNER JOIN cus01 D ON C.CUSTOMER = D.CUSCODE INNER JOIN lbl02 E ON A.SERIALNO = E.SERIALNO AND D.CUSCODE = E.CUSTOMER AND E.LBLTYPE = 1 " &
-                            "INNER JOIN itm01 F ON REPLACE(REPLACE(REPLACE(D.PRODCODE,'[P]',B.Bin),'[R]',E.CELLCOLOR),'[C]',E.CELLCOUNT) = F.ITMDESC " &
+                            "INNER JOIN itm01 F ON REPLACE(REPLACE(REPLACE(REPLACE(D.PRODCODE,'[P]',B.Bin),'[R]',E.CELLCOLOR),'[C]',E.CELLCOUNT),'[T]',E.CTYPE) = F.ITMDESC " &
                             "WHERE A.PALLETNO = " & ENQ(PalletNumber) & " ORDER BY A.ROWID"
 
         ExportToExcel(sql, "Flash Test Data",,, DestFolder)
@@ -643,6 +661,9 @@ CheckPallet:
                 EL2_Path = My.Settings.el2_path
                 JBX_Path = My.Settings.jbox_path
                 MC_Path = My.Settings.el2_mc
+
+                lblContainer.Visible = (My.Settings.cont_no.Trim <> "")
+                If My.Settings.cont_no.Trim <> "" Then lblContainer.Text = "Container: " & My.Settings.cont_no
             End If
         End With
     End Sub
@@ -688,6 +709,9 @@ CheckPallet:
     Private Sub frmQAReview_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim sql As String = "SELECT USERLVL FROM els00 WHERE USERID = " & ENQ(UID)
         Dim dt As DataTable = ExecQuery("MYSQL", sql)
+
+        lblContainer.Visible = (My.Settings.cont_no.Trim <> "")
+        If My.Settings.cont_no.Trim <> "" Then lblContainer.Text = "Container: " & My.Settings.cont_no
 
         If dt.Rows.Count > 0 Then
             ULVL = dt.Rows(0)(0)

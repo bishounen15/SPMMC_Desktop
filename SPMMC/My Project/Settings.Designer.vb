@@ -114,6 +114,18 @@ Namespace My
                 Me("dest_path") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property cont_no() As String
+            Get
+                Return CType(Me("cont_no"),String)
+            End Get
+            Set
+                Me("cont_no") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
