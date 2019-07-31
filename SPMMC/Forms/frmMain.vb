@@ -52,6 +52,14 @@
         End With
     End Sub
 
+    Private Sub ProductionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ProductionToolStripMenuItem.Click
+        With My.Settings
+            .active_server = sender.Text.ToString.Trim.Substring(0, 4)
+            .Save()
+            ToggleActiveServer()
+        End With
+    End Sub
+
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim f As New frmLogin
         Dim dres As DialogResult = f.ShowDialog
@@ -78,7 +86,31 @@
 
                     c.Visible = (dt.Rows.Count > 0)
                 End If
+
+                SettingsToolStripMenuItem.Visible = (UID.ToUpper.Trim = "SYSADMIN")
+                ToggleActiveServer()
             Next
         End If
+    End Sub
+
+    Private Sub TestToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TestToolStripMenuItem.Click
+        With My.Settings
+            .active_server = sender.Text.ToString.Trim.Substring(0, 4)
+            .Save()
+            ToggleActiveServer()
+        End With
+    End Sub
+
+    Private Sub ToggleActiveServer()
+        Me.Text = "Solar Philippines Module Manufacturing Corporation" & If(My.Settings.active_server = "Test", " - [TEST SERVER]", "")
+        RefreshConnection()
+
+        For Each mi As ToolStripMenuItem In ActiveServerToolStripMenuItem.DropDownItems
+            If (mi.Text.Substring(0, 4) = My.Settings.active_server) Then
+                mi.Font = New Font(mi.Font, FontStyle.Bold)
+            Else
+                mi.Font = New Font(mi.Font, FontStyle.Regular)
+            End If
+        Next
     End Sub
 End Class

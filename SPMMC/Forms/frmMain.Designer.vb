@@ -28,6 +28,7 @@ Partial Class frmMain
         Me.ProductionLabelsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GenerateLabelsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReprintLabelsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OnLineProductLabelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ELReviewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ELImageReviewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CustomerOEMOBAToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -36,7 +37,10 @@ Partial Class frmMain
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.tslStatus = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.OnLineProductLabelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ActiveServerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ProductionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -44,7 +48,7 @@ Partial Class frmMain
         'MenuStrip1
         '
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(32, 32)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApplicationsToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApplicationsToolStripMenuItem, Me.SettingsToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(579, 40)
@@ -72,15 +76,23 @@ Partial Class frmMain
         '
         Me.GenerateLabelsToolStripMenuItem.Image = CType(resources.GetObject("GenerateLabelsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.GenerateLabelsToolStripMenuItem.Name = "GenerateLabelsToolStripMenuItem"
-        Me.GenerateLabelsToolStripMenuItem.Size = New System.Drawing.Size(196, 38)
+        Me.GenerateLabelsToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.GenerateLabelsToolStripMenuItem.Text = "Print Labels"
         '
         'ReprintLabelsToolStripMenuItem
         '
         Me.ReprintLabelsToolStripMenuItem.Image = CType(resources.GetObject("ReprintLabelsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ReprintLabelsToolStripMenuItem.Name = "ReprintLabelsToolStripMenuItem"
-        Me.ReprintLabelsToolStripMenuItem.Size = New System.Drawing.Size(196, 38)
+        Me.ReprintLabelsToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.ReprintLabelsToolStripMenuItem.Text = "Reprint Labels"
+        '
+        'OnLineProductLabelToolStripMenuItem
+        '
+        Me.OnLineProductLabelToolStripMenuItem.Image = CType(resources.GetObject("OnLineProductLabelToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.OnLineProductLabelToolStripMenuItem.Name = "OnLineProductLabelToolStripMenuItem"
+        Me.OnLineProductLabelToolStripMenuItem.Size = New System.Drawing.Size(209, 38)
+        Me.OnLineProductLabelToolStripMenuItem.Tag = "ONLINELABEL"
+        Me.OnLineProductLabelToolStripMenuItem.Text = "On-Line Product Label"
         '
         'ELReviewToolStripMenuItem
         '
@@ -138,13 +150,33 @@ Partial Class frmMain
         Me.tslStatus.Size = New System.Drawing.Size(39, 17)
         Me.tslStatus.Text = "Ready"
         '
-        'OnLineProductLabelToolStripMenuItem
+        'SettingsToolStripMenuItem
         '
-        Me.OnLineProductLabelToolStripMenuItem.Image = CType(resources.GetObject("OnLineProductLabelToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.OnLineProductLabelToolStripMenuItem.Name = "OnLineProductLabelToolStripMenuItem"
-        Me.OnLineProductLabelToolStripMenuItem.Size = New System.Drawing.Size(209, 38)
-        Me.OnLineProductLabelToolStripMenuItem.Tag = "ONLINELABEL"
-        Me.OnLineProductLabelToolStripMenuItem.Text = "On-Line Product Label"
+        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActiveServerToolStripMenuItem})
+        Me.SettingsToolStripMenuItem.Image = CType(resources.GetObject("SettingsToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
+        Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(93, 36)
+        Me.SettingsToolStripMenuItem.Text = "Settings"
+        Me.SettingsToolStripMenuItem.Visible = False
+        '
+        'ActiveServerToolStripMenuItem
+        '
+        Me.ActiveServerToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProductionToolStripMenuItem, Me.TestToolStripMenuItem})
+        Me.ActiveServerToolStripMenuItem.Name = "ActiveServerToolStripMenuItem"
+        Me.ActiveServerToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ActiveServerToolStripMenuItem.Text = "Active Server"
+        '
+        'ProductionToolStripMenuItem
+        '
+        Me.ProductionToolStripMenuItem.Name = "ProductionToolStripMenuItem"
+        Me.ProductionToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ProductionToolStripMenuItem.Text = "Production"
+        '
+        'TestToolStripMenuItem
+        '
+        Me.TestToolStripMenuItem.Name = "TestToolStripMenuItem"
+        Me.TestToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.TestToolStripMenuItem.Text = "Test"
         '
         'frmMain
         '
@@ -183,4 +215,8 @@ Partial Class frmMain
     Friend WithEvents ExitToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents JBOXTransactionToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OnLineProductLabelToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SettingsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ActiveServerToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ProductionToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TestToolStripMenuItem As ToolStripMenuItem
 End Class

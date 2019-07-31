@@ -52,6 +52,7 @@ Public Class frmPrintLabels
     Private Sub frmPrintLabels_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         btapp = New BarTender.Application
 
+        chkDontPrint.Visible = (ACTIVEUSER.ToLower = "sysadmin")
         dtProdDate.Visible = (ACTIVEUSER.ToLower = "sysadmin")
 
         pnlProdType.Top = pnlSerial.Top
@@ -87,12 +88,16 @@ Public Class frmPrintLabels
         'FillComboBox(cboProdLine, "SELECT LINDESC FROM lin01 ORDER BY LINCODE",, "MYSQL")
         'FillComboBox(cboModel, "SELECT PRODTYPE FROM typ00 WHERE ACTIVE = 1 ORDER BY PRODTYPE",, "MYSQL")
         Dim webClient As New System.Net.WebClient
-        Dim result As String = webClient.DownloadString(apiURL & "prodlines/" & txtProdDate.Text)
+        Try
+            Dim result As String = webClient.DownloadString(apiURL & "prodlines/" & txtProdDate.Text)
 
-        FillComboBoxFromAPI(cboProdLine, result, "|")
-        cboModel.Items.Clear()
+            FillComboBoxFromAPI(cboProdLine, result, "|")
+            cboModel.Items.Clear()
 
-        If cboProdLine.Items.Count = 1 Then cboProdLine.SelectedIndex = 0
+            If cboProdLine.Items.Count = 1 Then cboProdLine.SelectedIndex = 0
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+        End Try
     End Sub
 
     Private Sub cboType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboType.SelectedIndexChanged
@@ -158,6 +163,20 @@ Public Class frmPrintLabels
             myFormat = myFormat.Replace(myCode, cellCount)
         End If
 
+        myCode = GetCode(myFormat, "G")
+        If myCode <> String.Empty Then
+            Dim line_category As String = String.Empty
+
+            If cboModel.Text Like "*|*" Then
+                Dim lc() As String = cboModel.Text.Trim.Split("|")
+                If lc.Length >= 3 Then
+                    line_category = lc(2).Trim.Substring(0, 1)
+                End If
+            End If
+
+            myFormat = myFormat.Replace(myCode, line_category)
+        End If
+
         myCode = GetCode(myFormat, "W")
         If myCode <> String.Empty Then
             Dim myWeek As Integer = DatePart(DateInterval.WeekOfYear, ProdDate, FirstDayOfWeek.Monday)
@@ -221,7 +240,7 @@ Public Class frmPrintLabels
 
         Dim sql As String = "SELECT SUBSTRING(SERIALNO,LENGTH(SERIALNO)-" & serialDigit - 1 & ",LENGTH(SERIALNO)) AS SERIALNO " &
                             "FROM lbl02 WHERE LBLTYPE = " & LabelType & " AND CUSTOMER = " & ENQ(Customer) & " AND " &
-                            "SERIALNO LIKE '" & Prefix & "%' " & If(cboCell.Visible, " AND SERIALNO LIKE '%" & sText & "%' AND PRODLINE = " & ENQ(Replace(cboProdLine.Text, "Line ", "")) & " AND CELLCOLOR = " & ENQ(GetCellType()) & " ", "") &
+                            "SERIALNO LIKE '" & Prefix & "%' " & If(cboCell.Visible, " AND SERIALNO LIKE '%" & sText & "%' AND PRODLINE = " & ENQ(GetLineCode(cboProdLine.Text)) & " AND CELLCOLOR = " & ENQ(GetCellType()) & " ", "") &
                             " ORDER BY SERIALNO DESC LIMIT 1"
 
         Dim retval As String = String.Empty
@@ -303,16 +322,20 @@ Public Class frmPrintLabels
         Next
     End Sub
 
-    Private Sub LoadProducts(ByVal ProdLine As Integer)
+    Private Sub LoadProducts(ByVal ProdLine As String)
         Dim webClient As New System.Net.WebClient
-        Dim result As String = webClient.DownloadString(apiURL & "prodtypes/" & txtProdDate.Text & "/" & ProdLine)
+        Try
+            Dim result As String = webClient.DownloadString(apiURL & "prodtypes/" & txtProdDate.Text & "/" & ProdLine)
 
-        FillComboBoxFromAPI(cboModel, result, "|")
-        If cboModel.Items.Count = 1 Then cboModel.SelectedIndex = 0
+            FillComboBoxFromAPIJSON(cboModel, result)
+            If cboModel.Items.Count = 1 Then cboModel.SelectedIndex = 0
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+        End Try
     End Sub
 
     Private Sub cboProdLine_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboProdLine.SelectedIndexChanged
-        LoadProducts(sender.Text.ToString.Replace("Line ", ""))
+        LoadProducts(sender.Text.Trim)
         If Not mySerial Is Nothing Then GenerateSerial(mySerial)
     End Sub
 
@@ -426,12 +449,24 @@ Public Class frmPrintLabels
                 Dim startSerial As String = Mid(txtSerialStart.Text, txtSerialStart.Text.Length - (myCode.Length - 3), myCode.Length - 2)
                 Dim endSerial As String = Mid(txtSerialEnd.Text, txtSerialEnd.Text.Length - (myCode.Length - 3), myCode.Length - 2)
                 Dim currentSerial As String = String.Empty
+                Dim wo As String = String.Empty
+                Dim product As String = String.Empty
+                Dim category As String = String.Empty
+                Dim prodline As String = GetLineCode(cboProdLine.Text)
 
                 For i As Integer = Val(startSerial) To Val(endSerial)
+                    If cboModel.Text Like "*|*" Then
+                        SplitData(cboModel.Text, "|", wo, product, category)
+                    Else
+                        wo = String.Empty
+                        product = cboModel.Text.Trim
+                        category = String.Empty
+                    End If
+
                     currentSerial = serialprefix & Space((myCode.Length - 2) - CStr(i).Trim.Length).Replace(" ", "0") & i
                     sql = "INSERT INTO lbl02 (LBLCNO,SERIALNO,LBLTYPE,CELLCOUNT,CELLCOLOR,CUSTOMER,PRODLINE,ORDERNO,COLOR,PRODTYPE" & If(cboCell.Visible, ",CTYPE", "") & ") VALUES " &
                           "(" & ENQ(CNO) & "," & ENQ(currentSerial) & "," & cboType.SelectedIndex + 1 & "," & ENQ(GetCellCount) & "," & ENQ(GetCellType) & "," & ENQ(cboCust.Text.ToUpper) &
-                          "," & ENQ(Replace(cboProdLine.Text, "Line ", "")) & ",'',''," & ENQ(cboModel.Text) & If(cboCell.Visible, "," & ENQ(cboCell.Text), "") & ")"
+                          "," & ENQ(prodline) & "," & ENQ(wo) & ",''," & ENQ(product) & If(cboCell.Visible, "," & ENQ(cboCell.Text), "") & ")"
 
                     msg = ExecuteNonQuery("MYSQL", sql)
 
@@ -442,13 +477,36 @@ Public Class frmPrintLabels
                 Next
 
                 'PreviewLabel(cboCust.Text.ToUpper, lbl, CNO)
-                PrintLabels(cboCust.Text.ToUpper, lbl, CNO)
+                If Not chkDontPrint.Checked Then PrintLabels(cboCust.Text.ToUpper, lbl, CNO)
                 SaveMargin(cboCust.Text.ToUpper, cboType.SelectedIndex + 1, NSV(txtTop.Text, True), NSV(txtLeft.Text, True))
 
                 numQty.Value = 1
                 GenerateSerial(mySerial)
             End If
         End If
+    End Sub
+
+    Function GetLineCode(ByVal LineDesc As String) As String
+        Dim line As String = String.Empty
+
+        Dim sql As String = "SELECT LINCODE FROM lin01 WHERE LINDESC = " & ENQ(LineDesc)
+        Dim dt As DataTable = ExecQuery("MYSQL", sql)
+
+        If dt.Rows.Count > 0 Then
+            line = dt.Rows(0)(0)
+        Else
+            line = 0
+        End If
+
+        Return line
+    End Function
+
+    Sub SplitData(ByVal source As String, ByVal delimiter As String, ByRef wo As String, ByRef product As String, ByRef category As String)
+        Dim values() As String = source.Split(delimiter)
+
+        wo = values(0).Trim
+        product = values(1).Trim
+        category = values(2).Trim
     End Sub
 
     Private Sub PreviewLabel(ByVal Customer As String, ByVal LabelType As String, ByVal ControlNo As String)
@@ -523,7 +581,16 @@ Public Class frmPrintLabels
     End Sub
 
     Private Sub cboModel_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboModel.SelectedIndexChanged
-        Dim sql As String = "SELECT * FROM typ00 WHERE PRODTYPE = " & ENQ(sender.Text.Trim)
+        Dim prodtype As String = String.Empty
+
+        If sender.Text Like "*|*" Then
+            Dim data() As String = sender.Text.ToString.Split("|")
+            prodtype = data(1).ToString.Trim
+        Else
+            prodtype = sender.Text.Trim
+        End If
+
+        Dim sql As String = "SELECT * FROM typ00 WHERE PRODTYPE = " & ENQ(prodtype)
         Dim dt As DataTable = ExecQuery("MYSQL", sql)
 
         If dt.Rows.Count > 0 Then

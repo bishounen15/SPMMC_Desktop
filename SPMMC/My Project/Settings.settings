@@ -20,5 +20,38 @@
     <Setting Name="cont_no" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="prodn_server" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.128.7</Value>
+    </Setting>
+    <Setting Name="prodn_userid" Type="System.String" Scope="User">
+      <Value Profile="(Default)">spmmc01</Value>
+    </Setting>
+    <Setting Name="prodn_password" Type="System.String" Scope="User">
+      <Value Profile="(Default)">password@01</Value>
+    </Setting>
+    <Setting Name="prodn_db" Type="System.String" Scope="User">
+      <Value Profile="(Default)">spmmc00</Value>
+    </Setting>
+    <Setting Name="test_server" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="test_userid" Type="System.String" Scope="User">
+      <Value Profile="(Default)">spmmc01</Value>
+    </Setting>
+    <Setting Name="test_password" Type="System.String" Scope="User">
+      <Value Profile="(Default)">password@01</Value>
+    </Setting>
+    <Setting Name="test_db" Type="System.String" Scope="User">
+      <Value Profile="(Default)">spmmc00</Value>
+    </Setting>
+    <Setting Name="active_server" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Prod</Value>
+    </Setting>
+    <Setting Name="prodn_api" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://192.168.128.9:9000/api/</Value>
+    </Setting>
+    <Setting Name="test_api" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://127.0.0.1:8000/api/</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -4,10 +4,15 @@ Imports MySql.Data.MySqlClient
 Imports System.IO
 Imports System.Math
 Imports System.Runtime.InteropServices                 ' required imports
+Imports System.Web.Script.Serialization
 
 Module modData
     'Dim CnStr As String = GenConn("127.0.0.1", "spmmcadmin", "P@ssw0rd@SQL", "spmmc00")
-    Dim CnStr As String = GenConn("192.168.128.7", "spmmc01", "password@01", "spmmc00")
+    Dim CnStr As String = GenConn(If(My.Settings.active_server = "Prod", My.Settings.prodn_server, My.Settings.test_server),
+                                  If(My.Settings.active_server = "Prod", My.Settings.prodn_userid, My.Settings.test_userid),
+                                  If(My.Settings.active_server = "Prod", My.Settings.prodn_password, My.Settings.test_password),
+                                  If(My.Settings.active_server = "Prod", My.Settings.prodn_db, My.Settings.test_db))
+
     Public FILE_NAME As String = Application.StartupPath & "\" & Application.ProductName & ".ini"
     Dim fs As FileStream
 
@@ -20,7 +25,7 @@ Module modData
     Public Const dbs As String = "spmmc00"
     Public Const eng As String = "MYSQL"
 
-    Public Const apiURL As String = "http://192.168.128.9:9000/api/"
+    Public apiURL As String = If(My.Settings.active_server = "Prod", My.Settings.prodn_api, My.Settings.test_api)
 
     Public gvServer, gvUserid, gvPassword, gvInitCatalog As String
     Public gvServer2, gvUserid2, gvPassword2, gvInitCatalog2 As String
@@ -30,6 +35,12 @@ Module modData
     Public SERVERSMTP, USERSMTP, PASSSMTP, LINKSERVER, DESTLINK, ITGROUP, FADGROUP, PURCHGROUP, MAINTGROUP, CLASSID, GENDESC, ITEMLOC, BACKDOOR As String
     Public PRIMARYLOC, SECONDARYLOC, PRIMSCRIPTSLOC, SECSCRIPTSLOC, SCRIPTSLOC As String
     Public Dept, UEmail, SEmail As String
+
+    Public Class ProductTypes
+        Public Property wo As String
+        Public Property prodtype As String
+        Public Property category As String
+    End Class
 
 #Region "   System Globals"
     'System Global Variables Goes Here
@@ -42,6 +53,14 @@ Module modData
 #End Region
 
 #Region "   Database Related"
+    Sub RefreshConnection()
+        CnStr = GenConn(If(My.Settings.active_server = "Prod", My.Settings.prodn_server, My.Settings.test_server),
+                        If(My.Settings.active_server = "Prod", My.Settings.prodn_userid, My.Settings.test_userid),
+                        If(My.Settings.active_server = "Prod", My.Settings.prodn_password, My.Settings.test_password),
+                        If(My.Settings.active_server = "Prod", My.Settings.prodn_db, My.Settings.test_db))
+        apiURL = If(My.Settings.active_server = "Prod", My.Settings.prodn_api, My.Settings.test_api)
+    End Sub
+
     Function SQLNonQuery(ByVal DBEngine As String, ByVal sql As String) As Boolean
         Dim msg As String = ExecuteNonQuery(DBEngine, sql)
         If msg <> "Success" Then
@@ -623,6 +642,18 @@ CheckAgain:
         oCbo.Items.Clear()
         For Each model As String In models
             oCbo.Items.Add(model)
+        Next
+    End Sub
+
+    Public Sub FillComboBoxFromAPIJSON(ByRef oCbo As ComboBox, ByVal myValue As String)
+        Dim rawresp As String = myValue
+
+        Dim jss As New JavaScriptSerializer()
+        Dim models = jss.Deserialize(Of List(Of ProductTypes))(rawresp)
+
+        oCbo.Items.Clear()
+        For Each model As Object In models
+            oCbo.Items.Add(model.wo & " | " & model.prodtype & " | " & model.category)
         Next
     End Sub
 

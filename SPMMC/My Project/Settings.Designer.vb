@@ -126,6 +126,138 @@ Namespace My
                 Me("cont_no") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("192.168.128.7")>  _
+        Public Property prodn_server() As String
+            Get
+                Return CType(Me("prodn_server"),String)
+            End Get
+            Set
+                Me("prodn_server") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("spmmc01")>  _
+        Public Property prodn_userid() As String
+            Get
+                Return CType(Me("prodn_userid"),String)
+            End Get
+            Set
+                Me("prodn_userid") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("password@01")>  _
+        Public Property prodn_password() As String
+            Get
+                Return CType(Me("prodn_password"),String)
+            End Get
+            Set
+                Me("prodn_password") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("spmmc00")>  _
+        Public Property prodn_db() As String
+            Get
+                Return CType(Me("prodn_db"),String)
+            End Get
+            Set
+                Me("prodn_db") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("127.0.0.1")>  _
+        Public Property test_server() As String
+            Get
+                Return CType(Me("test_server"),String)
+            End Get
+            Set
+                Me("test_server") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("spmmc01")>  _
+        Public Property test_userid() As String
+            Get
+                Return CType(Me("test_userid"),String)
+            End Get
+            Set
+                Me("test_userid") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("password@01")>  _
+        Public Property test_password() As String
+            Get
+                Return CType(Me("test_password"),String)
+            End Get
+            Set
+                Me("test_password") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("spmmc00")>  _
+        Public Property test_db() As String
+            Get
+                Return CType(Me("test_db"),String)
+            End Get
+            Set
+                Me("test_db") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Prod")>  _
+        Public Property active_server() As String
+            Get
+                Return CType(Me("active_server"),String)
+            End Get
+            Set
+                Me("active_server") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("http://192.168.128.9:9000/api/")>  _
+        Public Property prodn_api() As String
+            Get
+                Return CType(Me("prodn_api"),String)
+            End Get
+            Set
+                Me("prodn_api") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("http://127.0.0.1:8000/api/")>  _
+        Public Property test_api() As String
+            Get
+                Return CType(Me("test_api"),String)
+            End Get
+            Set
+                Me("test_api") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
