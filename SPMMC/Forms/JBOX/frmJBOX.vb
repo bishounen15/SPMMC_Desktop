@@ -13,6 +13,7 @@ Public Class frmJBOX
     Dim img As Image
 
     Dim srcloc As String
+    Dim prodline As String
 
     Private Sub ProcessImage(pic As PictureBox)
         If Not pic.Image Is Nothing Then
@@ -31,7 +32,7 @@ Public Class frmJBOX
 
             Dim mesno As String = Format(CurrDate, "yyyyMM") & Space(6 - CStr(cno).Trim.Length).Replace(" ", "0") & cno
 
-            sql = "INSERT INTO mes01 (MESCNO,LOCNCODE,SERIALNO,MODCLASS,SNOSTAT,REMARKS,TRXDATE,TRXUID) VALUES (" &
+            sql = "INSERT INTO mes01 (MESCNO,LOCNCODE,SERIALNO,MODCLASS,SNOSTAT,REMARKS,TRXDATE,TRXUID" & If(prodline <> String.Empty, ",PRODLINE", "") & ") VALUES (" &
                   ENQ(mesno) & "," &
                   ENQ("JBOX") & "," &
                   ENQ(txtSerial.Text) & "," &
@@ -39,28 +40,30 @@ Public Class frmJBOX
                   GetStatusID(txtStatus.Text) & "," &
                   ENQ(txtRemarks.Text) & "," &
                   "now()," &
-                  ENQ(ACTIVEUSER) & ")"
+                  ENQ(ACTIVEUSER) & If(prodline <> String.Empty, "," & ENQ(prodline), "") & ")"
 
             Dim msg As String = ExecuteNonQuery("MYSQL", sql)
 
             If msg = "Success" Then
-                Dim file_sfx As String = "_" & Format(CurrDate, "yyyyMMdd") & "_" & Format(CurrDate, "HHmmss") & "_JBOX"
+                If My.Settings.active_server = "Prod" Then
+                    Dim file_sfx As String = "_" & Format(CurrDate, "yyyyMMdd") & "_" & Format(CurrDate, "HHmmss") & "_JBOX"
 
-                PictureBox2.Image = pic.Image
-                If PictureBox2.Image Is Nothing Then
-                    MsgBox("The camera is not running. Please start the camera first.")
-                Else
-                    PictureBox2.Image.Save(Dir & "\" & txtSerial.Text.Trim & file_sfx & ".jpg", Imaging.ImageFormat.Jpeg)
+                    PictureBox2.Image = pic.Image
+                    If PictureBox2.Image Is Nothing Then
+                        MsgBox("The camera is not running. Please start the camera first.")
+                    Else
+                        PictureBox2.Image.Save(Dir & "\" & txtSerial.Text.Trim & file_sfx & ".jpg", Imaging.ImageFormat.Jpeg)
+                    End If
+
+                    Dim dirname As String = Format(CurrDate, "yyyyMMdd")
+
+                    If Not Directory.Exists(NetDir & "\" & dirname) Then
+                        Directory.CreateDirectory(NetDir & "\" & dirname)
+                    End If
+
+                    File.Copy(Dir & "\" & txtSerial.Text.Trim & file_sfx & ".jpg",
+                              NetDir & "\" & dirname & "\" & txtSerial.Text.Trim & file_sfx & ".jpg", True)
                 End If
-
-                Dim dirname As String = Format(CurrDate, "yyyyMMdd")
-
-                If Not Directory.Exists(NetDir & "\" & dirname) Then
-                    Directory.CreateDirectory(NetDir & "\" & dirname)
-                End If
-
-                File.Copy(Dir & "\" & txtSerial.Text.Trim & file_sfx & ".jpg",
-                          NetDir & "\" & dirname & "\" & txtSerial.Text.Trim & file_sfx & ".jpg", True)
 
                 lblSuccess.Text = "JBOX TRANSACTION COMPLETED FOR SERIAL NUMBER " & txtSerial.Text.Trim
                 lblSuccess.Visible = True
@@ -94,7 +97,22 @@ Public Class frmJBOX
         Else
             ' Me.Close()
         End If
+
+        prodline = GetLineAssignment(GetMyIP)
     End Sub
+
+    Private Function GetLineAssignment(ByVal IPAddress As String) As String
+        Dim line As String = String.Empty
+
+        Dim sql As String = "SELECT PRODLINE FROM mac01 WHERE STATION = 'JBOX' AND IPADDRESS = " & ENQ(IPAddress)
+        Dim dt As DataTable = ExecQuery("MYSQL", sql)
+
+        If dt.Rows.Count > 0 Then
+            line = dt.Rows(0)(0)
+        End If
+
+        Return line
+    End Function
 
     Private Sub txtSerial_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtSerial.KeyPress
         If Asc(e.KeyChar) = 13 Then

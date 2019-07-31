@@ -61,6 +61,18 @@ Module modData
         apiURL = If(My.Settings.active_server = "Prod", My.Settings.prodn_api, My.Settings.test_api)
     End Sub
 
+    Function GetMyIP()
+        Dim result As String = String.Empty
+        Dim webClient As New System.Net.WebClient
+        Try
+            result = webClient.DownloadString(apiURL & "myip")
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+        End Try
+
+        Return result
+    End Function
+
     Function SQLNonQuery(ByVal DBEngine As String, ByVal sql As String) As Boolean
         Dim msg As String = ExecuteNonQuery(DBEngine, sql)
         If msg <> "Success" Then
