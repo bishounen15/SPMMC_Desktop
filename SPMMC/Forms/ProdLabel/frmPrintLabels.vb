@@ -96,7 +96,7 @@ Public Class frmPrintLabels
 
             If cboProdLine.Items.Count = 1 Then cboProdLine.SelectedIndex = 0
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical)
+            MsgBox("No Plan Schedule for the Selected Date.", MsgBoxStyle.Critical)
         End Try
     End Sub
 
@@ -220,7 +220,12 @@ Public Class frmPrintLabels
         myCode = GetCode(myFormat, "S")
         If myCode <> String.Empty Then
             Dim Prefix As String = Mid(myFormat, 1, serialReset)
-            Dim nextSerial As String = GetLastSerial(cboCust.Text.ToUpper, cboType.SelectedIndex + 1, Prefix, myCode.Length - 2)
+
+            Dim wo As String = String.Empty
+            Dim dummy As String = String.Empty
+            SplitData(cboModel.Text, "|", wo, dummy, dummy)
+
+            Dim nextSerial As String = GetLastSerial(cboCust.Text.ToUpper, cboType.SelectedIndex + 1, Prefix, myCode.Length - 2, wo)
             retval = myFormat.Replace(myCode, nextSerial)
         End If
 
@@ -228,7 +233,7 @@ Public Class frmPrintLabels
         GetEndSerial(numQty)
     End Sub
 
-    Private Function GetLastSerial(ByVal Customer As String, ByVal LabelType As String, ByVal Prefix As String, ByVal serialDigit As Integer) As String
+    Private Function GetLastSerial(ByVal Customer As String, ByVal LabelType As String, ByVal Prefix As String, ByVal serialDigit As Integer, ByVal wo As String) As String
         Dim sText As String = String.Empty
 
         If cboCell.Text Like "*-*" Then
@@ -240,7 +245,7 @@ Public Class frmPrintLabels
 
         Dim sql As String = "SELECT SUBSTRING(SERIALNO,LENGTH(SERIALNO)-" & serialDigit - 1 & ",LENGTH(SERIALNO)) AS SERIALNO " &
                             "FROM lbl02 WHERE LBLTYPE = " & LabelType & " AND CUSTOMER = " & ENQ(Customer) & " AND " &
-                            "SERIALNO LIKE '" & Prefix & "%' " & If(cboCell.Visible, " AND SERIALNO LIKE '%" & sText & "%' AND PRODLINE = " & ENQ(GetLineCode(cboProdLine.Text)) & " AND CELLCOLOR = " & ENQ(GetCellType()) & " ", "") &
+                            "SERIALNO LIKE '" & Prefix & "%' " & If(cboCell.Visible, " AND SERIALNO LIKE '%" & sText & "%' AND PRODLINE = " & ENQ(GetLineCode(cboProdLine.Text)) & " AND CELLCOLOR = " & ENQ(GetCellType()) & " AND IFNULL(ORDERNO,'') " & If(wo = String.Empty, "=", "<>") & " '' ", "") &
                             " ORDER BY SERIALNO DESC LIMIT 1"
 
         Dim retval As String = String.Empty

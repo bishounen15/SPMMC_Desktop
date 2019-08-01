@@ -24,6 +24,7 @@ Partial Class frmPrintLabels
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrintLabels))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.chkDontPrint = New System.Windows.Forms.CheckBox()
         Me.dtProdDate = New System.Windows.Forms.DateTimePicker()
         Me.txtProdDate = New System.Windows.Forms.TextBox()
         Me.Label13 = New System.Windows.Forms.Label()
@@ -65,7 +66,6 @@ Partial Class frmPrintLabels
         Me.txtTop = New System.Windows.Forms.TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
-        Me.chkDontPrint = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.pnlCellType.SuspendLayout()
         Me.pnlCellCount.SuspendLayout()
@@ -105,6 +105,17 @@ Partial Class frmPrintLabels
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Parameter Input"
         '
+        'chkDontPrint
+        '
+        Me.chkDontPrint.AutoSize = True
+        Me.chkDontPrint.Location = New System.Drawing.Point(148, 271)
+        Me.chkDontPrint.Name = "chkDontPrint"
+        Me.chkDontPrint.Size = New System.Drawing.Size(137, 22)
+        Me.chkDontPrint.TabIndex = 22
+        Me.chkDontPrint.Text = "Do not Print Label"
+        Me.chkDontPrint.UseVisualStyleBackColor = True
+        Me.chkDontPrint.Visible = False
+        '
         'dtProdDate
         '
         Me.dtProdDate.Location = New System.Drawing.Point(148, 16)
@@ -142,7 +153,6 @@ Partial Class frmPrintLabels
         '
         Me.cboModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboModel.FormattingEnabled = True
-        Me.cboModel.Items.AddRange(New Object() {"Runergy", "Own-Tongwei"})
         Me.cboModel.Location = New System.Drawing.Point(148, 112)
         Me.cboModel.Name = "cboModel"
         Me.cboModel.Size = New System.Drawing.Size(284, 26)
@@ -303,7 +313,6 @@ Partial Class frmPrintLabels
         '
         Me.cboProdLine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboProdLine.FormattingEnabled = True
-        Me.cboProdLine.Items.AddRange(New Object() {"Line 1"})
         Me.cboProdLine.Location = New System.Drawing.Point(148, 80)
         Me.cboProdLine.Name = "cboProdLine"
         Me.cboProdLine.Size = New System.Drawing.Size(216, 26)
@@ -314,7 +323,6 @@ Partial Class frmPrintLabels
         Me.cboCust.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboCust.Enabled = False
         Me.cboCust.FormattingEnabled = True
-        Me.cboCust.Items.AddRange(New Object() {"Runergy", "Own-Tongwei"})
         Me.cboCust.Location = New System.Drawing.Point(148, 144)
         Me.cboCust.Name = "cboCust"
         Me.cboCust.Size = New System.Drawing.Size(216, 26)
@@ -492,17 +500,6 @@ Partial Class frmPrintLabels
         Me.Label9.Size = New System.Drawing.Size(30, 18)
         Me.Label9.TabIndex = 16
         Me.Label9.Text = "Top"
-        '
-        'chkDontPrint
-        '
-        Me.chkDontPrint.AutoSize = True
-        Me.chkDontPrint.Location = New System.Drawing.Point(148, 271)
-        Me.chkDontPrint.Name = "chkDontPrint"
-        Me.chkDontPrint.Size = New System.Drawing.Size(137, 22)
-        Me.chkDontPrint.TabIndex = 22
-        Me.chkDontPrint.Text = "Do not Print Label"
-        Me.chkDontPrint.UseVisualStyleBackColor = True
-        Me.chkDontPrint.Visible = False
         '
         'frmPrintLabels
         '
