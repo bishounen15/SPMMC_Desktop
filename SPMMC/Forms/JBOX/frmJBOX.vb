@@ -233,4 +233,8 @@ Public Class frmJBOX
         bmp = DirectCast(eventArgs.Frame.Clone, Bitmap)
         PictureBox1.Image = DirectCast(eventArgs.Frame.Clone, Bitmap)
     End Sub
+
+    Private Sub frmJBOX_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        CAMERA.Stop()
+    End Sub
 End Class

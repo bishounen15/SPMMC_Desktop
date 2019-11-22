@@ -36,3 +36,5 @@ D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmSelectTemplate.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmBusbarExtras.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmApproval.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmELPath.resources
+D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmJBOXMulti.resources
+D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmPreviewMulti.resources

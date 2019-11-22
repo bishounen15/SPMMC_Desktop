@@ -35,12 +35,14 @@ Partial Class frmMain
         Me.JBOXTransactionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
-        Me.tslStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ActiveServerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ProductionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.tslStatus = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.SingleCameraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MultiCameraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -117,6 +119,7 @@ Partial Class frmMain
         '
         'JBOXTransactionToolStripMenuItem
         '
+        Me.JBOXTransactionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SingleCameraToolStripMenuItem, Me.MultiCameraToolStripMenuItem})
         Me.JBOXTransactionToolStripMenuItem.Image = CType(resources.GetObject("JBOXTransactionToolStripMenuItem.Image"), System.Drawing.Image)
         Me.JBOXTransactionToolStripMenuItem.Name = "JBOXTransactionToolStripMenuItem"
         Me.JBOXTransactionToolStripMenuItem.Size = New System.Drawing.Size(209, 38)
@@ -135,6 +138,34 @@ Partial Class frmMain
         Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(209, 38)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
+        'SettingsToolStripMenuItem
+        '
+        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActiveServerToolStripMenuItem})
+        Me.SettingsToolStripMenuItem.Image = CType(resources.GetObject("SettingsToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
+        Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(93, 36)
+        Me.SettingsToolStripMenuItem.Text = "Settings"
+        Me.SettingsToolStripMenuItem.Visible = False
+        '
+        'ActiveServerToolStripMenuItem
+        '
+        Me.ActiveServerToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProductionToolStripMenuItem, Me.TestToolStripMenuItem})
+        Me.ActiveServerToolStripMenuItem.Name = "ActiveServerToolStripMenuItem"
+        Me.ActiveServerToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.ActiveServerToolStripMenuItem.Text = "Active Server"
+        '
+        'ProductionToolStripMenuItem
+        '
+        Me.ProductionToolStripMenuItem.Name = "ProductionToolStripMenuItem"
+        Me.ProductionToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
+        Me.ProductionToolStripMenuItem.Text = "Production"
+        '
+        'TestToolStripMenuItem
+        '
+        Me.TestToolStripMenuItem.Name = "TestToolStripMenuItem"
+        Me.TestToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
+        Me.TestToolStripMenuItem.Text = "Test"
+        '
         'StatusStrip1
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tslStatus})
@@ -150,33 +181,17 @@ Partial Class frmMain
         Me.tslStatus.Size = New System.Drawing.Size(39, 17)
         Me.tslStatus.Text = "Ready"
         '
-        'SettingsToolStripMenuItem
+        'SingleCameraToolStripMenuItem
         '
-        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActiveServerToolStripMenuItem})
-        Me.SettingsToolStripMenuItem.Image = CType(resources.GetObject("SettingsToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
-        Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(93, 36)
-        Me.SettingsToolStripMenuItem.Text = "Settings"
-        Me.SettingsToolStripMenuItem.Visible = False
+        Me.SingleCameraToolStripMenuItem.Name = "SingleCameraToolStripMenuItem"
+        Me.SingleCameraToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SingleCameraToolStripMenuItem.Text = "Single Camera"
         '
-        'ActiveServerToolStripMenuItem
+        'MultiCameraToolStripMenuItem
         '
-        Me.ActiveServerToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProductionToolStripMenuItem, Me.TestToolStripMenuItem})
-        Me.ActiveServerToolStripMenuItem.Name = "ActiveServerToolStripMenuItem"
-        Me.ActiveServerToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.ActiveServerToolStripMenuItem.Text = "Active Server"
-        '
-        'ProductionToolStripMenuItem
-        '
-        Me.ProductionToolStripMenuItem.Name = "ProductionToolStripMenuItem"
-        Me.ProductionToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.ProductionToolStripMenuItem.Text = "Production"
-        '
-        'TestToolStripMenuItem
-        '
-        Me.TestToolStripMenuItem.Name = "TestToolStripMenuItem"
-        Me.TestToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.TestToolStripMenuItem.Text = "Test"
+        Me.MultiCameraToolStripMenuItem.Name = "MultiCameraToolStripMenuItem"
+        Me.MultiCameraToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MultiCameraToolStripMenuItem.Text = "Multi-Camera"
         '
         'frmMain
         '
@@ -219,4 +234,6 @@ Partial Class frmMain
     Friend WithEvents ActiveServerToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ProductionToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents TestToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SingleCameraToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MultiCameraToolStripMenuItem As ToolStripMenuItem
 End Class

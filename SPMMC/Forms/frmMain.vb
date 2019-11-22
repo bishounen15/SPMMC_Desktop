@@ -36,12 +36,7 @@
     End Sub
 
     Private Sub JBOXTransactionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles JBOXTransactionToolStripMenuItem.Click
-        Dim f As New frmJBOX
-        With f
-            .MdiParent = Me
-            .WindowState = FormWindowState.Maximized
-            .Show()
-        End With
+
     End Sub
 
     Private Sub OnLineProductLabelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OnLineProductLabelToolStripMenuItem.Click
@@ -98,6 +93,24 @@
             .active_server = sender.Text.ToString.Trim.Substring(0, 4)
             .Save()
             ToggleActiveServer()
+        End With
+    End Sub
+
+    Private Sub SingleCameraToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SingleCameraToolStripMenuItem.Click
+        Dim f As New frmJBOX
+        With f
+            .MdiParent = Me
+            .WindowState = FormWindowState.Maximized
+            .Show()
+        End With
+    End Sub
+
+    Private Sub MultiCameraToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MultiCameraToolStripMenuItem.Click
+        Dim f As New frmJBOXMulti
+        With f
+            .MdiParent = Me
+            .WindowState = FormWindowState.Maximized
+            .Show()
         End With
     End Sub
 
