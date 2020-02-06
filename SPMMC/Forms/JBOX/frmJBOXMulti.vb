@@ -126,6 +126,7 @@ Public Class frmJBOXMulti
                     Next
 
                     p1 = New PictureBox
+
                     p1.Image = CombineImages(pic.Image, pic2.Image, pic3.Image)
                     p1.Image.Save(Dir & "\" & txtSerial.Text.Trim & file_sfx & ".jpg", Imaging.ImageFormat.Jpeg)
 
@@ -160,16 +161,28 @@ Public Class frmJBOXMulti
         g.DrawImage(img1, 0, 0, img1.Width, img1.Height)
         g.DrawString("JBOX1", New Font("Calibri", 20), Brushes.Black, New PointF(0, 0))
 
-        g.DrawImage(img2, 0, img1.Height, img2.Width, img2.Width)
+        g.DrawImage(img2, 0, img1.Height, img2.Width, img2.Height)
         g.DrawString("JBOX2", New Font("Calibri", 20), Brushes.Black, New PointF(0, img1.Height))
 
-        g.DrawImage(img3, 0, img1.Height + img2.Height, img3.Width, img3.Width)
+        g.DrawImage(img3, 0, img1.Height + img2.Height, img3.Width, img3.Height)
         g.DrawString("JBOX3", New Font("Calibri", 20), Brushes.Black, New PointF(0, img1.Height + img2.Height))
 
         g.Dispose()
 
         Return bmp
     End Function
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim p1 As New PictureBox
+        Dim ig(3) As Image
+
+        If File.Exists("C:\Users\crnevalga\Pictures\1947B2A4PZ36277_20191122_140556_JBOX1.jpg") Then ig(0) = Image.FromFile("C:\Users\crnevalga\Pictures\1947B2A4PZ36277_20191122_140556_JBOX1.jpg")
+        If File.Exists("C:\Users\crnevalga\Pictures\1947B2A4PZ36277_20191122_140556_JBOX2.jpg") Then ig(1) = Image.FromFile("C:\Users\crnevalga\Pictures\1947B2A4PZ36277_20191122_140556_JBOX2.jpg")
+        If File.Exists("C:\Users\crnevalga\Pictures\1947B2A4PZ36277_20191122_140556_JBOX3.jpg") Then ig(2) = Image.FromFile("C:\Users\crnevalga\Pictures\1947B2A4PZ36277_20191122_140556_JBOX3.jpg")
+
+        p1.Image = CombineImages(ig(0), ig(1), ig(2))
+        p1.Image.Save("C:\Users\crnevalga\Pictures\Stiched Image.jpg", Imaging.ImageFormat.Jpeg)
+    End Sub
 
     Private Function GetStatusID(ByVal Status As String) As Integer
         Select Case Status

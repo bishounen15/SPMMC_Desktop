@@ -23,6 +23,7 @@ Partial Class frmJBOXMulti
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.chkCapture = New System.Windows.Forms.CheckBox()
         Me.txtStatus = New System.Windows.Forms.TextBox()
         Me.txtRemarks = New System.Windows.Forms.TextBox()
         Me.txtModClass = New System.Windows.Forms.TextBox()
@@ -40,7 +41,7 @@ Partial Class frmJBOXMulti
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.PictureBox3 = New System.Windows.Forms.PictureBox()
-        Me.chkCapture = New System.Windows.Forms.CheckBox()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -71,6 +72,18 @@ Partial Class frmJBOXMulti
         Me.GroupBox1.TabIndex = 6
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Transaction Details"
+        '
+        'chkCapture
+        '
+        Me.chkCapture.AutoSize = True
+        Me.chkCapture.Checked = True
+        Me.chkCapture.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkCapture.Location = New System.Drawing.Point(13, 221)
+        Me.chkCapture.Name = "chkCapture"
+        Me.chkCapture.Size = New System.Drawing.Size(123, 22)
+        Me.chkCapture.TabIndex = 17
+        Me.chkCapture.Text = "Capture Image"
+        Me.chkCapture.UseVisualStyleBackColor = True
         '
         'txtStatus
         '
@@ -261,17 +274,16 @@ Partial Class frmJBOXMulti
         Me.PictureBox3.TabIndex = 13
         Me.PictureBox3.TabStop = False
         '
-        'chkCapture
+        'Button1
         '
-        Me.chkCapture.AutoSize = True
-        Me.chkCapture.Checked = True
-        Me.chkCapture.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkCapture.Location = New System.Drawing.Point(13, 221)
-        Me.chkCapture.Name = "chkCapture"
-        Me.chkCapture.Size = New System.Drawing.Size(123, 22)
-        Me.chkCapture.TabIndex = 17
-        Me.chkCapture.Text = "Capture Image"
-        Me.chkCapture.UseVisualStyleBackColor = True
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button1.Location = New System.Drawing.Point(806, 363)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 36)
+        Me.Button1.TabIndex = 14
+        Me.Button1.Text = "Stich"
+        Me.Button1.UseVisualStyleBackColor = True
+        Me.Button1.Visible = False
         '
         'frmJBOXMulti
         '
@@ -279,6 +291,7 @@ Partial Class frmJBOXMulti
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(894, 408)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.PictureBox3)
         Me.Controls.Add(Me.PictureBox2)
         Me.Controls.Add(Me.PictureBox1)
@@ -316,4 +329,5 @@ Partial Class frmJBOXMulti
     Friend WithEvents PictureBox2 As PictureBox
     Friend WithEvents PictureBox3 As PictureBox
     Friend WithEvents chkCapture As CheckBox
+    Friend WithEvents Button1 As Button
 End Class
