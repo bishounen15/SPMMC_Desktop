@@ -33,6 +33,8 @@ Partial Class frmMain
         Me.ELImageReviewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CustomerOEMOBAToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.JBOXTransactionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SingleCameraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MultiCameraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -41,8 +43,8 @@ Partial Class frmMain
         Me.TestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.tslStatus = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.SingleCameraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MultiCameraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CameraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CameraToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -126,6 +128,19 @@ Partial Class frmMain
         Me.JBOXTransactionToolStripMenuItem.Tag = "MES"
         Me.JBOXTransactionToolStripMenuItem.Text = "JBOX Transaction"
         '
+        'SingleCameraToolStripMenuItem
+        '
+        Me.SingleCameraToolStripMenuItem.Name = "SingleCameraToolStripMenuItem"
+        Me.SingleCameraToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SingleCameraToolStripMenuItem.Text = "Single Camera"
+        '
+        'MultiCameraToolStripMenuItem
+        '
+        Me.MultiCameraToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CameraToolStripMenuItem, Me.CameraToolStripMenuItem1})
+        Me.MultiCameraToolStripMenuItem.Name = "MultiCameraToolStripMenuItem"
+        Me.MultiCameraToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MultiCameraToolStripMenuItem.Text = "Multi-Camera"
+        '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
@@ -181,17 +196,17 @@ Partial Class frmMain
         Me.tslStatus.Size = New System.Drawing.Size(39, 17)
         Me.tslStatus.Text = "Ready"
         '
-        'SingleCameraToolStripMenuItem
+        'CameraToolStripMenuItem
         '
-        Me.SingleCameraToolStripMenuItem.Name = "SingleCameraToolStripMenuItem"
-        Me.SingleCameraToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.SingleCameraToolStripMenuItem.Text = "Single Camera"
+        Me.CameraToolStripMenuItem.Name = "CameraToolStripMenuItem"
+        Me.CameraToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CameraToolStripMenuItem.Text = "2-Camera"
         '
-        'MultiCameraToolStripMenuItem
+        'CameraToolStripMenuItem1
         '
-        Me.MultiCameraToolStripMenuItem.Name = "MultiCameraToolStripMenuItem"
-        Me.MultiCameraToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.MultiCameraToolStripMenuItem.Text = "Multi-Camera"
+        Me.CameraToolStripMenuItem1.Name = "CameraToolStripMenuItem1"
+        Me.CameraToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.CameraToolStripMenuItem1.Text = "3-Camera"
         '
         'frmMain
         '
@@ -236,4 +251,6 @@ Partial Class frmMain
     Friend WithEvents TestToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SingleCameraToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MultiCameraToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CameraToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CameraToolStripMenuItem1 As ToolStripMenuItem
 End Class

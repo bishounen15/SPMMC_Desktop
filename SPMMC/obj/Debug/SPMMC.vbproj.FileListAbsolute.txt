@@ -38,3 +38,8 @@ D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmApproval.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmELPath.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmJBOXMulti.resources
 D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmPreviewMulti.resources
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\Google.Protobuf.dll
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\BouncyCastle.Crypto.dll
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\Renci.SshNet.dll
+D:\Programs\VB\SPMMC\SPMMC\bin\Debug\MySql.Data.xml
+D:\Programs\VB\SPMMC\SPMMC\obj\Debug\SPMMC.frmLot.resources

@@ -14,6 +14,9 @@ Public Class frmJBOX
 
     Dim srcloc As String
     Dim prodline As String
+    Dim lot_sql As String
+    Dim prodtype As String
+    Dim d As frmLot
 
     Private Sub ProcessImage(pic As PictureBox)
         If Not pic.Image Is Nothing Then
@@ -34,7 +37,23 @@ Public Class frmJBOX
 
             sql = "INSERT INTO mes01 (MESCNO,LOCNCODE,SERIALNO,MODCLASS,SNOSTAT,REMARKS,TRXDATE,TRXUID" & If(prodline <> String.Empty, ",PRODLINE", "") & ") VALUES (" &
                   ENQ(mesno) & "," &
+                  ENQ("FRAMING") & "," &
+                  ENQ(txtSerial.Text) & "," &
+                  ENQ(txtModClass.Text) & "," &
+                  GetStatusID(txtStatus.Text) & "," &
+                  ENQ(txtRemarks.Text) & "," &
+                  "now()," &
+                  ENQ(ACTIVEUSER) & If(prodline <> String.Empty, "," & ENQ(prodline), "") & "),(" &
+                  ENQ(mesno) & "," &
                   ENQ("JBOX") & "," &
+                  ENQ(txtSerial.Text) & "," &
+                  ENQ(txtModClass.Text) & "," &
+                  GetStatusID(txtStatus.Text) & "," &
+                  ENQ(txtRemarks.Text) & "," &
+                  "now()," &
+                  ENQ(ACTIVEUSER) & If(prodline <> String.Empty, "," & ENQ(prodline), "") & "),(" &
+                  ENQ(mesno) & "," &
+                  ENQ("CURING") & "," &
                   ENQ(txtSerial.Text) & "," &
                   ENQ(txtModClass.Text) & "," &
                   GetStatusID(txtStatus.Text) & "," &
@@ -45,6 +64,13 @@ Public Class frmJBOX
             Dim msg As String = ExecuteNonQuery("MYSQL", sql)
 
             If msg = "Success" Then
+                If lot_sql <> String.Empty Then
+                    msg = ExecuteNonQuery("MYSQL", "INSERT INTO mes02 (SERIALNO,LOCNCODE,INFOTYPE,FIELDNAME,FIELDVALUE,created_at,updated_at) VALUES " & lot_sql)
+                    If msg <> "Success" Then
+                        MsgBox(msg, MsgBoxStyle.Critical)
+                    End If
+                End If
+
                 If My.Settings.active_server = "Prod" Then
                     Dim file_sfx As String = "_" & Format(CurrDate, "yyyyMMdd") & "_" & Format(CurrDate, "HHmmss") & "_JBOX"
 
@@ -119,7 +145,7 @@ Public Class frmJBOX
             lblSuccess.Visible = False
 
             Dim serialno As String = sender.Text.Trim
-            Dim sql As String = "SELECT A.CUSTOMER, CONCAT(A.CELLCOUNT,A.CELLCOLOR) AS CELLTYPE, B.LOCNCODE, B.SNOSTAT, B.MODCLASS, B.REMARKS " &
+            Dim sql As String = "SELECT A.CUSTOMER, CONCAT(A.CELLCOUNT,A.CELLCOLOR) AS CELLTYPE, B.LOCNCODE, B.SNOSTAT, B.MODCLASS, B.REMARKS, A.PRODTYPE " &
                                 "FROM lbl02 A LEFT JOIN mes_ftd B ON A.SERIALNO = B.SERIALNO AND A.LBLTYPE = 1 " &
                                 "WHERE A.SERIALNO = " & ENQ(serialno)
 
@@ -134,6 +160,7 @@ Public Class frmJBOX
                 txtStatus.Text = If(IsDBNull(dr("SNOSTAT")), "", GetStatus(dr("SNOSTAT")))
                 txtModClass.Text = dr("MODCLASS").ToString.Trim
                 txtRemarks.Text = dr("REMARKS").ToString.Trim
+                prodtype = dr("PRODTYPE").ToString.Trim
 
                 Dim route_check As Boolean = False
 
@@ -151,6 +178,18 @@ Public Class frmJBOX
                         ClearForm(True)
                     Else
                         'btnCapture.PerformClick()
+
+                        If d Is Nothing Then d = New frmLot
+
+                        With d
+                            d.sno = sender.Text
+                            d.prodtype = prodtype
+                            If .ShowDialog = DialogResult.Cancel Then
+                                Exit Sub
+                            End If
+                            lot_sql = d.sql
+                        End With
+
                         Dim f As New frmPreview
                         With f
                             .serial = serialno
@@ -235,6 +274,6 @@ Public Class frmJBOX
     End Sub
 
     Private Sub frmJBOX_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        CAMERA.Stop()
+        If Not CAMERA Is Nothing Then CAMERA.Stop()
     End Sub
 End Class

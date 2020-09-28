@@ -1,6 +1,7 @@
 ﻿Public Class frmPreviewMulti
     Dim sec As Integer
     Public serial As String
+    Public CamNo As Integer
 
     Private Sub frmPreviewMulti_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         lblMsg.Text = "RESCAN THE SERIAL NUMBER [" & serial & "] TO CONFIRM IMAGE. PRESS ESC KEY TO CANCEL"

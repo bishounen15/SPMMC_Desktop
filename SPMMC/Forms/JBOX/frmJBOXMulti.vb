@@ -3,6 +3,7 @@ Imports System.IO
 Imports AForge.Video.DirectShow
 
 Public Class frmJBOXMulti
+    Public CamNo As Integer
     Dim CAMERA1, CAMERA2, CAMERA3 As VideoCaptureDevice
     Dim bmp1, bmp2, bmp3 As Bitmap
     Dim p1 As PictureBox
@@ -15,6 +16,9 @@ Public Class frmJBOXMulti
 
     Dim srcloc As String
     Dim prodline As String
+    Dim lot_sql As String
+    Dim prodtype As String
+    Dim d As frmLot
 
     Private Sub iCapture1(sender As Object, eventArgs As AForge.Video.NewFrameEventArgs)
         bmp1 = DirectCast(eventArgs.Frame.Clone, Bitmap)
@@ -61,20 +65,26 @@ Public Class frmJBOXMulti
             ' Me.Close()
         End If
 
-        Dim cameras3 As VideoCaptureDeviceForm = New VideoCaptureDeviceForm
-        If cameras3.ShowDialog = DialogResult.OK Then
-            CAMERA3 = cameras3.VideoDevice
-            AddHandler CAMERA3.NewFrame, New AForge.Video.NewFrameEventHandler(AddressOf iCapture3)
-            CAMERA3.Start()
+        If CamNo = 3 Then
+            Dim cameras3 As VideoCaptureDeviceForm = New VideoCaptureDeviceForm
+            If cameras3.ShowDialog = DialogResult.OK Then
+                CAMERA3 = cameras3.VideoDevice
+                AddHandler CAMERA3.NewFrame, New AForge.Video.NewFrameEventHandler(AddressOf iCapture3)
+                CAMERA3.Start()
+            Else
+                ' Me.Close()
+            End If
         Else
-            ' Me.Close()
+            PictureBox3.Visible = False
         End If
     End Sub
 
     Private Sub frmJBOXMulti_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        CAMERA1.Stop()
-        CAMERA2.Stop()
-        CAMERA3.Stop()
+        If Not CAMERA1 Is Nothing Then CAMERA1.Stop()
+        If Not CAMERA2 Is Nothing Then CAMERA2.Stop()
+        If CamNo = 3 Then
+            If Not CAMERA3 Is Nothing Then CAMERA3.Stop()
+        End If
     End Sub
 
     Private Sub ProcessImage(pic As PictureBox, pic2 As PictureBox, pic3 As PictureBox)
@@ -94,9 +104,35 @@ Public Class frmJBOXMulti
 
             Dim mesno As String = Format(CurrDate, "yyyyMM") & Space(6 - CStr(cno).Trim.Length).Replace(" ", "0") & cno
 
+            'sql = "INSERT INTO mes01 (MESCNO,LOCNCODE,SERIALNO,MODCLASS,SNOSTAT,REMARKS,TRXDATE,TRXUID" & If(prodline <> String.Empty, ",PRODLINE", "") & ") VALUES (" &
+            '      ENQ(mesno) & "," &
+            '      ENQ("JBOX") & "," &
+            '      ENQ(txtSerial.Text) & "," &
+            '      ENQ(txtModClass.Text) & "," &
+            '      GetStatusID(txtStatus.Text) & "," &
+            '      ENQ(txtRemarks.Text) & "," &
+            '      "now()," &
+            '      ENQ(ACTIVEUSER) & If(prodline <> String.Empty, "," & ENQ(prodline), "") & ")"
+
             sql = "INSERT INTO mes01 (MESCNO,LOCNCODE,SERIALNO,MODCLASS,SNOSTAT,REMARKS,TRXDATE,TRXUID" & If(prodline <> String.Empty, ",PRODLINE", "") & ") VALUES (" &
                   ENQ(mesno) & "," &
+                  ENQ("FRAMING") & "," &
+                  ENQ(txtSerial.Text) & "," &
+                  ENQ(txtModClass.Text) & "," &
+                  GetStatusID(txtStatus.Text) & "," &
+                  ENQ(txtRemarks.Text) & "," &
+                  "now()," &
+                  ENQ(ACTIVEUSER) & If(prodline <> String.Empty, "," & ENQ(prodline), "") & "),(" &
+                  ENQ(mesno) & "," &
                   ENQ("JBOX") & "," &
+                  ENQ(txtSerial.Text) & "," &
+                  ENQ(txtModClass.Text) & "," &
+                  GetStatusID(txtStatus.Text) & "," &
+                  ENQ(txtRemarks.Text) & "," &
+                  "now()," &
+                  ENQ(ACTIVEUSER) & If(prodline <> String.Empty, "," & ENQ(prodline), "") & "),(" &
+                  ENQ(mesno) & "," &
+                  ENQ("CURING") & "," &
                   ENQ(txtSerial.Text) & "," &
                   ENQ(txtModClass.Text) & "," &
                   GetStatusID(txtStatus.Text) & "," &
@@ -105,9 +141,16 @@ Public Class frmJBOXMulti
                   ENQ(ACTIVEUSER) & If(prodline <> String.Empty, "," & ENQ(prodline), "") & ")"
 
             Dim msg As String = ExecuteNonQuery("MYSQL", sql)
-            Dim images As PictureBox() = {pic, pic2, pic3}
+            Dim images As PictureBox() = If(CamNo = 3, {pic, pic2, pic3}, {pic, pic2})
 
             If msg = "Success" Then
+                If lot_sql <> String.Empty Then
+                    msg = ExecuteNonQuery("MYSQL", "INSERT INTO mes02 (SERIALNO,LOCNCODE,INFOTYPE,FIELDNAME,FIELDVALUE,created_at,updated_at) VALUES " & lot_sql)
+                    If msg <> "Success" Then
+                        MsgBox(msg, MsgBoxStyle.Critical)
+                    End If
+                End If
+
                 If chkCapture.Checked Then
                     Dim file_sfx As String = "_" & Format(CurrDate, "yyyyMMdd") & "_" & Format(CurrDate, "HHmmss") & "_JBOX"
                     Dim cam As Integer = 1
@@ -127,7 +170,12 @@ Public Class frmJBOXMulti
 
                     p1 = New PictureBox
 
-                    p1.Image = CombineImages(pic.Image, pic2.Image, pic3.Image)
+                    If CamNo = 3 Then
+                        p1.Image = CombineImages(pic.Image, pic2.Image, pic3.Image)
+                    Else
+                        p1.Image = CombineImages2(pic.Image, pic2.Image)
+                    End If
+
                     p1.Image.Save(Dir & "\" & txtSerial.Text.Trim & file_sfx & ".jpg", Imaging.ImageFormat.Jpeg)
 
                     Dim dirname As String = Format(CurrDate, "yyyyMMdd")
@@ -136,8 +184,10 @@ Public Class frmJBOXMulti
                         Directory.CreateDirectory(NetDir & "\" & dirname)
                     End If
 
-                    File.Copy(Dir & "\" & txtSerial.Text.Trim & file_sfx & ".jpg",
+                    If My.Settings.active_server = "Prod" Then
+                        File.Copy(Dir & "\" & txtSerial.Text.Trim & file_sfx & ".jpg",
                               NetDir & "\" & dirname & "\" & txtSerial.Text.Trim & file_sfx & ".jpg", True)
+                    End If
                 End If
 
                 lblSuccess.Text = "JBOX TRANSACTION COMPLETED FOR SERIAL NUMBER " & txtSerial.Text.Trim
@@ -164,8 +214,25 @@ Public Class frmJBOXMulti
         g.DrawImage(img2, 0, img1.Height, img2.Width, img2.Height)
         g.DrawString("JBOX2", New Font("Calibri", 20), Brushes.Black, New PointF(0, img1.Height))
 
-        g.DrawImage(img3, 0, img1.Height + img2.Height, img3.Width, img3.Height)
-        g.DrawString("JBOX3", New Font("Calibri", 20), Brushes.Black, New PointF(0, img1.Height + img2.Height))
+        If CamNo = 3 Then
+            g.DrawImage(img3, 0, img1.Height + img2.Height, img3.Width, img3.Height)
+            g.DrawString("JBOX3", New Font("Calibri", 20), Brushes.Black, New PointF(0, img1.Height + img2.Height))
+        End If
+
+        g.Dispose()
+
+        Return bmp
+    End Function
+
+    Public Function CombineImages2(ByVal img1 As Image, ByVal img2 As Image) As Image
+        Dim bmp As New Bitmap(Math.Max(img1.Width, img2.Width), img1.Height + img2.Height)
+        Dim g As Graphics = Graphics.FromImage(bmp)
+
+        g.DrawImage(img1, 0, 0, img1.Width, img1.Height)
+        g.DrawString("JBOX1", New Font("Calibri", 20), Brushes.Black, New PointF(0, 0))
+
+        g.DrawImage(img2, 0, img1.Height, img2.Width, img2.Height)
+        g.DrawString("JBOX2", New Font("Calibri", 20), Brushes.Black, New PointF(0, img1.Height))
 
         g.Dispose()
 
@@ -212,7 +279,7 @@ Public Class frmJBOXMulti
             lblSuccess.Visible = False
 
             Dim serialno As String = sender.Text.Trim
-            Dim sql As String = "SELECT A.CUSTOMER, CONCAT(A.CELLCOUNT,A.CELLCOLOR) AS CELLTYPE, B.LOCNCODE, B.SNOSTAT, B.MODCLASS, B.REMARKS " &
+            Dim sql As String = "SELECT A.CUSTOMER, CONCAT(A.CELLCOUNT,A.CELLCOLOR) AS CELLTYPE, B.LOCNCODE, B.SNOSTAT, B.MODCLASS, B.REMARKS, A.PRODTYPE " &
                                 "FROM lbl02 A LEFT JOIN mes_ftd B ON A.SERIALNO = B.SERIALNO AND A.LBLTYPE = 1 " &
                                 "WHERE A.SERIALNO = " & ENQ(serialno)
 
@@ -227,6 +294,7 @@ Public Class frmJBOXMulti
                 txtStatus.Text = If(IsDBNull(dr("SNOSTAT")), "", GetStatus(dr("SNOSTAT")))
                 txtModClass.Text = dr("MODCLASS").ToString.Trim
                 txtRemarks.Text = dr("REMARKS").ToString.Trim
+                prodtype = dr("PRODTYPE").ToString.Trim
 
                 Dim route_check As Boolean = False
 
@@ -239,17 +307,28 @@ Public Class frmJBOXMulti
                            "Last Scanned Location is [" & txtPrevLoc.Text & "].")
                     ClearForm(True)
                 Else
-                    If PictureBox1.Image Is Nothing Or PictureBox2.Image Is Nothing Or PictureBox3.Image Is Nothing Then
+                    If PictureBox1.Image Is Nothing Or PictureBox2.Image Is Nothing Or (PictureBox3.Image Is Nothing And CamNo = 3) Then
                         MsgBox("No Image Captured. Please use the Camera App to Capture Image.")
                         ClearForm(True)
                     Else
                         'btnCapture.PerformClick()
+                        If d Is Nothing Then d = New frmLot
+
+                        With d
+                            d.sno = sender.Text
+                            d.prodtype = prodtype
+                            If .ShowDialog = DialogResult.Cancel Then
+                                Exit Sub
+                            End If
+                            lot_sql = d.sql
+                        End With
+
                         Dim f As New frmPreviewMulti
                         With f
                             .serial = serialno
                             .PictureBox1.Image = PictureBox1.Image
                             .PictureBox2.Image = PictureBox2.Image
-                            .PictureBox3.Image = PictureBox3.Image
+                            If CamNo = 3 Then .PictureBox3.Image = PictureBox3.Image
 
                             If .ShowDialog = DialogResult.OK Then
                                 ProcessImage(.PictureBox1, .PictureBox2, .PictureBox3)

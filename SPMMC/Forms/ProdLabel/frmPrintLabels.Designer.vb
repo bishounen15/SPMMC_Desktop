@@ -24,6 +24,8 @@ Partial Class frmPrintLabels
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrintLabels))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.lblBOM = New System.Windows.Forms.Label()
+        Me.cboBOM = New System.Windows.Forms.ComboBox()
         Me.chkDontPrint = New System.Windows.Forms.CheckBox()
         Me.dtProdDate = New System.Windows.Forms.DateTimePicker()
         Me.txtProdDate = New System.Windows.Forms.TextBox()
@@ -66,6 +68,7 @@ Partial Class frmPrintLabels
         Me.txtTop = New System.Windows.Forms.TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
+        Me.lblSuffix = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.pnlCellType.SuspendLayout()
         Me.pnlCellCount.SuspendLayout()
@@ -79,6 +82,8 @@ Partial Class frmPrintLabels
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.lblBOM)
+        Me.GroupBox1.Controls.Add(Me.cboBOM)
         Me.GroupBox1.Controls.Add(Me.chkDontPrint)
         Me.GroupBox1.Controls.Add(Me.dtProdDate)
         Me.GroupBox1.Controls.Add(Me.txtProdDate)
@@ -100,15 +105,35 @@ Partial Class frmPrintLabels
         Me.GroupBox1.Controls.Add(Me.cboType)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 42)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(448, 299)
+        Me.GroupBox1.Size = New System.Drawing.Size(448, 355)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Parameter Input"
         '
+        'lblBOM
+        '
+        Me.lblBOM.AutoSize = True
+        Me.lblBOM.Location = New System.Drawing.Point(20, 179)
+        Me.lblBOM.Name = "lblBOM"
+        Me.lblBOM.Size = New System.Drawing.Size(38, 18)
+        Me.lblBOM.TabIndex = 24
+        Me.lblBOM.Text = "BOM"
+        Me.lblBOM.Visible = False
+        '
+        'cboBOM
+        '
+        Me.cboBOM.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBOM.FormattingEnabled = True
+        Me.cboBOM.Location = New System.Drawing.Point(148, 176)
+        Me.cboBOM.Name = "cboBOM"
+        Me.cboBOM.Size = New System.Drawing.Size(216, 26)
+        Me.cboBOM.TabIndex = 23
+        Me.cboBOM.Visible = False
+        '
         'chkDontPrint
         '
         Me.chkDontPrint.AutoSize = True
-        Me.chkDontPrint.Location = New System.Drawing.Point(148, 271)
+        Me.chkDontPrint.Location = New System.Drawing.Point(148, 303)
         Me.chkDontPrint.Name = "chkDontPrint"
         Me.chkDontPrint.Size = New System.Drawing.Size(137, 22)
         Me.chkDontPrint.TabIndex = 22
@@ -172,7 +197,7 @@ Partial Class frmPrintLabels
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(20, 246)
+        Me.Label6.Location = New System.Drawing.Point(20, 278)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(61, 18)
         Me.Label6.TabIndex = 15
@@ -181,7 +206,7 @@ Partial Class frmPrintLabels
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(20, 214)
+        Me.Label5.Location = New System.Drawing.Point(20, 246)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(64, 18)
         Me.Label5.TabIndex = 14
@@ -190,7 +215,7 @@ Partial Class frmPrintLabels
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(20, 182)
+        Me.Label4.Location = New System.Drawing.Point(20, 214)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(108, 18)
         Me.Label4.TabIndex = 13
@@ -220,7 +245,7 @@ Partial Class frmPrintLabels
         Me.pnlCellType.Controls.Add(Me.RadioButton4)
         Me.pnlCellType.Controls.Add(Me.RadioButton3)
         Me.pnlCellType.Enabled = False
-        Me.pnlCellType.Location = New System.Drawing.Point(148, 208)
+        Me.pnlCellType.Location = New System.Drawing.Point(148, 240)
         Me.pnlCellType.Name = "pnlCellType"
         Me.pnlCellType.Size = New System.Drawing.Size(284, 30)
         Me.pnlCellType.TabIndex = 6
@@ -265,7 +290,7 @@ Partial Class frmPrintLabels
         Me.pnlCellCount.Controls.Add(Me.RadioButton1)
         Me.pnlCellCount.Controls.Add(Me.RadioButton2)
         Me.pnlCellCount.Enabled = False
-        Me.pnlCellCount.Location = New System.Drawing.Point(148, 176)
+        Me.pnlCellCount.Location = New System.Drawing.Point(148, 208)
         Me.pnlCellCount.Name = "pnlCellCount"
         Me.pnlCellCount.Size = New System.Drawing.Size(159, 30)
         Me.pnlCellCount.TabIndex = 5
@@ -303,7 +328,7 @@ Partial Class frmPrintLabels
         '
         'numQty
         '
-        Me.numQty.Location = New System.Drawing.Point(148, 244)
+        Me.numQty.Location = New System.Drawing.Point(148, 276)
         Me.numQty.Name = "numQty"
         Me.numQty.Size = New System.Drawing.Size(216, 26)
         Me.numQty.TabIndex = 7
@@ -376,7 +401,7 @@ Partial Class frmPrintLabels
         Me.GroupBox2.Controls.Add(Me.pnlSerial)
         Me.GroupBox2.Location = New System.Drawing.Point(466, 42)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(406, 383)
+        Me.GroupBox2.Size = New System.Drawing.Size(406, 444)
         Me.GroupBox2.TabIndex = 2
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Module Information"
@@ -385,7 +410,7 @@ Partial Class frmPrintLabels
         '
         Me.pnlProdType.Controls.Add(Me.txtProdType)
         Me.pnlProdType.Controls.Add(Me.Label10)
-        Me.pnlProdType.Location = New System.Drawing.Point(6, 134)
+        Me.pnlProdType.Location = New System.Drawing.Point(6, 148)
         Me.pnlProdType.Name = "pnlProdType"
         Me.pnlProdType.Size = New System.Drawing.Size(394, 58)
         Me.pnlProdType.TabIndex = 20
@@ -409,13 +434,14 @@ Partial Class frmPrintLabels
         '
         'pnlSerial
         '
+        Me.pnlSerial.Controls.Add(Me.lblSuffix)
         Me.pnlSerial.Controls.Add(Me.txtSerialEnd)
         Me.pnlSerial.Controls.Add(Me.Label8)
         Me.pnlSerial.Controls.Add(Me.txtSerialStart)
         Me.pnlSerial.Controls.Add(Me.Label7)
         Me.pnlSerial.Location = New System.Drawing.Point(6, 23)
         Me.pnlSerial.Name = "pnlSerial"
-        Me.pnlSerial.Size = New System.Drawing.Size(394, 91)
+        Me.pnlSerial.Size = New System.Drawing.Size(394, 110)
         Me.pnlSerial.TabIndex = 19
         '
         'txtSerialEnd
@@ -458,7 +484,7 @@ Partial Class frmPrintLabels
         Me.GroupBox3.Controls.Add(Me.txtTop)
         Me.GroupBox3.Controls.Add(Me.Label11)
         Me.GroupBox3.Controls.Add(Me.Label9)
-        Me.GroupBox3.Location = New System.Drawing.Point(12, 342)
+        Me.GroupBox3.Location = New System.Drawing.Point(12, 403)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Size = New System.Drawing.Size(448, 83)
         Me.GroupBox3.TabIndex = 3
@@ -501,12 +527,24 @@ Partial Class frmPrintLabels
         Me.Label9.TabIndex = 16
         Me.Label9.Text = "Top"
         '
+        'lblSuffix
+        '
+        Me.lblSuffix.Font = New System.Drawing.Font("Calibri", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSuffix.ForeColor = System.Drawing.Color.Maroon
+        Me.lblSuffix.Location = New System.Drawing.Point(17, 80)
+        Me.lblSuffix.Name = "lblSuffix"
+        Me.lblSuffix.Size = New System.Drawing.Size(364, 20)
+        Me.lblSuffix.TabIndex = 19
+        Me.lblSuffix.Text = "Label14"
+        Me.lblSuffix.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblSuffix.Visible = False
+        '
         'frmPrintLabels
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(884, 437)
+        Me.ClientSize = New System.Drawing.Size(884, 498)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.ToolStrip1)
@@ -580,4 +618,7 @@ Partial Class frmPrintLabels
     Friend WithEvents txtProdDate As TextBox
     Friend WithEvents dtProdDate As DateTimePicker
     Friend WithEvents chkDontPrint As CheckBox
+    Friend WithEvents lblBOM As Label
+    Friend WithEvents cboBOM As ComboBox
+    Friend WithEvents lblSuffix As Label
 End Class

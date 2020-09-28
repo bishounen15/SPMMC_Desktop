@@ -59,8 +59,9 @@
     <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
       <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
-    <Reference Include="mysql.data">
-      <HintPath>..\..\..\..\From OLD Laptop\Desktop\netmysql\mysql.data.dll</HintPath>
+    <Reference Include="MySql.Data, Version=6.0.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\mysql-connector-net-8.0.18-noinstall\v4.5.2\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -128,6 +129,12 @@
       <DependentUpon>frmJBOX.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\JBOX\frmJBOX.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\JBOX\frmLot.Designer.vb">
+      <DependentUpon>frmLot.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\JBOX\frmLot.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\JBOX\frmPreview.Designer.vb">
@@ -246,6 +253,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\JBOX\frmJBOX.resx">
       <DependentUpon>frmJBOX.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\JBOX\frmLot.resx">
+      <DependentUpon>frmLot.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\JBOX\frmPreview.resx">
       <DependentUpon>frmPreview.vb</DependentUpon>

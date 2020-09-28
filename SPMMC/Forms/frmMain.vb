@@ -106,8 +106,23 @@
     End Sub
 
     Private Sub MultiCameraToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MultiCameraToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub CameraToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CameraToolStripMenuItem.Click
         Dim f As New frmJBOXMulti
         With f
+            .CamNo = 2
+            .MdiParent = Me
+            .WindowState = FormWindowState.Maximized
+            .Show()
+        End With
+    End Sub
+
+    Private Sub CameraToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles CameraToolStripMenuItem1.Click
+        Dim f As New frmJBOXMulti
+        With f
+            .CamNo = 3
             .MdiParent = Me
             .WindowState = FormWindowState.Maximized
             .Show()

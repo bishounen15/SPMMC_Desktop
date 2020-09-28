@@ -14,9 +14,9 @@ Public Class frmPrintLabels
 
     Dim init As Boolean = True
     Dim mySerial As String
-    Dim serialStart As Integer
+    Dim serialStart, mySerialDigit As Integer
     Dim serialReset As Integer
-    Dim myProduct As String
+    Dim myProduct, mySuffix As String
 
     Dim btapp As BarTender.Application
 
@@ -113,7 +113,7 @@ Public Class frmPrintLabels
     End Sub
 
     Private Sub cboCust_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboCust.SelectedIndexChanged
-        Dim sql As String = "SELECT PRODCODE, SERIALFORMAT, SERIALSTART, SERIALRESET FROM cus01 WHERE CUSCODE = " & ENQ(sender.Text.ToString.ToUpper)
+        Dim sql As String = "SELECT PRODCODE, SERIALFORMAT, SERIALSTART, SERIALRESET, SUFFIX, SERIALDIGIT FROM cus01 WHERE CUSCODE = " & ENQ(sender.Text.ToString.ToUpper)
         Dim dt As DataTable = ExecQuery("MYSQL", sql)
 
         numQty.Value = 1
@@ -121,6 +121,16 @@ Public Class frmPrintLabels
         If dt.Rows.Count > 0 Then
             'mySerial = dt.Rows(0)("SERIALFORMAT").ToString.Trim
             myProduct = dt.Rows(0)("PRODCODE").ToString.Trim
+            mySuffix = dt.Rows(0)("SUFFIX").ToString.Trim
+
+            If mySuffix <> "" Then
+                lblSuffix.Text = "The suffix """ & mySuffix & """ will be added in the serial number."
+                lblSuffix.Visible = True
+            Else
+                lblSuffix.Visible = False
+            End If
+
+            mySerialDigit = dt.Rows(0)("SERIALDIGIT").ToString.Trim
             serialStart = dt.Rows(0)("SERIALSTART").ToString.Trim
             serialReset = dt.Rows(0)("SERIALRESET").ToString.Trim
 
@@ -225,7 +235,7 @@ Public Class frmPrintLabels
             Dim dummy As String = String.Empty
             SplitData(cboModel.Text, "|", wo, dummy, dummy)
 
-            Dim nextSerial As String = GetLastSerial(cboCust.Text.ToUpper, cboType.SelectedIndex + 1, Prefix, myCode.Length - 2, wo)
+            Dim nextSerial As String = GetLastSerial(cboCust.Text.ToUpper, cboType.SelectedIndex + 1, Prefix, myCode.Length - 1, wo)
             retval = myFormat.Replace(myCode, nextSerial)
         End If
 
@@ -243,10 +253,10 @@ Public Class frmPrintLabels
             sText = cboCell.Text.Trim
         End If
 
-        Dim sql As String = "SELECT SUBSTRING(SERIALNO,LENGTH(SERIALNO)-" & serialDigit - 1 & ",LENGTH(SERIALNO)) AS SERIALNO " &
+        Dim sql As String = "SELECT SUBSTRING(SUBSTRING(SERIALNO,1," & mySerialDigit & "),LENGTH(SERIALNO)-" & serialDigit - 1 & ",LENGTH(SERIALNO)) AS SERIALNO " &
                             "FROM lbl02 WHERE LBLTYPE = " & LabelType & " AND CUSTOMER = " & ENQ(Customer) & " AND " &
                             "SERIALNO LIKE '" & Prefix & "%' " & If(cboCell.Visible, " AND SERIALNO LIKE '%" & sText & "%' AND PRODLINE = " & ENQ(GetLineCode(cboProdLine.Text)) & " AND CELLCOLOR = " & ENQ(GetCellType()) & " AND IFNULL(ORDERNO,'') " & If(wo = String.Empty, "=", "<>") & " '' ", "") &
-                            " ORDER BY SERIALNO DESC LIMIT 1"
+                            " ORDER BY SUBSTRING(SERIALNO,1," & mySerialDigit & ") DESC LIMIT 1"
 
         Dim retval As String = String.Empty
 
@@ -254,9 +264,9 @@ Public Class frmPrintLabels
 
         If dt.Rows.Count > 0 Then
             Dim serialNo As String = Val(dt.Rows(0)(0)) + 1
-            retval = Space(serialDigit - CStr(serialNo).Trim.Length).Replace(" ", "0") & serialNo
+            retval = Space((serialDigit - 1) - CStr(serialNo).Trim.Length).Replace(" ", "0") & serialNo
         Else
-            retval = Space(serialDigit - CStr(serialStart).Trim.Length).Replace(" ", "0") & serialStart
+            retval = Space((serialDigit - 1) - CStr(serialStart).Trim.Length).Replace(" ", "0") & serialStart
         End If
 
         Return retval
@@ -400,6 +410,13 @@ Public Class frmPrintLabels
             End If
         End If
 
+        If cboBOM.Items.Count > 0 Then
+            If cboBOM.SelectedIndex < 0 Then
+                MsgBox("Please select a BOM.", MsgBoxStyle.Information)
+                Exit Sub
+            End If
+        End If
+
         GetEndSerial(numQty)
 
         Dim pfx, lbl As String
@@ -469,9 +486,9 @@ Public Class frmPrintLabels
                     End If
 
                     currentSerial = serialprefix & Space((myCode.Length - 2) - CStr(i).Trim.Length).Replace(" ", "0") & i
-                    sql = "INSERT INTO lbl02 (LBLCNO,SERIALNO,LBLTYPE,CELLCOUNT,CELLCOLOR,CUSTOMER,PRODLINE,ORDERNO,COLOR,PRODTYPE" & If(cboCell.Visible, ",CTYPE", "") & ") VALUES " &
-                          "(" & ENQ(CNO) & "," & ENQ(currentSerial) & "," & cboType.SelectedIndex + 1 & "," & ENQ(GetCellCount) & "," & ENQ(GetCellType) & "," & ENQ(cboCust.Text.ToUpper) &
-                          "," & ENQ(prodline) & "," & ENQ(wo) & ",''," & ENQ(product) & If(cboCell.Visible, "," & ENQ(cboCell.Text), "") & ")"
+                    sql = "INSERT INTO lbl02 (LBLCNO,SERIALNO,LBLTYPE,CELLCOUNT,CELLCOLOR,CUSTOMER,PRODLINE,ORDERNO,COLOR,PRODTYPE" & If(cboCell.Visible, ",CTYPE", "") & ",BOM) VALUES " &
+                          "(" & ENQ(CNO) & "," & ENQ(currentSerial & mySuffix) & "," & cboType.SelectedIndex + 1 & "," & ENQ(GetCellCount) & "," & ENQ(GetCellType) & "," & ENQ(cboCust.Text.ToUpper) &
+                          "," & ENQ(prodline) & "," & ENQ(wo) & ",''," & ENQ(product) & If(cboCell.Visible, "," & ENQ(cboCell.Text), "") & "," & ENQ(cboBOM.Text) & ")"
 
                     msg = ExecuteNonQuery("MYSQL", sql)
 
@@ -606,7 +623,24 @@ Public Class frmPrintLabels
             SetCellCount(model("CELLCOUNT"))
             SetCellType(model("CELLCOLOR"))
             If cboCell.Visible Then cboCell.Text = model("CTYPE")
+            getBOM(prodtype)
         End If
+    End Sub
+
+    Private Sub getBOM(ByVal ProdType As String)
+        Dim sql As String = "SELECT * FROM typ01 WHERE ACTIVE = 1 AND PRODTYPE = " & ENQ(ProdType)
+        Dim dt As DataTable = ExecQuery("MYSQL", sql)
+
+        cboBOM.Items.Clear()
+
+        If dt.Rows.Count > 0 Then
+            For Each r As DataRow In dt.Rows
+                cboBOM.Items.Add(r("BOMCODE").ToString)
+            Next
+        End If
+
+        cboBOM.Visible = (cboBOM.Items.Count > 0)
+        lblBOM.Visible = (cboBOM.Items.Count > 0)
     End Sub
 
     Private Sub frmPrintLabels_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
