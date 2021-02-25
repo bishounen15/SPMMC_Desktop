@@ -235,7 +235,7 @@ Public Class frmPrintLabels
             Dim dummy As String = String.Empty
             SplitData(cboModel.Text, "|", wo, dummy, dummy)
 
-            Dim nextSerial As String = GetLastSerial(cboCust.Text.ToUpper, cboType.SelectedIndex + 1, Prefix, myCode.Length - 1, wo)
+            Dim nextSerial As String = GetLastSerial(cboCust.Text.ToUpper, cboType.SelectedIndex + 1, Prefix, myCode.Length - If(lblSuffix.Visible, 1, 2), wo)
             retval = myFormat.Replace(myCode, nextSerial)
         End If
 
@@ -264,9 +264,9 @@ Public Class frmPrintLabels
 
         If dt.Rows.Count > 0 Then
             Dim serialNo As String = Val(dt.Rows(0)(0)) + 1
-            retval = Space((serialDigit - 1) - CStr(serialNo).Trim.Length).Replace(" ", "0") & serialNo
+            retval = Space((serialDigit - 1 + If(lblSuffix.Visible, 0, 1)) - CStr(serialNo).Trim.Length).Replace(" ", "0") & serialNo
         Else
-            retval = Space((serialDigit - 1) - CStr(serialStart).Trim.Length).Replace(" ", "0") & serialStart
+            retval = Space((serialDigit - 1 + If(lblSuffix.Visible, 0, 1)) - CStr(serialStart).Trim.Length).Replace(" ", "0") & serialStart
         End If
 
         Return retval
